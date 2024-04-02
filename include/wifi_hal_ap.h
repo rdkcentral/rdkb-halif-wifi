@@ -608,36 +608,6 @@ typedef struct {
     char    key[256];
 } __attribute__((packed)) wifi_security_key_t;
 
-/**
- * @brief Wifi encryption types
- */
-typedef enum {
-    wifi_encryption_none,
-    wifi_encryption_tkip = 1,
-    wifi_encryption_aes,
-    wifi_encryption_aes_tkip,
-} wifi_encryption_method_t;
-
-
-/**
- * @brief Wifi security mode types
- */
-typedef enum {
-    wifi_security_mode_none = 0x00000001,
-    wifi_security_mode_wep_64 = 0x00000002,
-    wifi_security_mode_wep_128 = 0x00000004,
-    wifi_security_mode_wpa_personal = 0x00000008,
-    wifi_security_mode_wpa2_personal = 0x00000010,
-    wifi_security_mode_wpa_wpa2_personal = 0x00000020,
-    wifi_security_mode_wpa_enterprise = 0x00000040,
-    wifi_security_mode_wpa2_enterprise = 0x00000080,
-    wifi_security_mode_wpa_wpa2_enterprise = 0x00000100,
-    wifi_security_mode_wpa3_personal = 0x00000200,
-    wifi_security_mode_wpa3_transition = 0x00000400,
-    wifi_security_mode_wpa3_enterprise = 0x00000800,
-    wifi_security_mode_enhanced_open = 0x00001000
-} wifi_security_modes_t;
-
 typedef struct {
     wifi_security_modes_t   mode;
     wifi_encryption_method_t    encr;

@@ -199,15 +199,116 @@ typedef char            r0r1_key_str_t[33];
 typedef char	wifi_interface_name_t[32];
 typedef char	wifi_vap_name_t[64];
 
+/**
+ * @brief Wifi security mode types
+ */
+typedef enum {
+    wifi_security_mode_none = 0x00000001,
+    wifi_security_mode_wep_64 = 0x00000002,
+    wifi_security_mode_wep_128 = 0x00000004,
+    wifi_security_mode_wpa_personal = 0x00000008,
+    wifi_security_mode_wpa2_personal = 0x00000010,
+    wifi_security_mode_wpa_wpa2_personal = 0x00000020,
+    wifi_security_mode_wpa_enterprise = 0x00000040,
+    wifi_security_mode_wpa2_enterprise = 0x00000080,
+    wifi_security_mode_wpa_wpa2_enterprise = 0x00000100,
+    wifi_security_mode_wpa3_personal = 0x00000200,
+    wifi_security_mode_wpa3_transition = 0x00000400,
+    wifi_security_mode_wpa3_enterprise = 0x00000800,
+    wifi_security_mode_enhanced_open = 0x00001000
+} wifi_security_modes_t;
+
+/**
+ * @brief Wifi encryption types
+ */
+typedef enum {
+    wifi_encryption_none,
+    wifi_encryption_tkip = 1,
+    wifi_encryption_aes,
+    wifi_encryption_aes_tkip,
+} wifi_encryption_method_t;
+
+/**
+ * @brief Wifi Frequency Band Types
+ */
+typedef enum{
+    WIFI_FREQUENCY_2_4_BAND = 0x1,
+    WIFI_FREQUENCY_5_BAND   = 0x2,
+    WIFI_FREQUENCY_5L_BAND  = 0x4,
+    WIFI_FREQUENCY_5H_BAND  = 0x8,
+    WIFI_FREQUENCY_6_BAND   = 0x10,
+    WIFI_FREQUENCY_60_BAND  = 0x20
+} wifi_freq_bands_t;
+
+#define MAX_NUM_FREQ_BAND 4
+
+/**
+ * @brief Wifi 802.11 variant Types
+ */
+typedef enum {
+    WIFI_80211_VARIANT_A = 0x01,
+    WIFI_80211_VARIANT_B = 0x02,
+    WIFI_80211_VARIANT_G = 0x04,
+    WIFI_80211_VARIANT_N = 0x08,
+    WIFI_80211_VARIANT_H = 0x10,
+    WIFI_80211_VARIANT_AC = 0x20,
+    WIFI_80211_VARIANT_AD = 0x40,
+    WIFI_80211_VARIANT_AX = 0x80,
+    WIFI_80211_VARIANT_BE = 0x100
+} wifi_ieee80211Variant_t;
+
+/**
+ * @brief Wifi Channel Bandwidth Types
+ */
+typedef enum{
+    WIFI_CHANNELBANDWIDTH_20MHZ = 0x1,
+    WIFI_CHANNELBANDWIDTH_40MHZ = 0x2,
+    WIFI_CHANNELBANDWIDTH_80MHZ = 0x4,
+    WIFI_CHANNELBANDWIDTH_160MHZ = 0x8,
+    WIFI_CHANNELBANDWIDTH_80_80MHZ = 0x10,
+    WIFI_CHANNELBANDWIDTH_320MHZ = 0x20
+} wifi_channelBandwidth_t;
+
+/**
+ * @brief Wifi supported bitrates
+ */
+typedef enum {
+    WIFI_BITRATE_DEFAULT = 0x0001,      /* WIFI_BITRATE_DEFAULT is used in the set api to default the bitrate configuration */
+    WIFI_BITRATE_1MBPS   = 0x0002,
+    WIFI_BITRATE_2MBPS   = 0x0004,
+    WIFI_BITRATE_5_5MBPS = 0x0008,
+    WIFI_BITRATE_6MBPS   = 0x0010,
+    WIFI_BITRATE_9MBPS   = 0x0020,
+    WIFI_BITRATE_11MBPS  = 0x0040,
+    WIFI_BITRATE_12MBPS  = 0x0080,
+    WIFI_BITRATE_18MBPS  = 0x0100,
+    WIFI_BITRATE_24MBPS  = 0x0200,
+    WIFI_BITRATE_36MBPS  = 0x0400,
+    WIFI_BITRATE_48MBPS  = 0x0800,
+    WIFI_BITRATE_54MBPS  = 0x1000
+} wifi_bitrate_t;
+
 typedef struct {
-    bssid_t        bssid;
-    ssid_t         ssid;
-    int            rssi; 
-    unsigned short caps;
-    unsigned int   beacon_int;
-    unsigned int   freq;
-    unsigned char  ie[256];
-    size_t         ie_len;
+    bssid_t                  bssid;
+    ssid_t                   ssid;
+    int                      rssi;
+    unsigned short           caps;
+    unsigned int             beacon_int;
+    unsigned int             freq;
+    unsigned char            ie[256];
+    size_t                   ie_len;
+    wifi_security_modes_t    sec_mode;
+    wifi_encryption_method_t enc_method;
+    wifi_freq_bands_t        oper_freq_band;
+    wifi_ieee80211Variant_t  supp_standards;
+    wifi_ieee80211Variant_t  oper_standards;
+    wifi_channelBandwidth_t  supp_chan_bw;
+    wifi_channelBandwidth_t  oper_chan_bw;
+    wifi_bitrate_t           basic_rates;
+    wifi_bitrate_t           supp_rates;
+    unsigned int             dtim_period;
+    unsigned int             chan_utilization;
+    int                      noise;
 }__attribute__((packed)) wifi_bss_info_t;
 
 typedef enum {
@@ -236,31 +337,6 @@ typedef struct {
     UINT    minor;
 }__attribute__((packed)) wifi_hal_version_t;
 
-/**
- * @brief Wifi Frequency Band Types
- */
-typedef enum{
-    WIFI_FREQUENCY_2_4_BAND = 0x1,
-    WIFI_FREQUENCY_5_BAND   = 0x2,
-    WIFI_FREQUENCY_5L_BAND  = 0x4,
-    WIFI_FREQUENCY_5H_BAND  = 0x8,
-    WIFI_FREQUENCY_6_BAND   = 0x10,
-    WIFI_FREQUENCY_60_BAND  = 0x20
-} wifi_freq_bands_t;
-
-#define MAX_NUM_FREQ_BAND 4
-
-/**
- * @brief Wifi Channel Bandwidth Types
- */
-typedef enum{
-    WIFI_CHANNELBANDWIDTH_20MHZ = 0x1,
-    WIFI_CHANNELBANDWIDTH_40MHZ = 0x2,
-    WIFI_CHANNELBANDWIDTH_80MHZ = 0x4,
-    WIFI_CHANNELBANDWIDTH_160MHZ = 0x8,
-    WIFI_CHANNELBANDWIDTH_80_80MHZ = 0x10,
-    WIFI_CHANNELBANDWIDTH_320MHZ = 0x20
-} wifi_channelBandwidth_t;
 
 typedef struct {
     INT channel;
@@ -276,21 +352,6 @@ typedef struct {
     INT num_channels;                  /**< The number of available channels in channels_list. */
     INT channels_list[MAX_CHANNELS];   /**< List of channels. */
 }__attribute__((packed)) wifi_channels_list_t;
-
-/**
- * @brief Wifi 802.11 variant Types
- */
-typedef enum {
-    WIFI_80211_VARIANT_A = 0x01,
-    WIFI_80211_VARIANT_B = 0x02,
-    WIFI_80211_VARIANT_G = 0x04,
-    WIFI_80211_VARIANT_N = 0x08,
-    WIFI_80211_VARIANT_H = 0x10,
-    WIFI_80211_VARIANT_AC = 0x20,
-    WIFI_80211_VARIANT_AD = 0x40,
-    WIFI_80211_VARIANT_AX = 0x80,
-    WIFI_80211_VARIANT_BE = 0x100
-} wifi_ieee80211Variant_t;
 
 /**
  * @brief Wifi Multi Link supported bands
@@ -312,25 +373,6 @@ typedef struct {
     UINT transmitPowerSupported[MAXNUMBEROFTRANSMIPOWERSUPPORTED]; /**< List of transmit power supported. */
     UINT numberOfElements;                                         /**< The number of valid elements in transmitPowerSupported. */
 }__attribute__((packed)) wifi_radio_trasmitPowerSupported_list_t;
-
-/**
- * @brief Wifi supported bitrates
- */
-typedef enum {
-    WIFI_BITRATE_DEFAULT = 0x0001,      /* WIFI_BITRATE_DEFAULT is used in the set api to default the bitrate configuration */
-    WIFI_BITRATE_1MBPS   = 0x0002,
-    WIFI_BITRATE_2MBPS   = 0x0004,
-    WIFI_BITRATE_5_5MBPS = 0x0008,
-    WIFI_BITRATE_6MBPS   = 0x0010,
-    WIFI_BITRATE_9MBPS   = 0x0020,
-    WIFI_BITRATE_11MBPS  = 0x0040,
-    WIFI_BITRATE_12MBPS  = 0x0080,
-    WIFI_BITRATE_18MBPS  = 0x0100,
-    WIFI_BITRATE_24MBPS  = 0x0200,
-    WIFI_BITRATE_36MBPS  = 0x0400,
-    WIFI_BITRATE_48MBPS  = 0x0800,
-    WIFI_BITRATE_54MBPS  = 0x1000
-} wifi_bitrate_t;
 
 #ifdef WIFI_HAL_RSN_SELECTOR
 #undef WIFI_HAL_RSN_SELECTOR
@@ -692,6 +734,7 @@ typedef struct {
      radio_interface_mapping_t radio_interface_map[MAX_NUM_RADIOS];
      BOOL radio_presence[MAX_NUM_RADIOS];         /**< Indicates if the interfaces is present (not in deep sleep)*/
      wifi_multi_link_bands_t mu_bands;
+     UINT BssMaxStaAllow;                    /**< Maximum number of stations supported for given platform. Gets populated during bring-up. */
 }__attribute__((packed)) wifi_platform_property_t;
 
 /**

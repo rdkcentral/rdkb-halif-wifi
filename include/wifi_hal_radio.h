@@ -113,6 +113,9 @@ typedef struct {
     BOOL DfsEnabledBootup;
     BOOL EcoPowerDown;
     wifi_radio_11be_puncturing_info_t puncturingInfo;
+    UINT autoChanRefreshPeriod;
+    INT  mcs;
+    BOOL amsduEnable;
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**
