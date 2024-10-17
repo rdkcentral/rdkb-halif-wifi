@@ -387,6 +387,15 @@ typedef enum {
     WIFI_EAP_TYPE_EXPANDED = 254 /* RFC 3748 */
 } wifi_eap_t;
 
+typedef enum {
+    WIFI_EAP_PHASE2_EAP,
+    WIFI_EAP_PHASE2_MSCHAPV2,
+    WIFI_EAP_PHASE2_MSCHAP,
+    WIFI_EAP_PHASE2_PAP,
+    WIFI_EAP_PHASE2_CHAP,
+    WIFI_EAP_PHASE2_GTC
+} phase2_type;
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -1775,6 +1784,10 @@ typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason)
 
 void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
 
+typedef INT ( * wifi_radiusFallback_failover_callback)(INT apIndex, INT failure_reason);
+
+void wifi_radiusFallback_failover_callback_register(wifi_radiusFallback_failover_callback callback_proc);
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -2483,9 +2496,11 @@ typedef struct {
     char            key[64];            /**< The primary secret. */
     char            identity[64];       /**< The primary identity. */
 #ifdef WIFI_HAL_VERSION_3_PHASE2
-    ip_addr_t       s_ip;                 /**< The secondary RADIUS server IP address. */
-#else
+    ip_addr_t       s_ip;               /**< The secondary RADIUS server IP address. */
+    ip_addr_t       connectedendpoint;  /**< The RADIUS server IP address which is currently in use. */
+  #else
     unsigned char   s_ip[45];
+    unsigned char   connectedendpoint[45];
 #endif
     unsigned short  s_port;             /**< The secondary RADIUS server port. */
     char            s_key[64];          /**< The secondary secret. */
@@ -2497,6 +2512,7 @@ typedef struct {
     UINT            identity_req_retry_interval;
     UINT            server_retries;
     wifi_eap_t      eap_type;
+    phase2_type     phase2;
 } __attribute__((packed)) wifi_radius_settings_t;
 
 typedef enum {
