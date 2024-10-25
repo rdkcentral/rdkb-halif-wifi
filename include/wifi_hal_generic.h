@@ -16,6 +16,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
+
+/**********************************************************************
+    Notes:
+
+    What is new for 3.0.6
+
+      1. Added new security types wifi_security_key_type_saeext, wifi_security_key_type_sae_saeext
+         and wifi_security_key_type_psk_sae_saeext to wifi_security_key_type_t structure in
+         wifi_hal_ap.h and wifi_encryption_aes_gcmp256 and wifi_encryption_gcmp256 to
+         wifi_encryption_method_t structure in wifi_hal_generic.h file.
+
+    What is new for 3.0.5
+
+      1. Added new variables cli_MLDEnable and cli_MLDAddr to wifi_associated_dev3_t structure
+         and added new structures wifi_multi_link_info_t, wifi_multi_link_modes_t and modified
+         wifi_multi_link_bands_t to include 5GL and 5GH radios in wifi_hal_generic.h file for wifi7.
+
+    What is new for 3.0.4
+
+      1. Added new structure wifi_radioTemperature_t and hal wifi_hal_getRadioTemperature
+         in wifi_hal_radio.h file
+
+    What is new for 3.0.3
+
+      1. Added new structures wifi_mld_common_info_t, wifi_mld_info_sta_t, wifi_mld_info_ap_t
+         in wifi_hal_ap.h, wifi_radio_11be_puncturing_info_t in wifi_hal_radio.h and
+         wifi_multi_link_bands_t in wifi_hal_generic.h file also WIFI_CHANNELBANDWIDTH_320MHZ
+         to structure wifi_channelBandwidth_t and WIFI_80211_VARIANT_BE to structure
+         wifi_ieee80211Variant_t in wifi_hal_generic.h file to support WiFi 7 functionality.
+
+    What is new for 3.0.2
+
+      1. Added cli_TxFrames, cli_RxRetries, cli_RxErrors field to wifi_associated_dev3_t
+         structure in wifi_hal_generic.h file
+
+    What is new for 3.0.1
+
+      1. Added cli_activeNumSpatialStreams field to wifi_associated_dev3_t structure
+         in wifi_hal_generic.h file
+      2. Added cli_CapableNumSpatialStreams field to wifi_associated_dev_t structure
+         in wifi_hal_ap.h file
+
+
+**********************************************************************/
+
 #ifndef __WIFI_HAL_GENERIC_H__
 #define __WIFI_HAL_GENERIC_H__
 
@@ -73,6 +118,15 @@ extern "C"{
 #define ENABLE   1
 #endif
 
+#ifndef RETURN_OK
+#define RETURN_OK   0
+#endif
+
+#ifndef RETURN_ERR
+#define RETURN_ERR   -1
+#endif
+
+
 #define WIFI_HAL_SUCCESS             0
 #define WIFI_HAL_ERROR              -1
 #define WIFI_HAL_INTERNAL_ERROR     -2
@@ -112,7 +166,13 @@ extern "C"{
 #define AP_INDEX_24 24
 #endif
 
+
+#ifdef WIFI_HAL_VERSION_3
 #define MAX_NUM_RADIOS           3
+#else
+#define MAX_NUM_RADIOS           2
+#endif
+
 #define MAX_NUM_VAP_PER_RADIO    8
 
 #define MAC_STR_LEN        18
@@ -130,10 +190,10 @@ extern "C"{
 #define RESTORE_CNFG_FILE_NAME  "/data/.nvram_restore_cfg.txt"
 #define NVRAM_LINE_MAX       (1024)
 
-//defines for HAL version 3.0.1
-#define WIFI_HAL_MAJOR_VERSION 3        /**< This is the major version of this HAL. */
-#define WIFI_HAL_MINOR_VERSION 0        /**< This is the minor version of the HAL. */
-#define WIFI_HAL_MAINTENANCE_VERSION 1  /**< This is the maintenance version of the HAL. */
+//defines for HAL version 3.0.6
+#define WIFI_HAL_MAJOR_VERSION 3        /**< This is the major verion of this HAL. */
+#define WIFI_HAL_MINOR_VERSION 0        /**< This is the minor verson of the HAL. */
+#define WIFI_HAL_MAINTENANCE_VERSION 6  /**< This is the maintenance version of the HAL. */
 #define WIFI_HAL_VERSION (WIFI_HAL_MAJOR_VERSION *1000+ WIFI_HAL_MINOR_VERSION *10+ WIFI_HAL_MAINTENANCE_VERSION)
 
 #define MAX_NUM_TWT_SESSION  50    /**< Maximum number of TWT sessions for an AP (TODO to be defined) */
@@ -195,15 +255,118 @@ typedef char            r0r1_key_str_t[33];
 typedef char	wifi_interface_name_t[32];
 typedef char	wifi_vap_name_t[64];
 
+/**
+ * @brief Wifi security mode types
+ */
+typedef enum {
+    wifi_security_mode_none = 0x00000001,
+    wifi_security_mode_wep_64 = 0x00000002,
+    wifi_security_mode_wep_128 = 0x00000004,
+    wifi_security_mode_wpa_personal = 0x00000008,
+    wifi_security_mode_wpa2_personal = 0x00000010,
+    wifi_security_mode_wpa_wpa2_personal = 0x00000020,
+    wifi_security_mode_wpa_enterprise = 0x00000040,
+    wifi_security_mode_wpa2_enterprise = 0x00000080,
+    wifi_security_mode_wpa_wpa2_enterprise = 0x00000100,
+    wifi_security_mode_wpa3_personal = 0x00000200,
+    wifi_security_mode_wpa3_transition = 0x00000400,
+    wifi_security_mode_wpa3_enterprise = 0x00000800,
+    wifi_security_mode_enhanced_open = 0x00001000
+} wifi_security_modes_t;
+
+/**
+ * @brief Wifi encryption types
+ */
+typedef enum {
+    wifi_encryption_none,
+    wifi_encryption_tkip = 1,
+    wifi_encryption_aes,
+    wifi_encryption_aes_tkip,
+    wifi_encryption_aes_gcmp256,
+    wifi_encryption_gcmp256,
+} wifi_encryption_method_t;
+
+/**
+ * @brief Wifi Frequency Band Types
+ */
+typedef enum{
+    WIFI_FREQUENCY_2_4_BAND = 0x1,
+    WIFI_FREQUENCY_5_BAND   = 0x2,
+    WIFI_FREQUENCY_5L_BAND  = 0x4,
+    WIFI_FREQUENCY_5H_BAND  = 0x8,
+    WIFI_FREQUENCY_6_BAND   = 0x10,
+    WIFI_FREQUENCY_60_BAND  = 0x20
+} wifi_freq_bands_t;
+
+#define MAX_NUM_FREQ_BAND 4
+
+/**
+ * @brief Wifi 802.11 variant Types
+ */
+typedef enum {
+    WIFI_80211_VARIANT_A = 0x01,
+    WIFI_80211_VARIANT_B = 0x02,
+    WIFI_80211_VARIANT_G = 0x04,
+    WIFI_80211_VARIANT_N = 0x08,
+    WIFI_80211_VARIANT_H = 0x10,
+    WIFI_80211_VARIANT_AC = 0x20,
+    WIFI_80211_VARIANT_AD = 0x40,
+    WIFI_80211_VARIANT_AX = 0x80,
+    WIFI_80211_VARIANT_BE = 0x100
+} wifi_ieee80211Variant_t;
+
+/**
+ * @brief Wifi Channel Bandwidth Types
+ */
+typedef enum{
+    WIFI_CHANNELBANDWIDTH_20MHZ = 0x1,
+    WIFI_CHANNELBANDWIDTH_40MHZ = 0x2,
+    WIFI_CHANNELBANDWIDTH_80MHZ = 0x4,
+    WIFI_CHANNELBANDWIDTH_160MHZ = 0x8,
+    WIFI_CHANNELBANDWIDTH_80_80MHZ = 0x10,
+    WIFI_CHANNELBANDWIDTH_320MHZ = 0x20
+} wifi_channelBandwidth_t;
+
+/**
+ * @brief Wifi supported bitrates
+ */
+typedef enum {
+    WIFI_BITRATE_DEFAULT = 0x0001,      /* WIFI_BITRATE_DEFAULT is used in the set api to default the bitrate configuration */
+    WIFI_BITRATE_1MBPS   = 0x0002,
+    WIFI_BITRATE_2MBPS   = 0x0004,
+    WIFI_BITRATE_5_5MBPS = 0x0008,
+    WIFI_BITRATE_6MBPS   = 0x0010,
+    WIFI_BITRATE_9MBPS   = 0x0020,
+    WIFI_BITRATE_11MBPS  = 0x0040,
+    WIFI_BITRATE_12MBPS  = 0x0080,
+    WIFI_BITRATE_18MBPS  = 0x0100,
+    WIFI_BITRATE_24MBPS  = 0x0200,
+    WIFI_BITRATE_36MBPS  = 0x0400,
+    WIFI_BITRATE_48MBPS  = 0x0800,
+    WIFI_BITRATE_54MBPS  = 0x1000
+} wifi_bitrate_t;
+
 typedef struct {
-    bssid_t        bssid;
-    ssid_t         ssid;
-    int            rssi; 
-    unsigned short caps;
-    unsigned int   beacon_int;
-    unsigned int   freq;
-    unsigned char  ie[256];
-    size_t         ie_len;
+    bssid_t                  bssid;
+    ssid_t                   ssid;
+    int                      rssi;
+    unsigned short           caps;
+    unsigned int             beacon_int;
+    unsigned int             freq;
+    unsigned char            ie[256];
+    size_t                   ie_len;
+    wifi_security_modes_t    sec_mode;
+    wifi_encryption_method_t enc_method;
+    wifi_freq_bands_t        oper_freq_band;
+    wifi_ieee80211Variant_t  supp_standards;
+    wifi_ieee80211Variant_t  oper_standards;
+    wifi_channelBandwidth_t  supp_chan_bw;
+    wifi_channelBandwidth_t  oper_chan_bw;
+    wifi_bitrate_t           basic_rates;
+    wifi_bitrate_t           supp_rates;
+    unsigned int             dtim_period;
+    unsigned int             chan_utilization;
+    int                      noise;
 }__attribute__((packed)) wifi_bss_info_t;
 
 typedef enum {
@@ -232,31 +395,6 @@ typedef struct {
     UINT    minor;
 }__attribute__((packed)) wifi_hal_version_t;
 
-/**
- * @brief Wifi Frequency Band Types
- */
-typedef enum{
-    WIFI_FREQUENCY_2_4_BAND = 0x1,
-    WIFI_FREQUENCY_5_BAND   = 0x2,
-    WIFI_FREQUENCY_5L_BAND  = 0x4,
-    WIFI_FREQUENCY_5H_BAND  = 0x8,
-    WIFI_FREQUENCY_6_BAND   = 0x10,
-    WIFI_FREQUENCY_60_BAND  = 0x20
-} wifi_freq_bands_t;
-
-#define MAX_NUM_FREQ_BAND 4
-
-/**
- * @brief Wifi Channel Bandwidth Types
- */
-typedef enum{
-    WIFI_CHANNELBANDWIDTH_20MHZ = 0x1,
-    WIFI_CHANNELBANDWIDTH_40MHZ = 0x2,
-    WIFI_CHANNELBANDWIDTH_80MHZ = 0x4,
-    WIFI_CHANNELBANDWIDTH_160MHZ = 0x8,
-    WIFI_CHANNELBANDWIDTH_80_80MHZ = 0x10
-} wifi_channelBandwidth_t;
-
 typedef struct {
     INT channel;
     wifi_freq_bands_t   band;
@@ -272,20 +410,6 @@ typedef struct {
     INT channels_list[MAX_CHANNELS];   /**< List of channels. */
 }__attribute__((packed)) wifi_channels_list_t;
 
-/**
- * @brief Wifi 802.11 variant Types
- */
-typedef enum {
-    WIFI_80211_VARIANT_A = 0x01,
-    WIFI_80211_VARIANT_B = 0x02,
-    WIFI_80211_VARIANT_G = 0x04,
-    WIFI_80211_VARIANT_N = 0x08,
-    WIFI_80211_VARIANT_H = 0x10,
-    WIFI_80211_VARIANT_AC = 0x20,
-    WIFI_80211_VARIANT_AD = 0x40,
-    WIFI_80211_VARIANT_AX = 0x80
-} wifi_ieee80211Variant_t;
-
 #define MAXNUMBEROFTRANSMIPOWERSUPPORTED 21
 
 /**
@@ -295,25 +419,6 @@ typedef struct {
     UINT transmitPowerSupported[MAXNUMBEROFTRANSMIPOWERSUPPORTED]; /**< List of transmit power supported. */
     UINT numberOfElements;                                         /**< The number of valid elements in transmitPowerSupported. */
 }__attribute__((packed)) wifi_radio_trasmitPowerSupported_list_t;
-
-/**
- * @brief Wifi supported bitrates
- */
-typedef enum {
-    WIFI_BITRATE_DEFAULT = 0x0001,      /* WIFI_BITRATE_DEFAULT is used in the set api to default the bitrate configuration */
-    WIFI_BITRATE_1MBPS   = 0x0002,
-    WIFI_BITRATE_2MBPS   = 0x0004,
-    WIFI_BITRATE_5_5MBPS = 0x0008,
-    WIFI_BITRATE_6MBPS   = 0x0010,
-    WIFI_BITRATE_9MBPS   = 0x0020,
-    WIFI_BITRATE_11MBPS  = 0x0040,
-    WIFI_BITRATE_12MBPS  = 0x0080,
-    WIFI_BITRATE_18MBPS  = 0x0100,
-    WIFI_BITRATE_24MBPS  = 0x0200,
-    WIFI_BITRATE_36MBPS  = 0x0400,
-    WIFI_BITRATE_48MBPS  = 0x0800,
-    WIFI_BITRATE_54MBPS  = 0x1000
-} wifi_bitrate_t;
 
 #ifdef WIFI_HAL_RSN_SELECTOR
 #undef WIFI_HAL_RSN_SELECTOR
@@ -609,11 +714,12 @@ typedef enum {
     wifi_operating_env_non_country
 } wifi_operating_env_t;
 
+
 /**
  * @brief Wifi Radio CSI capabilities
  */
 typedef struct {
-    UINT maxDevices;              /**< The maximum number of stations that can be configured to collect the CSI data.  Return 0 if CSI is not supported. */
+    UINT maxDevices;              /**< The maximun number of stations that can be configured to collect the CSI data.  Return 0 if CSI is not supported. */
     BOOL soudingFrameSupported;   /**< The value is TRUE, if the radio supports to sending souding frames in the MAC layer. */
 }__attribute__((packed)) wifi_radio_csi_capabilities_t;
 
@@ -653,7 +759,6 @@ typedef struct {
     wifi_interface_name_t  interface_name;
     wifi_interface_name_t  bridge_name;
     int              vlan_id;
-    BOOL             primary;
     unsigned int     index;
     wifi_vap_name_t  vap_name;
 }__attribute__((packed)) wifi_interface_name_idex_map_t;
@@ -666,7 +771,40 @@ typedef struct {
 }__attribute__((packed)) radio_interface_mapping_t;
 
 /**
- * @brief Wifi Platform Property
+ * @brief Wifi Multi Link supported bands
+ */
+typedef enum {
+    WIFI_BAND_NONE    = 0x1,
+    WIFI_BAND_2_5     = 0x2,
+    WIFI_BAND_2_6     = 0x4,
+    WIFI_BAND_5_6     = 0x8,
+    WIFI_BAND_2_5_6   = 0x10,
+    WIFI_BAND_2_5L    = 0x20,
+    WIFI_BAND_2_5H    = 0x40,
+    WIFI_BAND_5L_5H   = 0x80,
+    WIFI_BAND_2_5L_5H = 0x100
+} wifi_multi_link_bands_t;
+
+/**
+ * @brief Wifi 7 supported modes
+ */
+typedef enum {
+    STR   = 0x1,
+    NSTR  = 0x2,
+    eMLSR = 0x4,
+    eMLMR = 0x8
+} wifi_multi_link_modes_t;
+
+/**
+ * @brief Wifi Multi Link info
+ */
+typedef struct _wifi_multi_link_info_t {
+    wifi_multi_link_bands_t mu_bands;
+    wifi_multi_link_modes_t mu_modes;
+} wifi_multi_link_info_t;
+
+/**
+ * @brief Wifi Plataform Property
  */
 typedef struct {
      UINT numRadios;                               /**< Number of radios. */
@@ -674,6 +812,8 @@ typedef struct {
      wifi_interface_name_idex_map_t interface_map[(MAX_NUM_RADIOS * MAX_NUM_VAP_PER_RADIO)];
      radio_interface_mapping_t radio_interface_map[MAX_NUM_RADIOS];
      BOOL radio_presence[MAX_NUM_RADIOS];         /**< Indicates if the interfaces is present (not in deep sleep)*/
+     wifi_multi_link_info_t mu_info;
+     UINT BssMaxStaAllow;                    /**< Maximum number of stations supported for given platform. Gets populated during bring-up. */
 }__attribute__((packed)) wifi_platform_property_t;
 
 /**
@@ -681,8 +821,8 @@ typedef struct {
  */
 typedef struct {
     wifi_hal_version_t  version;            /**< The HAL version. */
-    wifi_platform_property_t wifi_prop;     /**< The platform Property that includes the number of radios and supported frequency bands. */
-    BOOL BandSteeringSupported;             /**< If BandSteeringSupported is TRUE, band-steering is support by the HAL */
+    wifi_platform_property_t wifi_prop;     /**< The plataform Property that includes the number of radios and supported frequency bands. */
+    BOOL BandSteeringSupported;             /**< If BandSteeringSupported is TRUE, bandsteering is support by the HAL */
 }__attribute__((packed)) wifi_hal_capability_t;
 
 /**
@@ -697,8 +837,8 @@ typedef enum {
  * @brief Wifi TWT Operation
  */
 typedef struct {
-    BOOL    implicit;           /**< TRUE if the TWT session is implicit, or FALSE to be explicit*/
-    BOOL    announced;          /**< TRUE if the TWT session is announced, or FALSE to be unannounced */
+    BOOL    implicit;           /**< True if the TWT session is implicit, or false to be explicit*/
+    BOOL    announced;          /**< True if the TWT session is announced, or false to be unannounced */
     BOOL    trigger_enabled;    /**< Enable the TWT trigger */
     UINT    flowID;             /**< Agreement identifier */
 } wifi_twt_operation_t;
@@ -811,9 +951,13 @@ typedef enum {
    wifi_connection_status_ap_not_found
 } wifi_connection_status_t;
 
+typedef enum {
+    RADIUS_ACCESS_REJECT = 1,
+    EAP_FAILURE
+} radius_eap_failure_code_t;
 
-#define MAX_NR                  8
-#define MAX_NC                  4
+#define MAX_NR                  4
+#define MAX_NC                  1
 #define MAX_SUB_CARRIERS        256
 #define MAX_PILOTS              26
 
@@ -845,6 +989,7 @@ typedef struct _wifi_frame_info
     UINT    num_sc;                /* Number of subcarriers in the payload so that information can be used in conjunction with the number of streams to fully decode valid regions */
     UCHAR    decimation;            /* Value to indicate degree to which CSI matrix is decimated in terms of number of subcarriers present.*/
     UINT    channel;            /* Primary Channel of received frame */
+    INT       cfo;              /* center frequency offset when demodulated, offset can be positive or negative */
     ULLONG    time_stamp;            /* PHY timestamp of CSI capture with at minimum millisecond    */
                                 /* resolution. Ideally this can be resolved to a standard epoch */
                                 /* format with millisecond resolution. */
@@ -875,7 +1020,7 @@ typedef struct _wifi_associated_dev3
 {
         mac_address_t cli_MACAddress;           /**< The MAC address of an associated device. */
         CHAR  cli_IPAddress[64];                /**< IP of the associated device  (deprecated, keep it empty) */
-        BOOL  cli_AuthenticationState; /**< Whether an associated device has authenticated (TRUE) or not (FALSE). */
+        BOOL  cli_AuthenticationState; /**< Whether an associated device has authenticated (true) or not (false). */
         UINT  cli_LastDataDownlinkRate; /**< The median PHY rate in Mbps of the most recent 16 unicast data frame transmissions from the access point to the associated device. */
         UINT  cli_LastDataUplinkRate;   /**< The median PHY rate in Mbps of the most recent 16 unicast data frame transmissions from the associated device to the access point. */
         INT   cli_SignalStrength;               /**< An indicator of radio signal strength of the uplink from the associated device to the access point, measured in dBm, as an average of the last 100 packets received from the device. */
@@ -885,18 +1030,18 @@ typedef struct _wifi_associated_dev3
         CHAR  cli_OperatingStandard[64];        /**< Radio standard the associated Wi-Fi client device is operating under. Enumeration of: */
         CHAR  cli_OperatingChannelBandwidth[64];        /**< The operating channel bandwidth of the associated device. The channel bandwidth (applicable to 802.11n and 802.11ac specifications only). Enumeration of: */
         INT   cli_SNR;          /**< A signal-to-noise ratio (SNR) compares the level of the Wi-Fi signal to the level of background noise. Sources of noise can include microwave ovens, cordless phone, bluetooth devices, wireless video cameras, wireless game controllers, fluorescent lights and more. It is measured in decibels (dB). */
-        CHAR  cli_InterferenceSources[64]; /**< Wi-Fi operates in two frequency ranges (2.4 Ghz and 5 Ghz) which may become crowded other radio products which operate in the same ranges. This parameter reports the probable interference sources that this Wi-Fi access point may be observing. The value of this parameter is a comma separated list of the following possible sources: eg: MicrowaveOven,CordlessPhone,BluetoothDevices,FluorescentLights,ContinuousWaves,Others */
+        CHAR  cli_InterferenceSources[64]; /**< Wi-Fi operates in two frequency ranges (2.4 Ghz and 5 Ghz) which may become crowded other radio products which operate in the same ranges. This parameter reports the probable interference sources that this Wi-Fi access point may be observing. The value of this parameter is a comma seperated list of the following possible sources: eg: MicrowaveOven,CordlessPhone,BluetoothDevices,FluorescentLights,ContinuousWaves,Others */
         ULONG cli_DataFramesSentAck;    /**< The DataFramesSentAck parameter indicates the total number of MSDU frames marked as duplicates and non duplicates acknowledged. The value of this counter may be reset to zero when the CPE is rebooted. Refer section A.2.3.14 of CableLabs Wi-Fi MGMT Specification. */
         ULONG cli_DataFramesSentNoAck;  /**< The DataFramesSentNoAck parameter indicates the total number of MSDU frames retransmitted out of the interface (i.e., marked as duplicate and non-duplicate) and not acknowledged, but does not exclude those defined in the DataFramesLost parameter. The value of this counter may be reset to zero when the CPE is rebooted. Refer section A.2.3.14 of CableLabs Wi-Fi MGMT Specification. */
         ULONG cli_BytesSent;    /**< The total number of bytes transmitted to the client device, including framing characters. */
         ULONG cli_BytesReceived;        /**< The total number of bytes received from the client device, including framing characters. */
-        INT   cli_RSSI; /**< The Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for transmissions from the device averaged over past 100 packets received from the device. */
+        INT   cli_RSSI; /**< The Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for transmissions from the device averaged over past 100 packets recevied from the device. */
         INT   cli_MinRSSI;      /**< The Minimum Received Signal Strength Indicator, RSSI, parameter is the minimum energy observed at the antenna receiver for past transmissions (100 packets). */
         INT   cli_MaxRSSI;      /**< The Maximum Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for past transmissions (100 packets). */
-        UINT  cli_Disassociations;      /**< This parameter  represents the total number of client disassociations. Reset the parameter every 24hrs or reboot */
-        UINT  cli_AuthenticationFailures;       /**< This parameter indicates the total number of authentication failures.  Reset the parameter every 24hrs or reboot */
+        UINT  cli_Disassociations;      /**< This parameter  represents the total number of client disassociations. Reset the parameter evey 24hrs or reboot */
+        UINT  cli_AuthenticationFailures;       /**< This parameter indicates the total number of authentication failures.  Reset the parameter evey 24hrs or reboot */
 
-        ULLONG   cli_Associations;      /**<  Stats handle used to determine reconnects; increases for every association (stat delta calculation) */
+        ULLONG   cli_Associations;      /**<  Stats handle used to determine reconnects; increases for every association (stat delta calcualtion) */
 
         ULONG cli_PacketsSent; /**< The total number of packets transmitted to the Associated Device. */
         ULONG cli_PacketsReceived; /**< The total number of packets received from the Associated Device. */
@@ -925,12 +1070,18 @@ typedef struct _wifi_associated_dev3
         devices. In other words output_array_size will specify the number of client devices in the array for 
         which CSI data needs to filled by driver. The cli_MACAddress will specify the client devices in each
         of wifi_associated_dev3_t. Wi-Fi HAL implementation in such case MUST allocate memory for cli_CSIData
-        fill in required fields. The called in such cases is responsible for deallocation of memory. 
+        fill in required fields. The called in such cases is reposnsible for deallocation of memory. 
         The wifi_csi_data_t is defined above */
 
          wifi_csi_data_t  *cli_CsiData; 
 
         UINT cli_activeNumSpatialStreams; /**< The number of active spatial streams in the session between AP and client at the moment of polling */
+
+        ULLONG     cli_TxFrames;         /**< The total number of frames transmitted to the client */
+        ULLONG     cli_RxRetries;        /**< Number of rx retries */
+        ULLONG     cli_RxErrors;         /**< Number of rx error */
+        BOOL       cli_MLDEnable;        /* Indicates whether the connected client uses a single link or multi-link connections, false - single link and true - multi-link */
+        mac_address_t cli_MLDAddr;       /* Indicates the mld mac address of the connected client, 00's for non wifi-7 clients */
 
 } wifi_associated_dev3_t;
 
@@ -940,20 +1091,40 @@ typedef struct _wifi_associated_dev3
  * @addtogroup WIFI_HAL_APIS
  * @{
  */
-
 /**
-* @brief Initializes the wifi subsystem
+ * @brief Get HAL Capabilities
+ *
+ * @param[out]  cap             HAL Capabilities
+ *
+ * This API will return features/configuration supported by
+ * the HAL
+ *
+ * @return The status of the operation
+ * @retval WIFI_HAL_SUCCESS if successful
+ * @retval WIFI_HAL_ERROR if an generic error is detected
+ * @retval WIFI_HAL_INTERNAL_ERROR if an internal error is detected
+ * @retval WIFI_HAL_UNSUPPORTED if the API is not supported
+ * @retval WIFI_HAL_INVALID_ARGUMENTS if any of the arguments is invalid
+ * @retval WIFI_HAL_INVALID_VALUE if the value is invalid
+ *
+ * @execution Synchronous
+ * @sideeffect None
+ *
+ */
+INT wifi_getHalCapability(wifi_hal_capability_t *cap);
+
+/* wifi_factoryReset() function */
+/**
+* @brief Clears internal variables to implement a factory reset of the Wi-Fi subsystem.
 *
-* Including baseband necessary wifi stack and software data structure 
-* associated with above modules. 
-* After this function returns, upper layer application should be 
-* able to execute other HAL functions. 
-* 
-* And perform successful input/output with the WiFi subsystem. 
+* A Specific implementation may dictate some functionalities since different hardware implementations
+* may have different requirements.
 *
-* @return The status of the operation
-* @retval WIFI_HAL_SUCCESS if successful
-* @retval WIFI_HAL_ERROR if error
+* @param None
+*
+* @return The status of the operation.
+* @retval RETURN_OK if successful.
+* @retval RETURN_ERR if any error is detected
 *
 * @execution Synchronous
 * @sideeffect None
@@ -962,29 +1133,187 @@ typedef struct _wifi_associated_dev3
 * calls. It should probably just send a message to a driver event handler task.
 *
 */
-INT wifi_init(void);
+//clears internal variables to implement a factory reset of the Wi-Fi subsystem
+INT wifi_factoryReset();
+
+/* wifi_setLED() function */
+/**
+* @brief Set the system LED status
+*
+* @param radioIndex  Index of Wi-Fi Radio channel
+* @param enable      LED status
+*
+* @return The status of the operation.
+* @retval RETURN_OK if successful.
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous.
+* @sideeffect None.
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the system LED status
+INT wifi_setLED(INT radioIndex, BOOL enable);
 
 /**
- * @brief Get HAL Capabilities
- * 
- * This API will return features & configuration supported by the baseband 
- * and other hardware components of the WiFi subsystem
- *
- * @param[out]  cap -   HAL Capabilities
- *
- * @return The status of the operation
- * @retval WIFI_HAL_SUCCESS           - if successful
- * @retval WIFI_HAL_ERROR             - if a generic error is detected
- * @retval WIFI_HAL_UNSUPPORTED       - if the API is not supported
- * @retval WIFI_HAL_INVALID_ARGUMENTS - if an invalid argument is passed
- *
- * @execution Synchronous
- * @sideeffect None
- *
- * @note This function must not suspend and must not invoke any blocking system
- * calls. It should probably just send a message to a driver event handler task.
- */
-INT wifi_getHalCapability(wifi_hal_capability_t *cap);
+* @brief This function call initializes all Wi-Fi radios.
+*
+* A specific implementation  may dictate some functionality since different hardware implementations
+* may have different initilization requirements.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// Initializes the wifi subsystem (all radios)
+INT wifi_init();
+
+/* wifi_reset() function */
+/**
+* @brief Resets the Wifi subsystem.
+* This includes reset of all Access Point variables.
+*
+* Implementation specifics may dictate what is actualy reset since different hardware
+* implementations may have different requirements.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// resets the wifi subsystem, deletes all APs
+INT wifi_reset();
+
+/* wifi_down() function */
+/**
+* @brief Turns off transmit power for the entire Wifi subsystem, for all radios.
+*
+* Implementation specifics may dictate some functionality since
+* different hardware implementations may have different requirements.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// turns off transmit power for the entire Wifi subsystem, for all radios
+INT wifi_down();
+
+/* wifi_createInitialConfigFiles() function */
+/**
+* @brief This function creates wifi configuration files.
+*
+* The format and content of these files are implementation dependent.  This function call is
+* used to trigger this task if necessary. Some implementations may not need this
+* function. If an implementation does not need to create config files the function call can
+* do nothing and return RETURN_OK.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_createInitialConfigFiles();
+
+/* wifi_createHostApdConfig() function */
+/**
+* @brief Creates configuration variables needed for WPA/WPS.
+*
+* These variables are implementation dependent and in some implementations these variables are used by hostapd when it is started.
+* Specific variables that are needed are dependent on the hostapd implementation.
+* These variables are set by WPA/WPS security functions in this wifi HAL.
+* If not needed for a particular implementation this function may simply return no error.
+*
+* @param[in] apIndex       Access Point index
+* @param[in] createWpsCfg  Enable/Disable WPS Configuration creation
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_createHostApdConfig(INT apIndex, BOOL createWpsCfg);       // creates configuration variables needed for WPA/WPS.  These variables are implementation dependent and in some implementations these variables are used by hostapd when it is started.  Specific variables that are needed are dependent on the hostapd implementation. These variables are set by WPA/WPS security functions in this wifi HAL.  If not needed for a particular implementation this function may simply return no error.
+
+/* wifi_startHostApd() function */
+/**
+* @brief Starts hostapd.
+*
+* Uses the variables in the hostapd config with format compatible with the specific hostapd implementation.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_startHostApd();                                            // starts hostapd, uses the variables in the hostapd config with format compatible with the specific hostapd implementation
+
+/* wifi_stopHostApd() function */
+/**
+* @brief Stops hostapd
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_stopHostApd();                                             // stops hostapd
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
