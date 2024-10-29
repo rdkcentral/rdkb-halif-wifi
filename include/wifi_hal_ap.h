@@ -600,7 +600,10 @@ typedef enum {
     wifi_security_key_type_psk,
     wifi_security_key_type_pass,
     wifi_security_key_type_sae,
-    wifi_security_key_type_psk_sae
+    wifi_security_key_type_psk_sae,
+    wifi_security_key_type_saeext,
+    wifi_security_key_type_sae_saeext,
+    wifi_security_key_type_psk_sae_saeext
 } wifi_security_key_type_t;
 
 typedef struct {
@@ -705,7 +708,7 @@ typedef struct {
     char supported_data_transmit_rates[32];
     char minimum_advertised_mcs[32];
     char sixGOpInfoMinRate[32];
-    char client_deny_assoc_info[32];
+    char client_deny_assoc_info[45];
     wifi_vap_name_t vap_name;
 } __attribute__((packed)) wifi_preassoc_control_t;
 
@@ -715,7 +718,7 @@ typedef struct {
     char rssi_up_threshold[32];
     char snr_threshold[32]; // retrans_up
     char cu_threshold[32];
-    char client_force_disassoc_info[32];
+    char client_force_disassoc_info[45];
     wifi_vap_name_t vap_name;
 } __attribute__((packed)) wifi_postassoc_control_t;
 
@@ -925,6 +928,48 @@ typedef INT(* wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_
 *
 */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
+
+/* wifi_radiusEapFailure_callback() function */
+/**
+* @brief This call back will be invoked when new there is a radius or EAP failure happens.
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] failure_reason   Failure reason
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason);
+
+/* wifi_radiusEapFailure_callback_register() function */
+
+/**
+* @brief Callback registration function.
+*
+* @param[in] callback_proc  wifi_radiusEapFailure__callback callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
+/**
 
 /**
 * @brief This call back will be invoked when DeAuth Event (reason 2 wrong password) comes from client.

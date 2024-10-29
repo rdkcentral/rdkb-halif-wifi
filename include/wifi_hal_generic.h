@@ -134,10 +134,10 @@ extern "C"{
 #define RESTORE_CNFG_FILE_NAME  "/data/.nvram_restore_cfg.txt"
 #define NVRAM_LINE_MAX       (1024)
 
-//defines for HAL version 3.0.3
+//defines for HAL version 3.0.6
 #define WIFI_HAL_MAJOR_VERSION 3        /**< This is the major version of this HAL. */
 #define WIFI_HAL_MINOR_VERSION 0        /**< This is the minor version of the HAL. */
-#define WIFI_HAL_MAINTENANCE_VERSION 3  /**< This is the maintenance version of the HAL. */
+#define WIFI_HAL_MAINTENANCE_VERSION 6  /**< This is the maintenance version of the HAL. */
 #define WIFI_HAL_VERSION (WIFI_HAL_MAJOR_VERSION *1000+ WIFI_HAL_MINOR_VERSION *10+ WIFI_HAL_MAINTENANCE_VERSION)
 
 #define MAX_NUM_TWT_SESSION  50    /**< Maximum number of TWT sessions for an AP (TODO to be defined) */
@@ -226,6 +226,8 @@ typedef enum {
     wifi_encryption_tkip = 1,
     wifi_encryption_aes,
     wifi_encryption_aes_tkip,
+    wifi_encryption_aes_gcmp256,
+    wifi_encryption_gcmp256,
 } wifi_encryption_method_t;
 
 /**
@@ -352,17 +354,6 @@ typedef struct {
     INT num_channels;                  /**< The number of available channels in channels_list. */
     INT channels_list[MAX_CHANNELS];   /**< List of channels. */
 }__attribute__((packed)) wifi_channels_list_t;
-
-/**
- * @brief Wifi Multi Link supported bands
- */
-typedef enum {
-    WIFI_BAND_NONE  = 0x1,
-    WIFI_BAND_2_5   = 0x2,
-    WIFI_BAND_2_6   = 0x4,
-    WIFI_BAND_5_6   = 0x8,
-    WIFI_BAND_2_5_6 = 0x10
-} wifi_multi_link_bands_t;
 
 #define MAXNUMBEROFTRANSMIPOWERSUPPORTED 21
 
@@ -725,6 +716,40 @@ typedef struct {
 }__attribute__((packed)) radio_interface_mapping_t;
 
 /**
+* @brief Wifi Multi Link supported bands
+*/
+typedef enum {
+    WIFI_BAND_NONE    = 0x1,
+    WIFI_BAND_2_5     = 0x2,
+    WIFI_BAND_2_6     = 0x4,
+    WIFI_BAND_5_6     = 0x8,
+    WIFI_BAND_2_5_6   = 0x10,
+    WIFI_BAND_2_5L    = 0x20,
+    WIFI_BAND_2_5H    = 0x40,
+    WIFI_BAND_5L_5H   = 0x80,
+    WIFI_BAND_2_5L_5H = 0x100
+} wifi_multi_link_bands_t;
+/**
+* @brief Wifi 7 supported modes
+*/
+
+typedef enum {
+    STR   = 0x1,
+    NSTR  = 0x2,
+    eMLSR = 0x4,
+    eMLMR = 0x8
+} wifi_multi_link_modes_t;
+
+/**
+* @brief Wifi Multi Link info
+*/
+
+typedef struct _wifi_multi_link_info_t {
+    wifi_multi_link_bands_t mu_bands;
+    wifi_multi_link_modes_t mu_modes;
+} wifi_multi_link_info_t;
+
+/**
  * @brief Wifi Platform Property
  */
 typedef struct {
@@ -733,7 +758,7 @@ typedef struct {
      wifi_interface_name_idex_map_t interface_map[(MAX_NUM_RADIOS * MAX_NUM_VAP_PER_RADIO)];
      radio_interface_mapping_t radio_interface_map[MAX_NUM_RADIOS];
      BOOL radio_presence[MAX_NUM_RADIOS];         /**< Indicates if the interfaces is present (not in deep sleep)*/
-     wifi_multi_link_bands_t mu_bands;
+     wifi_multi_link_info_t mu_info;
      UINT BssMaxStaAllow;                    /**< Maximum number of stations supported for given platform. Gets populated during bring-up. */
 }__attribute__((packed)) wifi_platform_property_t;
 
@@ -872,6 +897,11 @@ typedef enum {
    wifi_connection_status_ap_not_found
 } wifi_connection_status_t;
 
+typedef enum {
+    RADIUS_ACCESS_REJECT = 1,
+    EAP_FAILURE
+} radius_eap_failure_code_t;
+
 
 #define MAX_NR                  4
 #define MAX_NC                  1
@@ -997,6 +1027,8 @@ typedef struct _wifi_associated_dev3
         ULLONG     cli_TxFrames;         /**< The total number of frames transmitted to the client */
         ULLONG     cli_RxRetries;        /**< Number of rx retries */
         ULLONG     cli_RxErrors;         /**< Number of rx error */
+	BOOL       cli_MLDEnable;        /* Indicates whether the connected client uses a single link or multi-link connections, false - single link and true - multi-link */
+        mac_address_t cli_MLDAddr;       /* Indicates the mld mac address of the connected client, 00's for non wifi-7 clients */
 
 } wifi_associated_dev3_t;
 
