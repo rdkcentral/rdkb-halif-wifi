@@ -123,7 +123,9 @@ typedef struct {
     wifi_radio_11be_puncturing_info_t puncturingInfo;
     UINT autoChanRefreshPeriod;
     INT  mcs;
-    BOOL amsduEnable;    
+    BOOL amsduEnable;
+    UINT DFSTimer;
+    char radarDetected[256];
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**

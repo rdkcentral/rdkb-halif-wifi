@@ -2686,6 +2686,8 @@ typedef struct {
     BOOL   mcast2ucast;                    /**< True if 'multicast to unicast' feature is enabled for this VAP, false otherwise */
     BOOL   connected_building_enabled;
     wifi_mld_info_ap_t mld_info;
+    BOOL   hostap_mgt_frame_ctrl;
+    BOOL   mbo_enabled;
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 #define WIFI_BRIDGE_NAME_LEN  32

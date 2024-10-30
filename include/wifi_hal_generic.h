@@ -236,6 +236,8 @@ extern "C"{
 #define KEY_MSG_4_OF_4(msg)             \
         ((((msg)->key_info[1] & KI1_VER_MASK) == KI1_PW_KEY) && ((msg)->key_info[0] == KI0_MSG4_BITS))
 
+// Device related information
+#define DEFAULT_DEVICE_FIELD_LEN 64
 
 /**********************************************************************
                 STRUCTURE DEFINITIONS
@@ -814,6 +816,15 @@ typedef struct {
      BOOL radio_presence[MAX_NUM_RADIOS];         /**< Indicates if the interfaces is present (not in deep sleep)*/
      wifi_multi_link_info_t mu_info;
      UINT BssMaxStaAllow;                    /**< Maximum number of stations supported for given platform. Gets populated during bring-up. */
+
+    //Device Information related fields
+     CHAR manufacturer[DEFAULT_DEVICE_FIELD_LEN];
+     CHAR serialNo[DEFAULT_DEVICE_FIELD_LEN];
+     CHAR manufacturerModel[DEFAULT_DEVICE_FIELD_LEN];
+     CHAR software_version[DEFAULT_DEVICE_FIELD_LEN];
+     mac_address_t cm_mac;
+     mac_address_t al_1905_mac;
+
 }__attribute__((packed)) wifi_platform_property_t;
 
 /**
