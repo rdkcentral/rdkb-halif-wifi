@@ -23,123 +23,151 @@
 extern "C"{
 #endif
 
+#include "wifi_hal_ap.h"
+
 /**
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
 
 /**
- * @brief Guard intervals types
+ * @brief Guard interval types.
  */
-typedef enum {
-    wifi_guard_interval_400 = 0x01,
-    wifi_guard_interval_800 = 0x02,
-    wifi_guard_interval_1600 = 0x04,
-    wifi_guard_interval_3200 = 0x08,
-    wifi_guard_interval_auto = 0x10,
+typedef enum
+{
+    wifi_guard_interval_400 = 0x01,   /**< 400ns guard interval. */
+    wifi_guard_interval_800 = 0x02,   /**< 800ns guard interval. */
+    wifi_guard_interval_1600 = 0x04,  /**< 1600ns guard interval. */
+    wifi_guard_interval_3200 = 0x08,  /**< 3200ns guard interval. */
+    wifi_guard_interval_auto = 0x10,  /**< Automatic guard interval selection. */
 } wifi_guard_interval_t;
 
-#define MAXNUMSECONDARYCHANNELS     7
+/**
+ * @brief Maximum number of secondary channels.
+ */
+#define MAXNUMSECONDARYCHANNELS 7
 
-typedef enum {
-    WIFI_EVENT_RADAR_DETECTED,
-    WIFI_EVENT_RADAR_CAC_FINISHED,
-    WIFI_EVENT_RADAR_CAC_ABORTED,
-    WIFI_EVENT_RADAR_NOP_FINISHED,
-    WIFI_EVENT_RADAR_PRE_CAC_EXPIRED,
-    WIFI_EVENT_RADAR_CAC_STARTED
+/**
+ * @brief Radar event types.
+ */
+typedef enum
+{
+    WIFI_EVENT_RADAR_DETECTED,       /**< Radar detected. */
+    WIFI_EVENT_RADAR_CAC_FINISHED,   /**< Radar Channel Availability Check (CAC) finished. */
+    WIFI_EVENT_RADAR_CAC_ABORTED,    /**< Radar CAC aborted. */
+    WIFI_EVENT_RADAR_NOP_FINISHED,   /**< Radar Non-Occupancy Period (NOP) finished. */
+    WIFI_EVENT_RADAR_PRE_CAC_EXPIRED, /**< Radar pre-CAC expired. */
+    WIFI_EVENT_RADAR_CAC_STARTED     /**< Radar CAC started. */
 } wifi_radar_eventType_t;
 
-typedef enum {
-    CHAN_STATE_AVAILABLE = 1,
-    CHAN_STATE_DFS_NOP_FINISHED,
-    CHAN_STATE_DFS_NOP_START,
-    CHAN_STATE_DFS_CAC_START,
-    CHAN_STATE_DFS_CAC_COMPLETED
+/**
+ * @brief Channel states.
+ */
+typedef enum
+{
+    CHAN_STATE_AVAILABLE = 1,        /**< Channel is available. */
+    CHAN_STATE_DFS_NOP_FINISHED,     /**< DFS NOP finished. */
+    CHAN_STATE_DFS_NOP_START,       /**< DFS NOP started. */
+    CHAN_STATE_DFS_CAC_START,       /**< DFS CAC started. */
+    CHAN_STATE_DFS_CAC_COMPLETED    /**< DFS CAC completed. */
 } wifi_channelState_t;
 
-typedef struct _wifi_channelMap_t {
-    INT ch_number;
-    wifi_channelState_t ch_state;
+/**
+ * @brief Channel map entry.
+ */
+typedef struct _wifi_channelMap_t
+{
+    INT ch_number;              /**< Channel number. */
+    wifi_channelState_t ch_state; /**< Channel state. */
 } wifi_channelMap_t;
 
-typedef struct {
-    USHORT punct_bitmap; /* a bitmap of disabled 20 MHz channels */
-    UCHAR punct_acs_threshold;
+/**
+ * @brief Radio 11be puncturing information.
+ */
+typedef struct
+{
+    USHORT punct_bitmap; /**< A bitmap of disabled 20MHz channels. */
+    UCHAR punct_acs_threshold; /**< Puncturing ACS threshold. */
 } __attribute__((packed)) wifi_radio_11be_puncturing_info_t;
 
 /**
  * @brief Radio temperature information.
  *
- * Structure which holds the Radio temperature information.
+ * Structure that holds the radio temperature information.
  */
 typedef struct _wifi_radioTemperature_t
 {
-     UINT radio_Temperature;     /**< WiFi radio chipset temperature. */
-} wifi_radioTemperature_t; //for radio only
+    UINT radio_Temperature; /**< Wi-Fi radio chipset temperature. */
+} wifi_radioTemperature_t;
 
 /**
- * @brief Wifi Radio Operation Parameters
+ * @brief Wi-Fi radio operation parameters.
  */
-typedef struct {
-    BOOL enable;                                        /**< The radio enable. */
-    wifi_freq_bands_t   band;                           /**< the radio frequency band. */
-    BOOL autoChannelEnabled;                            /**< set bAutoChannelEnabled to TRUE to enable Auto Channel. */
-    UINT op_class;                                      /**< The Operating class. */
-    UINT channel;                                       /**< The radio primary channel. */
-    UINT numSecondaryChannels;                          /**< The number odf secondary channels in the list */
-    UINT channelSecondary[MAXNUMSECONDARYCHANNELS];     /**< The List of secondary radio channel. */
-    wifi_channelBandwidth_t channelWidth;               /**< The channel bandwidth. */
-    wifi_ieee80211Variant_t variant;                    /**< The radio operating mode */
-    UINT csa_beacon_count;                              /**< Specifies how long CSA need to be announced. */
-    wifi_countrycode_type_t countryCode;                /**< The country code. */
-    UINT regDomain;                                     /**< The regulatory domain. */
-    wifi_operating_env_t operatingEnvironment;           /**< The wifi Operating environment */
-    wifi_channelMap_t channel_map[64];
-    BOOL DCSEnabled;                                    /**< set DCSEnabled to TRUE to enable DCS. */
-    UINT dtimPeriod;                                    /**< The DTIM period. */
-    UINT beaconInterval;                                /**< The beacon interval. */
-    UINT operatingClass;                                /**< The Operating class. */
-    UINT basicDataTransmitRates;                        /**< The basic data transmit rates in Mbps. It uses bitmask to return multiples bitrates and wifi_bitrate_t has the definition of valid values*/
-    UINT operationalDataTransmitRates;                  /**< The operational data transmit rates in Mbps. It uses bitmask to return multiples bitrates and wifi_bitrate_t has the definition of valid values*/
-    UINT fragmentationThreshold;                        /**< The fragmentation threshold in bytes. */
-    wifi_guard_interval_t guardInterval;               /**< The guard interval. */
-    UINT transmitPower;                                /**<  The transmit power in percentage, eg "75", "100". */
-    UINT rtsThreshold;                                 /**< The packet size threshold in bytes to apply RTS/CTS backoff rules. */
-    BOOL factoryResetSsid;
-    UINT radioStatsMeasuringRate;
-    UINT radioStatsMeasuringInterval;
-    BOOL ctsProtection;
-    BOOL obssCoex;
-    BOOL stbcEnable;
-    BOOL greenFieldEnable;
-    UINT userControl;
-    UINT adminControl;
-    UINT chanUtilThreshold;
-    BOOL chanUtilSelfHealEnable;
-    BOOL DfsEnabled;
-    BOOL DfsEnabledBootup;
-    BOOL EcoPowerDown;
-    wifi_radio_11be_puncturing_info_t puncturingInfo;
-    UINT autoChanRefreshPeriod;
-    INT  mcs;
-    BOOL amsduEnable;    
+typedef struct
+{
+    BOOL enable; /**< Whether the radio is enabled. */
+    wifi_freq_bands_t band; /**< The radio frequency band. */
+    BOOL autoChannelEnabled; /**< Whether auto channel selection is enabled. */
+    UINT op_class; /**< The operating class. */
+    UINT channel; /**< The radio primary channel. */
+    UINT numSecondaryChannels; /**< The number of secondary channels in the list. */
+    UINT channelSecondary[MAXNUMSECONDARYCHANNELS]; /**< The list of secondary radio channels. */
+    wifi_channelBandwidth_t channelWidth; /**< The channel bandwidth. */
+    wifi_ieee80211Variant_t variant; /**< The radio operating mode. */
+    UINT csa_beacon_count; /**< Specifies how long Channel Switch Announcement (CSA) needs to be announced. */
+    wifi_countrycode_type_t countryCode; /**< The country code. */
+    UINT regDomain; /**< The regulatory domain. */
+    wifi_operating_env_t operatingEnvironment; /**< The Wi-Fi operating environment. */
+    wifi_channelMap_t channel_map[64]; /**< Channel map. */
+    BOOL DCSEnabled; /**< Whether Dynamic Channel Selection (DCS) is enabled. */
+    UINT dtimPeriod; /**< The DTIM period. */
+    UINT beaconInterval; /**< The beacon interval. */
+    UINT operatingClass; /**< The operating class. */
+    UINT basicDataTransmitRates; /**< The basic data transmit rates in Mbps. It uses bitmask to return multiple bitrates and wifi_bitrate_t has the definition of valid values. */
+    UINT operationalDataTransmitRates; /**< The operational data transmit rates in Mbps. It uses bitmask to return multiple bitrates and wifi_bitrate_t has the definition of valid values. */
+    UINT fragmentationThreshold; /**< The fragmentation threshold in bytes. */
+    wifi_guard_interval_t guardInterval; /**< The guard interval. */
+    UINT transmitPower; /**< The transmit power in percentage, e.g., "75", "100". */
+    UINT rtsThreshold; /**< The packet size threshold in bytes to apply RTS/CTS backoff rules. */
+    BOOL factoryResetSsid; /**< Whether to factory reset the SSID. */
+    UINT radioStatsMeasuringRate; /**< The rate at which radio statistics are measured. */
+    UINT radioStatsMeasuringInterval; /**< The interval at which radio statistics are measured. */
+    BOOL ctsProtection; /**< Whether CTS protection is enabled. */
+    BOOL obssCoex; /**< Whether OBSS coex is enabled. */
+    BOOL stbcEnable; /**< Whether STBC is enabled. */
+    BOOL greenFieldEnable; /**< Whether greenfield is enabled. */
+    UINT userControl; /**< User control. */
+    UINT adminControl; /**< Admin control. */
+    UINT chanUtilThreshold; /**< Channel utilization threshold. */
+    BOOL chanUtilSelfHealEnable; /**< Whether channel utilization self-healing is enabled. */
+    BOOL DfsEnabled; /**< Whether DFS is enabled. */
+    BOOL DfsEnabledBootup; /**< Whether DFS is enabled on bootup. */
+    BOOL EcoPowerDown; /**< Whether eco power down is enabled. */
+    wifi_radio_11be_puncturing_info_t puncturingInfo; /**< Puncturing information. */
+    UINT autoChanRefreshPeriod; /**< Auto channel refresh period. */
+    INT mcs; /**< MCS index. */
+    BOOL amsduEnable; /**< Whether AMSDU is enabled. */
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**
- * @brief Enhanced Distributed Channel Access parameters
+ * @brief Enhanced Distributed Channel Access (EDCA) parameters.
  */
-typedef struct {
-    CHAR aifsn;    /**< Arbitration Inter-Frame Space Number */
-    CHAR cw_min;   /**< Lower bound Contention Window. */
-    CHAR cw_max;   /**< Upper bound Contention Window. */
-    CHAR timer;    /**< */
+typedef struct
+{
+    CHAR aifsn; /**< Arbitration Inter-Frame Space (AIFS) number. */
+    CHAR cw_min; /**< Minimum contention window size. */
+    CHAR cw_max; /**< Maximum contention window size. */
+    CHAR timer; /**< Timer value. */
 } wifi_edca_t;
 
-typedef enum {
-    wifi_dl_data_ack_immediate,
-    wifi_dl_data_block_ack_immediate,
-    wifi_dl_data_block_ack_deferred,
+/**
+ * @brief Downlink data acknowledgement types.
+ */
+typedef enum
+{
+    wifi_dl_data_ack_immediate, /**< Immediate acknowledgement. */
+    wifi_dl_data_block_ack_immediate, /**< Immediate block acknowledgement. */
+    wifi_dl_data_block_ack_deferred, /**< Deferred block acknowledgement. */
 } wifi_dl_data_ack_type_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
@@ -148,914 +176,743 @@ typedef enum {
  * @addtogroup WIFI_HAL_APIS
  * @{
  */
-/* wifi_getRadioResetCount() function */
 /**
-* @brief Get the radio reset count.
-*
-* @param[in]  radioIndex  Index of Wi-Fi radio channel
-* @param[out] output_int  Reset count, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the radio reset count.
+ *
+ * This function retrieves the number of times the specified radio has been reset.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_int Pointer to a variable to store the reset count.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioResetCount(INT radioIndex, ULONG *output_int);
 
-/* wifi_factoryResetRadios() function */
 /**
-* @brief Restore all radio parameters without touching access point parameters.
-*
-* A Specific implementation may dictate some functionalities since different hardware implementations
-* may have different requirements.
-*
-* @param None
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-*
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Restore all radio parameters without touch access point parameters
+ * @brief Resets all radios to factory defaults.
+ *
+ * This function restores all radio parameters to their factory default values,
+ * without affecting Access Point parameters.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_factoryResetRadios();
 
-/* wifi_factoryResetRadio() function */
 /**
-* @brief Restore selected radio parameters without touching access point parameters.
-*
-* @param radioIndex  Index of Wi-Fi Radio channel
-*
-* @return The status of the operation.
-* @retval RETURN_OK if successful.
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous.
-* @sideeffect None.
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Restore selected radio parameters without touch access point parameters
+ * @brief Resets a specific radio to factory defaults.
+ *
+ * This function restores the specified radio's parameters to their factory
+ * default values, without affecting Access Point parameters.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_factoryResetRadio(int radioIndex);
 
-/* wifi_getRadioEnable() function */
 /**
-* @brief Get the Radio enable config parameter.
-*
-* @param[in]  radioIndex   Index of Wi-Fi radio channel
-* @param[out] output_bool  Radio Enable status, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Get the Radio enable config parameter
+ * @brief Gets the radio enable status.
+ *
+ * This function retrieves the enabled/disabled status of the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_bool Pointer to a variable to store the radio enable status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioEnable(INT radioIndex, BOOL *output_bool);
 
-/* wifi_setRadioEnable() function */
 /**
-* @brief Set the Radio enable config parameter.
-*
-* @param[in]  radioIndex   Index of Wi-Fi radio channel
-* @param[in]  enable       Set the selected radio's status as Enable/Disable
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Set the Radio enable config parameter
+ * @brief Sets the radio enable status.
+ *
+ * This function enables or disables the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[in] enable    Whether to enable or disable the radio.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioEnable(INT radioIndex, BOOL enable);
 
-/* wifi_getRadioStatus() function */
 /**
-* @brief Get the Radio enable status.
-*
-* @param[in]   radioIndex    Index of Wi-Fi radio channel
-* @param[out]  output_bool   Selected radio's enable status, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Get the Radio enable status
+ * @brief Gets the radio operational status.
+ *
+ * This function retrieves the operational status of the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_bool Pointer to a variable to store the radio operational status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioStatus(INT radioIndex, BOOL *output_bool);
 
-/* wifi_getRadioIfName() function */
 /**
-* @brief Get the Radio Interface name from platform, eg "wifi0".
-*
-* @param radioIndex      Index of Wi-Fi radio channel
-* @param output_string   Interface name, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Get the Radio Interface name from platform, eg "wifi0"
+ * @brief Gets the radio interface name.
+ *
+ * This function retrieves the interface name of the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex    Index of the Wi-Fi radio channel.
+ * @param[out] output_string Pointer to a buffer to store the interface name.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioIfName(INT radioIndex, CHAR *output_string);
 
-
 #ifdef WIFI_HAL_VERSION_3_PHASE2
-/* wifi_getRadioChannelsInUse() function */
 /**
-* @brief Get the list of supported channel. eg: "1-11".
-*
-* The output_string is a max length 64 octet string that is allocated by the RDKB code.
-* Implementations must ensure that strings are not longer than this.
-*
-* @param[in]  radioIndex     Index of Wi-Fi radio channel
-* @param[out] channel_list  List of supported radio channels, to be returned
-*
-* @return The status of the operation
-* @retval WIFI_HAL_SUCCESS if successful
-* @retval Error code if any error is detected (WIFI_HAL_ERROR, WIFI_HAL_UNSUPPORTED, etc)
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//Get the list for used channel. eg: "1,6,9,11"
-//The output_string is a max length 256 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+ * @brief Gets the list of channels currently in use by a radio.
+ *
+ * This function retrieves a list of channels currently in use by the
+ * specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio.
+ * @param[out] channel_list Pointer to a `wifi_channels_list_t` structure to store
+ *                          the list of channels.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioChannelsInUse(wifi_radio_index_t radioIndex, wifi_channels_list_t* channel_list);
 #endif
 
-/* wifi_getRadioDfsEnable() function */
 /**
-* @brief Get the Dfs enable status.
-*
-* @param[in]  radioIndex   Index of Wi-Fi radio channel
-* @param[out] output_bool  Get DFS Enable status of the selected radio channel
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the DFS enable status for a radio.
+ *
+ * This function retrieves whether Dynamic Frequency Selection (DFS) is enabled
+ * for the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_bool Pointer to a variable to store the DFS enable status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioDfsEnable(INT radioIndex, BOOL *output_bool);
 
-/* wifi_setRadioDfsEnable() function */
 /**
-* @brief Set the Dfs enable status.
-*
-* @param[in] radioIndex  Index of Wi-Fi radio channel
-* @param[in] enable      Set DFS Enable status of the selected radio channel
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Sets the DFS enable status for a radio.
+ *
+ * This function sets whether Dynamic Frequency Selection (DFS) is enabled for
+ * the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[in] enable    Whether to enable or disable DFS.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioDfsEnable(INT radioIndex, BOOL enabled);
 
-/* wifi_getRadioDfsAtBootUpEnable() function */
 /**
-* @brief Get the Dfs enable on Bootup status.
-*
-* @param[in] radioIndex  Index of Wi-Fi radio channel
-* @param[out] enable      Get DFS Enable on bootup status of the selected radio channel
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the DFS enable on bootup status for a radio.
+ *
+ * This function retrieves whether Dynamic Frequency Selection (DFS) is enabled
+ * on bootup for the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[out] enable    Pointer to a variable to store the DFS enable on bootup
+ *                       status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioDfsAtBootUpEnable(INT radioIndex, BOOL *enable);
 
-/* wifi_setRadioDfsAtBootUpEnable() function */
 /**
-* @brief Set the Dfs enable on Bootup status.
-*
-* @param[in] radioIndex  Index of Wi-Fi radio channel
-* @param[in] enable      Set DFS Enable on Bootup status of the selected radio channel
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Sets the DFS enable on bootup status for a radio.
+ *
+ * This function sets whether Dynamic Frequency Selection (DFS) is enabled on
+ * bootup for the specified radio.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[in] enable    Whether to enable or disable DFS on bootup.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioDfsAtBootUpEnable(INT radioIndex, BOOL enable);
 
-/* wifi_getRadioMCS() function */
 /**
-* @brief Get the Modulation Coding Scheme index, eg: "-1", "1", "15".
-*
-* @param[in]  radioIndex  Index of Wi-Fi radio channel
-* @param[out] output_INT  Modulation Coding Scheme index, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the Modulation Coding Scheme (MCS) index for a radio.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_INT Pointer to a variable to store the MCS index.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioMCS(INT radioIndex, INT *output_INT);
 
-/* wifi_setRadioMCS() function */
 /**
-* @brief Set the Modulation Coding Scheme index, eg: "-1", "1", "15".
-*
-* @param[in] radioIndex  Index of Wi-Fi radio channel
-* @param[in] MCS         Modulation Coding Scheme index value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Sets the Modulation Coding Scheme (MCS) index for a radio.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[in] MCS        MCS index to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioMCS(INT radioIndex, INT MCS);
 
-
-/* wifi_getRadioTransmitPower() function */
 /**
-* @brief Get current Transmit Power in dBm units.
-*
-* The transmit power value is in dBm units of full power for this radio.
-*
-* @param[in]  radioIndex   Index of Wi-Fi radio channel
-* @param[out] output_ulong Current Transmit power value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the current transmit power for a radio.
+ *
+ * This function retrieves the current transmit power for the specified radio,
+ * in dBm units.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_ulong Pointer to a variable to store the transmit power
+ *                          in dBm.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioTransmitPower(INT radioIndex, ULONG *output_ulong);
 
-
-/* wifi_getRadioPercentageTransmitPower() function E.g : "75" "100"*/
 /**
-* @brief Get current Transmit Power level in units of full power.
-*
-* The transmit power is a percentage value of full power for this radio.
-*
-* @param[in]  radioIndex   Index of Wi-Fi radio channel
-* @param[out] output_ulong Current Transmit power percentage value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the current transmit power for a radio as a percentage.
+ *
+ * This function retrieves the current transmit power for the specified radio,
+ * as a percentage of the full power.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex  Index of the Wi-Fi radio channel.
+ * @param[out] output_ulong Pointer to a variable to store the transmit power
+ *                          percentage.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioPercentageTransmitPower(INT radioIndex, ULONG *output_ulong);
 
-/* wifi_setRadioTransmitPower() function */
 /**
-* @brief Set current Transmit Power, eg "75", "100".
-*
-* The transmit power level is in units of full power for this radio.
-*
-* @param[in] radioIndex      Index of Wi-Fi radio channel
-* @param[in] TransmitPower   Transmit power value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Sets the transmit power for a radio.
+ *
+ * This function sets the transmit power for the specified radio, as a
+ * percentage of the full power.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex    Index of the Wi-Fi radio channel.
+ * @param[in] TransmitPower Transmit power to set, as a percentage.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioTransmitPower(INT radioIndex, ULONG TransmitPower);
 
-/* wifi_getRadioCarrierSenseThresholdRange() function */
 /**
-* @brief Indicates the Carrier Sense ranges supported by the radio.
-*
-* It is measured in dBm. Refer section A.2.3.2 of CableLabs Wi-Fi MGMT Specification.
-*
-* @param[in]  radioIndex  Index of Wi-Fi radio channel
-* @param[out] output      Carrier sense threshold range, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getRadioCarrierSenseThresholdRange(INT radioIndex, INT *output);  //P3
+ * @brief Gets the carrier sense threshold range for a radio.
+ *
+ * This function retrieves the carrier sense threshold range supported by the
+ * specified radio, in dBm.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[out] output     Pointer to a variable to store the carrier sense
+ *                        threshold range.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioCarrierSenseThresholdRange(INT radioIndex, INT *output);
 
-/* wifi_getRadioCarrierSenseThresholdInUse() function */
 /**
-* @brief The RSSI signal level at which CS/CCA detects a busy condition.
-* 
-* This attribute enables Access Points to increase minimum sensitivity to avoid detecting busy condition
-* from multiple/weak Wi-Fi sources in dense Wi-Fi environments.
-* It is measured in dBm. Refer section A.2.3.2 of CableLabs Wi-Fi MGMT Specification.
-*
-* @param[in]  radioIndex  Index of Wi-Fi radio channel
-* @param[out] output      Carrier sense threshold in use, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getRadioCarrierSenseThresholdInUse(INT radioIndex, INT *output);    //P3
+ * @brief Gets the carrier sense threshold in use for a radio.
+ *
+ * This function retrieves the RSSI signal level at which the radio's
+ * CS/CCA (Carrier Sense/Clear Channel Assessment) detects a busy condition.
+ * This attribute enables Access Points to increase minimum sensitivity to
+ * avoid detecting a busy condition from multiple/weak Wi-Fi sources in dense
+ * Wi-Fi environments.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[out] output     Pointer to a variable to store the carrier sense
+ *                        threshold in use, in dBm.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioCarrierSenseThresholdInUse(INT radioIndex, INT *output);
 
-/* wifi_setRadioCarrierSenseThresholdInUse() function */
 /**
-* @brief Set Carrier sense threshold in use for the selected radio index.
-*
-* The RSSI signal level at which CS/CCA detects a busy condition.
-* This attribute enables Access Point to increase minimum sensitivity to avoid detecting busy condition
-* from multiple/weak Wi-Fi sources in dense Wi-Fi environments. It is measured in dBm.
-*
-* @param[in] radioIndex  Index of Wi-Fi radio channel
-* @param[in] threshold   Carrier sense threshold, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setRadioCarrierSenseThresholdInUse(INT radioIndex, INT threshold);    //P3
+ * @brief Sets the carrier sense threshold in use for a radio.
+ *
+ * This function sets the RSSI signal level at which the radio's CS/CCA
+ * (Carrier Sense/Clear Channel Assessment) detects a busy condition.
+ * This attribute enables Access Points to increase minimum sensitivity to
+ * avoid detecting a busy condition from multiple/weak Wi-Fi sources in dense
+ * Wi-Fi environments.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ * @param[in] threshold  Carrier sense threshold to set, in dBm.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setRadioCarrierSenseThresholdInUse(INT radioIndex, INT threshold);
 
-//-----------------------------------------------------------------------------------------------------
-/* wifi_applyRadioSettings() function */
 /**
-* @brief This API is used to apply (push) all previously set radio level variables and make these settings active in the hardware.
-*
-* Not all implementations may need this function.
-* If not needed for a particular implementation simply return no-error (0).
-*
-* @param[in] radioIndex  Index of Wi-Fi radio channel
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_applyRadioSettings(INT radioIndex);  
+ * @brief Applies the radio settings.
+ *
+ * This function applies all previously set radio-level variables and makes
+ * these settings active in the hardware.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio channel.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_applyRadioSettings(INT radioIndex);
 
-/* wifi_setRadioCtsProtectionEnable() function */
 /**
-* @brief  Enables CTS protection for the radio used by this Access Point.
-*
-* @param[in] radioIndex  Radio index
-* @param[in] enable   CTS protection enable value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setRadioCtsProtectionEnable(INT radioIndex, BOOL enable);          //P3 
+ * @brief Enables or disables OBSS Coexistence for a radio.
+ *
+ * This function enables or disables OBSS (Overlapping Basic Service Set)
+ * Coexistence for the radio used by the specified Access Point. If enabled,
+ * the radio will fall back to a 20MHz channel width if necessary to avoid
+ * interference with neighboring BSSs.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex Index of the Access Point.
+ * @param[in] enable  Whether to enable or disable OBSS Coexistence.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setRadioObssCoexistenceEnable(INT apIndex, BOOL enable);
 
-/* wifi_setRadioObssCoexistenceEnable() function */
 /**
-* @brief Enables OBSS Coexistence - fall back to 20MHz if necessary for the radio used by this AP.
-*
-* @param[in] apIndex   Access Point index
-* @param[in] enable    OBSS Coexistence enable value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setRadioObssCoexistenceEnable(INT apIndex, BOOL enable);      
+ * @brief Sets the fragmentation threshold for a radio.
+ *
+ * This function sets the fragmentation threshold, in bytes, for the radio
+ * used by the specified Access Point.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] radioIndex Index of the radio.
+ * @param[in] threshold  Fragmentation threshold to set, in bytes.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setRadioFragmentationThreshold(INT radioIndex, UINT threshold);
 
-/* wifi_setRadioFragmentationThreshold() function */
 /**
-* @brief Sets the fragmentation threshold in bytes for the radio used by this Access Point.
-*
-* @param[in] radioIndex    Radio index
-* @param[in] threshold  Fragmentation Threshold value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setRadioFragmentationThreshold(INT radioIndex, UINT threshold);    //P3 
-
-/* wifi_setRadioSTBCEnable() function */
-/**
-* @brief Enable STBC mode in the hardware.
-* 0 == not enabled, 1 == enabled.
-*
-* @param[in]  radioIndex   Radio index
-* @param[in]  STBC_Enable  STBC mode enable value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Enables or disables Space-Time Block Coding (STBC) for a radio.
+ *
+ * @param[in] radioIndex  Index of the radio.
+ * @param[in] STBC_Enable Whether to enable or disable STBC.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioSTBCEnable(INT radioIndex, BOOL STBC_Enable);
 
-/* wifi_getRadioAMSDUEnable() function */
 /**
-* @brief Outputs A-MSDU enable status, 0 == not enabled, 1 == enabled.
-*
-* @param[in]  radioIndex   Radio index
-* @param[out] output_bool  A-MSDU enable status, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the A-MSDU enable status for a radio.
+ *
+ * @param[in] radioIndex  Index of the radio.
+ * @param[out] output_bool Pointer to a variable to store the A-MSDU enable status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getRadioAMSDUEnable(INT radioIndex, BOOL *output_bool);
 
-/* wifi_setRadioAMSDUEnable() function */
 /**
-* @brief Enables A-MSDU in the hardware, 0 == not enabled, 1 == enabled.
-*
-* @param[in]  radioIndex    Radio index
-* @param[out] amsduEnable   A-MSDU enable status value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Enables or disables Aggregated-MSDU (A-MSDU) for a radio.
+ *
+ * @param[in] radioIndex  Index of the radio.
+ * @param[in] amsduEnable Whether to enable or disable A-MSDU.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setRadioAMSDUEnable(INT radioIndex, BOOL amsduEnable);
 
-/* wifi_getRadioUpTime() function */
 /**
-* @brief Get the number of seconds elapsed since radio is started.
-*
-* @param[in] radioIndex  Radio index
-* @param[in] uptime      Wifi uptime, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getRadioUpTime(INT radioIndex, ULONG *uptime);                  // get the number of seconds elapsed since radio is started
-
-/* wifi_getRadioReverseDirectionGrantSupported() function */
-/**
-* @brief Get radio RDG enable Support.
-*
-* @param[in]  radioIndex   Radio index
-* @param[out] output_bool  RDG enable support value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getRadioReverseDirectionGrantSupported(INT radioIndex, BOOL *output_bool);    //Get radio RDG enable Support
-
-/* wifi_getRadioAutoBlockAckEnable() function */
-/**
-* @brief Get radio auto block ack enable setting.
-*
-* @param[in]  radioIndex   Radio index
-* @param[out] output_bool  Auto block ack enable setting value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getRadioAutoBlockAckEnable(INT radioIndex, BOOL *output_bool);             //Get radio auto block ack enable setting
-
-/* wifi_setRadioAutoBlockAckEnable() function */
-/**
-* @brief Set radio auto block ack enable setting.
-*
-* @param[in] radioIndex  Radio index
-* @param[in] enable      Auto block ack enable setting value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setRadioAutoBlockAckEnable(INT radioIndex, BOOL enable);               //Set radio auto block ack enable setting
-
-/* wifi_getRadioIGMPSnoopingEnable() function */
-/**
-* @brief Get radio IGMP snooping enable setting.
-*
-* @param[in]  radioIndex   Radio index
-* @param[out] output_bool  Radio IGMP snooping enable setting, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getRadioIGMPSnoopingEnable(INT radioIndex, BOOL *output_bool);         //Get radio IGMP snooping enable setting
-
-/* wifi_setRadioIGMPSnoopingEnable() function */
-/**
-* @brief Set radio IGMP snooping enable setting.
-*
-* @param[in]  radioIndex  Radio index
-* @param[out] enable      Radio IGMP snooping enable setting
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setRadioIGMPSnoopingEnable(INT radioIndex, BOOL enable);                   //Set radio IGMP snooping enable setting
-
-/**
- * @brief Set Zero DFS State
+ * @brief Gets the radio uptime.
  *
- * The Zero DFS feature can be enabled or disabled. For EU countries
- * the "Pre-CAC" can be also set. If the "Pre-CAC" is set, then
- * after passing background CAC driver can start background CAC
- * on the next channel.
+ * This function retrieves the number of seconds that have elapsed since the
+ * specified radio was started.
+ * This function must not suspend and must not invoke any blocking system calls.
  *
- * @param[in]  radioIndex Index of Wi-Fi radio
- * @param[in]  enabled    True if ZeroDFS must be enabled, false otherwise.
- * @param[in]  precac     Valid only for EU regulatory domain. If set,
- *                        after passing requested backgronund CAN, driver
- *                        can start background CAC on the next channel.
+ * @param[in] radioIndex Index of the radio.
+ * @param[out] uptime    Pointer to a variable to store the radio uptime, in seconds.
  *
- * @return The status of the operation
- * @retval RETURN_OK if successful
- * @retval RETURN_ERR if any error is detected
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioUpTime(INT radioIndex, ULONG *uptime);
+
+/**
+ * @brief Checks whether Reverse Direction Grant (RDG) is supported by a radio.
  *
- * @execution Synchronous
- * @sideeffect None
+ * @param[in] radioIndex  Index of the radio.
+ * @param[out] output_bool Pointer to a variable to store whether RDG is supported.
  *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioReverseDirectionGrantSupported(INT radioIndex, BOOL *output_bool);
+
+/**
+ * @brief Gets the auto block ACK enable status for a radio.
+ *
+ * @param[in] radioIndex  Index of the radio.
+ * @param[out] output_bool Pointer to a variable to store the auto block ACK enable
+ *                         status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioAutoBlockAckEnable(INT radioIndex, BOOL *output_bool);
+
+/**
+ * @brief Sets the auto block ACK enable status for a radio.
+ *
+ * @param[in] radioIndex Index of the radio.
+ * @param[in] enable     Whether to enable or disable auto block ACK.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setRadioAutoBlockAckEnable(INT radioIndex, BOOL enable);
+
+/**
+ * @brief Gets the IGMP snooping enable status for a radio.
+ *
+ * @param[in] radioIndex  Index of the radio.
+ * @param[out] output_bool Pointer to a variable to store the IGMP snooping enable
+ *                         status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioIGMPSnoopingEnable(INT radioIndex, BOOL *output_bool);
+
+/**
+ * @brief Sets the IGMP snooping enable status for a radio.
+ *
+ * @param[in] radioIndex Index of the radio.
+ * @param[in] enable     Whether to enable or disable IGMP snooping.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setRadioIGMPSnoopingEnable(INT radioIndex, BOOL enable);
+
+/**
+ * @brief Sets the Zero DFS state for a radio.
+ *
+ * @param[in] radioIndex Index of the Wi-Fi radio.
+ * @param[in] enabled    Whether to enable Zero DFS.
+ * @param[in] precac     Whether to enable pre-CAC (valid only for the EU
+ *                       regulatory domain).
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setZeroDFSState(UINT radioIndex, BOOL enable, BOOL precac);
 
 /**
- * @brief Get Zero DFS State
+ * @brief Gets the Zero DFS state for a radio.
  *
- * The Zero DFS feature can be enabled or disabled. For EU countries
- * the "Pre-CAC" can be also set. If the "Pre-CAC" is set, then
- * after passing background CAC driver can start background CAC
- * on next channel.
+ * @param[in] radioIndex Index of the Wi-Fi radio.
+ * @param[out] enabled    Pointer to a variable to store the Zero DFS enable status.
+ * @param[out] precac     Pointer to a variable to store the pre-CAC enable status
+ *                        (valid only for the EU regulatory domain).
  *
- * @param[in]   radioIndex Index of Wi-Fi radio
- * @param[out]  enabled    True if ZeroDFS is enabled, false otherwise.
- * @param[out]  precac     Valid only for EU regulatory domain. If true,
- *                         then driver can start background CAC on
- *                         the next channel.
- *
- * @return The status of the operation
- * @retval RETURN_OK if successful
- * @retval RETURN_ERR if any error is detected
- *
- * @execution Synchronous
- * @sideeffect None
- *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getZeroDFSState(UINT radioIndex, BOOL *enable, BOOL *precac);
 
 /* 802.11ax HAL API prototypes */
 
+/**
+ * @brief Sets the downlink MU-MIMO type for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[in] mu_type     Downlink MU-MIMO type to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setDownlinkMuType(INT radio_index, wifi_dl_mu_type_t mu_type);
 
+/**
+ * @brief Gets the downlink MU-MIMO type for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[out] mu_type    Pointer to a variable to store the downlink MU-MIMO type.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getDownlinkMuType(INT radio_index, wifi_dl_mu_type_t *mu_type);
 
+/**
+ * @brief Sets the uplink MU-MIMO type for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[in] mu_type     Uplink MU-MIMO type to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setUplinkMuType(INT radio_index, wifi_ul_mu_type_t mu_type);
 
+/**
+ * @brief Gets the uplink MU-MIMO type for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[out] mu_type    Pointer to a variable to store the uplink MU-MIMO type.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getUplinkMuType(INT radio_index, wifi_ul_mu_type_t *mu_type);
 
+/**
+ * @brief Sets the guard interval for a radio.
+ *
+ * @param[in] radio_index    Index of the radio.
+ * @param[in] guard_interval Guard interval to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setGuardInterval(INT radio_index, wifi_guard_interval_t guard_interval);
 
+/**
+ * @brief Gets the guard interval for a radio.
+ *
+ * @param[in] radio_index    Index of the radio.
+ * @param[out] guard_interval Pointer to a variable to store the guard interval.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getGuardInterval(INT radio_index, wifi_guard_interval_t *guard_interval);
 
+/**
+ * @brief Sets the BSS color for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[in] color       BSS color to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setBSSColor(INT radio_index, UCHAR color);
 
+/**
+ * @brief Gets the BSS color for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[out] color      Pointer to a variable to store the BSS color.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getBSSColor(INT radio_index, UCHAR *color);
 
 /**
- * @brief Get the list of avaiable BSS color
+ * @brief Gets the list of available BSS colors for a radio.
  *
- * This API return a list of availables BSS color that can be used to
- * to configure the radio using wifi_setBSSColor API.
- * This list should be created based on neighbours BSS color and
- * the station reports.
+ * @param[in] radio_index      Index of the Wi-Fi radio.
+ * @param[in] maxNumberColors  Maximum number of colors that can be returned.
+ * @param[out] colorList        Pointer to an array to store the available BSS colors.
+ * @param[out] numColorReturned Pointer to a variable to store the number of colors
+ *                             returned in the list.
  *
- * @param[in]   radio_index       Index of Wi-Fi radio
- * @param[in]   maxNumberColors   Maximum number of color that can be
-                                  retuned
- * @param[out]  colorList         The list of avaiable BSS color
- * @param[out]  numColorReturned  Number of color returned in the list
- *
- * @return The status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if an generic error is detected
- * @retval WIFI_HAL_INTERNAL_ERROR if an internal error is detected
- * @retval WIFI_HAL_UNSUPPORTED if the API is not supported
- * @retval WIFI_HAL_INVALID_ARGUMENTS if any of the arguments is invalid
- * @retval WIFI_HAL_INVALID_VALUE if the value is invalid
- *
- * @execution Synchronous
- * @sideeffect None
- *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getAvailableBSSColor(INT radio_index, INT maxNumberColors, UCHAR* colorList, INT *numColorReturned);
 
 /**
- * @brief Get MU (Multi-User) EDCA (Enhanced Distributed Channel Access) parameter
+ * @brief Gets the MU EDCA parameter for a radio.
  *
- * @param[in]   radio_index    Index of Wi-Fi radio
- * @param[in]   ac             The Access Category
- * @param[out]  edca           The MU EDCA parameters
+ * @param[in] radio_index Index of the Wi-Fi radio.
+ * @param[in] ac          Access category.
+ * @param[out] edca        Pointer to a `wifi_edca_t` structure to store the MU EDCA
+ *                         parameters.
  *
- * @return The status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if an generic error is detected
- * @retval WIFI_HAL_INTERNAL_ERROR if an internal error is detected
- * @retval WIFI_HAL_UNSUPPORTED if the API is not supported
- * @retval WIFI_HAL_INVALID_ARGUMENTS if any of the arguments is invalid
- * @retval WIFI_HAL_INVALID_VALUE if the value is invalid
- *
- * @execution Synchronous
- * @sideeffect None
- *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getMuEdca(INT radio_index, wifi_access_category_t ac, wifi_edca_t *edca);
 
-INT wifi_setDownlinkDataAckType (INT radio_index,
-                                wifi_dl_data_ack_type_t ack_type);
+/**
+ * @brief Sets the downlink data acknowledgement type for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[in] ack_type    Acknowledgement type to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setDownlinkDataAckType(INT radio_index, wifi_dl_data_ack_type_t ack_type);
 
-INT    wifi_get80211axDefaultParameters    (INT radio_index, wifi_80211ax_params_t    *params);
-
+/**
+ * @brief Gets the 802.11ax default parameters for a radio.
+ *
+ * @param[in] radio_index Index of the radio.
+ * @param[out] params     Pointer to a `wifi_80211ax_params_t` structure to store the
+ *                        802.11ax default parameters.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_get80211axDefaultParameters(INT radio_index, wifi_80211ax_params_t *params);
 
 /////////////////////////// tri radio definitions /////////////////////////////////
 
 /**
- * @brief Set Radio Operating Parameters
+ * @brief Sets the radio operating parameters.
  *
- * This API is used to configured all radio operation parameter in a
- * single set. it includes channel number, channelWidth, mode and
- * auto channel configuration.
+ * This function configures all radio operating parameters in a single set,
+ * including channel number, channel width, mode, and auto channel configuration.
  *
- * @param[in]   radio_index     Index of Wi-Fi radio
- * @param[in]   operationParam  Radio Operating Parameters
+ * @param[in] index         Index of the Wi-Fi radio.
+ * @param[in] operationParam Pointer to a `wifi_radio_operationParam_t` structure
+ *                          containing the radio operating parameters to set.
  *
- * @return The status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if an generic error is detected
- * @retval WIFI_HAL_INTERNAL_ERROR if an internal error is detected
- * @retval WIFI_HAL_UNSUPPORTED if the API is not supported
- * @retval WIFI_HAL_INVALID_ARGUMENTS if any of the arguments is invalid
- * @retval WIFI_HAL_INVALID_VALUE if the value is invalid
- *
- * @execution Synchronous
- * @sideeffect None
- *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_operationParam_t *operationParam);
 
 /**
- * @brief Get Radio Operating Parameters
+ * @brief Gets the radio operating parameters.
  *
- * @param[in]   radio_index     Index of Wi-Fi radio
- * @param[out]  operationParam  Radio Operating Parameters
+ * @param[in] index         Index of the Wi-Fi radio.
+ * @param[out] operationParam Pointer to a `wifi_radio_operationParam_t` structure to
+ *                          store the radio operating parameters.
  *
- * @return The status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if an generic error is detected
- * @retval WIFI_HAL_INTERNAL_ERROR if an internal error is detected
- * @retval WIFI_HAL_UNSUPPORTED if the API is not supported
- * @retval WIFI_HAL_INVALID_ARGUMENTS if any of the arguments is invalid
- * @retval WIFI_HAL_INVALID_VALUE if the value is invalid
- *
- * @execution Synchronous
- * @sideeffect None
- *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_operationParam_t *operationParam);
 
-/* wifi_getScanResults() function */
- /**
- * Description: Return scan results 
- * Parameters :
- *      ap_index - index of client VAP
- *      channel  - scan channel
- *      bss      - bss stats
- *      num_bss  - number of bss returned
+/**
+ * @brief Gets scan results.
  *
- * @return status of the operation
- *  return RETURN_OK - on success
- *  return RETURN_ERR - on failure
+ * @param[in] index    Index of the radio.
+ * @param[in] channel  Pointer to a `wifi_channel_t` structure containing the channel
+ *                     to scan.
+ * @param[out] bss     Pointer to a pointer to an array of `wifi_bss_info_t`
+ *                     structures to store the scan results.
+ * @param[out] num_bss Pointer to a variable to store the number of BSSs found.
  *
- * @execution Synchronous.
- * @sideeffect None.
- *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR If any error is detected.
  */
 INT wifi_getScanResults(wifi_radio_index_t index, wifi_channel_t *channel, wifi_bss_info_t **bss, UINT *num_bss);
- 
 
+/**
+ * @brief Callback function invoked when scan results are available.
+ *
+ * @param[in] index    Index of the radio.
+ * @param[out] bss     Pointer to a pointer to an array of `wifi_bss_info_t`
+ *                     structures to store the scan results.
+ * @param[out] num_bss Pointer to a variable to store the number of BSSs found.
+ *
+ * @returns The status of the operation. (TODO: Need to set return values)
+ */
 typedef INT ( * wifi_scanResults_callback)(wifi_radio_index_t index, wifi_bss_info_t **bss, UINT *num_bss);
 
+/**
+ * @brief Registers a callback function for scan results.
+ *
+ * @param[in] callback_proc Pointer to the callback function to register.
+ */
 void wifi_scanResults_callback_register(wifi_scanResults_callback callback_proc);
 
-/* wifi_hal_getRadioTemperature() function */
 /**
-* @brief Get radio chipset temperature info.
-*
-* @param[in]  radioIndex      Index of Wi-Fi radio channel
-* @param[out] output_struct   wifi_radioTemperature_t *output_struct, temperature info to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-
+ * @brief Gets the radio temperature.
+ *
+ * @param[in] radioIndex    Index of the Wi-Fi radio channel.
+ * @param[out] output_struct Pointer to a `wifi_radioTemperature_t` structure to store
+ *                           the radio temperature information.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_hal_getRadioTemperature(wifi_radio_index_t radioIndex, wifi_radioTemperature_t *output_struct);
 
 
