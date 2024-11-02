@@ -28,467 +28,359 @@ extern "C"{
  * @addtogroup WIFI_HAL_APIS
  * @{
  */
-/* wifi_getBandSteeringEnable() function */
 /**
-* @brief To get Band Steering enable status.
-*
-* @param[out] enable  Band Steering enable status, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the Band Steering enable status.
+ *
+ * @param[out] enable Pointer to a variable to store the Band Steering enable
+ *                    status.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getBandSteeringEnable(BOOL *enable);
 
-/* wifi_setBandSteeringEnable() function */
 /**
-* @brief To turn on/off Band steering.
-*
-* @param[in] enable  Band Steering enable status
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Enables or disables Band Steering.
+ *
+ * @param[in] enable Whether to enable or disable Band Steering.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_setBandSteeringEnable(BOOL enable);
 
-/* wifi_getBandSteeringApGroup() function */
 /**
-* @brief To get Band Steering Access Point group.
-*
-* @param[out] output_ApGroup Band Steering Access point group
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringApGroup(char *output_ApGroup);    
+ * @brief Gets the Band Steering AP group.
+ *
+ * @param[out] output_ApGroup Pointer to a buffer to store the Band Steering
+ *                            AP group.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getBandSteeringApGroup(char *output_ApGroup);
 
-/* wifi_setBandSteeringApGroup() function */
 /**
-* @brief To set Band Steering Access Point group. 
-*
-* @param[in] ApGroup - Band Steering Access Point  group
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-//To set Band Steering AP group 
-//ApGroup contains AP index(start from 1) pair array, in following format "$index_2.4G,$index_5G;$index_2.4G,$index_5G"
-//Example "1,2;3,4;7,8" for Private, XH, LnF pairs. 
-//ApGroup have to contain at least one AP pair, such as "1,2"
-INT wifi_setBandSteeringApGroup(char *ApGroup); 
+ * @brief Sets the Band Steering AP group.
+ *
+ * This function sets the Access Point (AP) group for Band Steering. The
+ * `ApGroup` parameter should be a string containing AP index pairs (starting
+ * from 1) in the following format:
+ * "$index_2.4G,$index_5G;$index_2.4G,$index_5G".
+ *
+ * For example, "1,2;3,4;7,8" represents three AP pairs:
+ *  - 1,2: Private network APs
+ *  - 3,4: XH network APs
+ *  - 7,8: LnF network APs
+ *
+ * `ApGroup` must contain at least one AP pair.
+ *
+ * @param[in] ApGroup The Band Steering AP group to set.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
+INT wifi_setBandSteeringApGroup(char *ApGroup);
 
-//<<
-/* wifi_getBandSteeringBandUtilizationThreshold() function */
 /**
-* @brief To set and read the band steering BandUtilizationThreshold parameters.
-*
-* @param[in]  radioIndex     Radio Index
-* @param[out] pBuThreshold   Steering bane utilization threshold, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringBandUtilizationThreshold (INT radioIndex, INT *pBuThreshold);
+ * @brief Gets the Band Steering band utilization threshold.
+ *
+ * @param[in] radioIndex    Radio index.
+ * @param[out] pBuThreshold Pointer to a variable to store the band utilization
+ *                          threshold.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getBandSteeringBandUtilizationThreshold(INT radioIndex, INT *pBuThreshold);
 
-/* wifi_setBandSteeringBandUtilizationThreshold() function */
 /**
-* @brief To set the band steering BandUtilizationThreshold parameters.
-*
-* @param[in] radioIndex    Radio Index
-* @param[in] buThreshold   Steering bane utilization threshold
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setBandSteeringBandUtilizationThreshold (INT radioIndex, INT buThreshold);
+ * @brief Sets the Band Steering band utilization threshold.
+ *
+ * @param[in] radioIndex   Radio index.
+ * @param[in] buThreshold The band utilization threshold to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setBandSteeringBandUtilizationThreshold(INT radioIndex, INT buThreshold);
 
-/* wifi_getBandSteeringRSSIThreshold() function */
 /**
-* @brief To read the band steering RSSIThreshold parameters.
-*
-* @param[in] radioIndex       Radio Index
-* @param[in] pRssiThreshold   Band steering RSSIThreshold value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringRSSIThreshold (INT radioIndex, INT *pRssiThreshold);
+ * @brief Gets the Band Steering RSSI threshold.
+ *
+ * @param[in] radioIndex      Radio index.
+ * @param[out] pRssiThreshold Pointer to a variable to store the RSSI threshold.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getBandSteeringRSSIThreshold(INT radioIndex, INT *pRssiThreshold);
 
-/* wifi_setBandSteeringRSSIThreshold() function */
 /**
-* @brief To set the band steering RSSIThreshold parameters.
-*
-* For 2.4G, the expectation is if the 2G rssi is below the set value steer to 2G
-* For 5G, if the set value is greater than the set threshold value then steer to 5
-*
-* @param[in] radioIndex     Radio Index
-* @param[in] rssiThreshold  Band steering RSSIThreshold value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setBandSteeringRSSIThreshold (INT radioIndex, INT rssiThreshold);
+ * @brief Sets the Band Steering RSSI threshold.
+ *
+ * For 2.4GHz, the expectation is that if the 2.4GHz RSSI is below the set
+ * value, the client will be steered to 2.4GHz.
+ * For 5GHz, if the 5GHz RSSI is greater than the set threshold value, the
+ * client will be steered to 5GHz.
+ *
+ * @param[in] radioIndex    Radio index.
+ * @param[in] rssiThreshold The RSSI threshold to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setBandSteeringRSSIThreshold(INT radioIndex, INT rssiThreshold);
 
-/* wifi_getBandSteeringPhyRateThreshold() function */
 /**
-* @brief To read the band steering physical modulation rate threshold parameters.
-*
-* @param[in]  radioIndex    Radio Index
-* @param[out] pPrThreshold  Physical modulation rate threshold value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringPhyRateThreshold (INT radioIndex, INT *pPrThreshold); //If chip is not support, return -1
+ * @brief Gets the Band Steering PHY rate threshold.
+ *
+ * @param[in] radioIndex    Radio index.
+ * @param[out] pPrThreshold Pointer to a variable to store the PHY rate threshold.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getBandSteeringPhyRateThreshold(INT radioIndex, INT *pPrThreshold);
 
-/* wifi_setBandSteeringPhyRateThreshold() function */
 /**
-* @brief To set the band steering physical modulation rate threshold parameters.
-*
-* @param[in] radioIndex   Radio Index
-* @param[in] prThreshold  Physical modulation rate threshold value
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setBandSteeringPhyRateThreshold (INT radioIndex, INT prThreshold); //If chip is not support, return -1
+ * @brief Sets the Band Steering PHY rate threshold.
+ *
+ * @param[in] radioIndex  Radio index.
+ * @param[in] prThreshold The PHY rate threshold to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setBandSteeringPhyRateThreshold(INT radioIndex, INT prThreshold);
 
-/* wifi_getBandSteeringOverloadInactiveTime() function */
 /**
-* @brief To read the inactivity time (in seconds) for steering under overload condition 
-*
-*
-* @param[in]  radioIndex             Radio Index
-* @param[out] overloadInactiveTime   inactivity time (in seconds) for steering under overload condition
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringOverloadInactiveTime (INT radioIndex, INT *overloadInactiveTime); //If chip is not support, return -1
+ * @brief Gets the inactivity time for steering under overload conditions.
+ *
+ * @param[in] radioIndex            Radio index.
+ * @param[out] overloadInactiveTime Pointer to a variable to store the inactivity
+ *                                 time, in seconds.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getBandSteeringOverloadInactiveTime(INT radioIndex, INT *overloadInactiveTime);
 
-/* wifi_setBandSteeringOverloadInactiveTime() function */
 /**
-* @brief To set the inactivity time (in seconds) for steering under overload condition.
-*
-*
-* @param[in] radioIndex             Radio Index
-* @param[in] overloadInactiveTime   Inactivity time (in seconds) for steering under overload condition
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setBandSteeringOverloadInactiveTime (INT radioIndex, INT overloadInactiveTime); //If chip is not support, return -1
+ * @brief Sets the inactivity time for steering under overload conditions.
+ *
+ * @param[in] radioIndex            Radio index.
+ * @param[in] overloadInactiveTime The inactivity time to set, in seconds.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setBandSteeringOverloadInactiveTime(INT radioIndex, INT overloadInactiveTime);
 
-/* wifi_getBandSteeringIdleInactiveTime() function */
 /**
-* @brief To read the inactivity time (in seconds) for steering under Idle condition.
-*
-* @param[in]  radioIndex         Radio Index
-* @param[out] idleInactiveTime   Inactivity time (in seconds) for steering under Idle condition
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringIdleInactiveTime (INT radioIndex, INT *idleInactiveTime); //If chip is not support, return -1
+ * @brief Gets the inactivity time for steering under idle conditions.
+ *
+ * @param[in] radioIndex       Radio index.
+ * @param[out] idleInactiveTime Pointer to a variable to store the inactivity
+ *                             time, in seconds.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getBandSteeringIdleInactiveTime(INT radioIndex, INT *idleInactiveTime);
 
-/* wifi_getBandSteeringIdleInactiveTime() function */
 /**
-* @brief To set the inactivity time (in seconds) for steering under Idle condition.
-*
-*
-* @param[in]  radioIndex         Radio Index
-* @param[in]  idleInactiveTime   Inactivity time (in seconds) for steering under Idle condition
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setBandSteeringIdleInactiveTime (INT radioIndex, INT idleInactiveTime); //If chip is not support, return -1
+ * @brief Sets the inactivity time for steering under idle conditions.
+ *
+ * @param[in] radioIndex       Radio index.
+ * @param[in] idleInactiveTime The inactivity time to set, in seconds.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setBandSteeringIdleInactiveTime(INT radioIndex, INT idleInactiveTime);
 
-/* wifi_getBandSteeringLog() function */
 /**
-* @brief To get the band steering log.
-*
-* If no steering or record_index is out of boundary, return -1.
-*
-* @param[in]  record_index       Record index
-* @param[out] pSteeringTime      Returns the UTC time in seconds
-* @param[in]  pClientMAC         pClientMAC is pre allocated as 64bytes
-* @param[in]  pSourceSSIDIndex   Source SSID index
-* @param[in]  pDestSSIDIndex     Destination SSID index
-* @param[out] pSteeringReason    Returns the predefined steering trigger reason
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_getBandSteeringLog(INT record_index, ULONG *pSteeringTime, CHAR *pClientMAC, INT *pSourceSSIDIndex, INT *pDestSSIDIndex, INT *pSteeringReason); 
+ * @brief Gets a Band Steering log entry.
+ *
+ * @param[in] record_index    Index of the log entry to retrieve.
+ * @param[out] pSteeringTime   Pointer to a variable to store the steering time,
+ *                            in UTC seconds.
+ * @param[out] pClientMAC      Pointer to a buffer to store the client MAC address.
+ * @param[out] pSourceSSIDIndex Pointer to a variable to store the source SSID index.
+ * @param[out] pDestSSIDIndex  Pointer to a variable to store the destination SSID
+ *                            index.
+ * @param[out] pSteeringReason  Pointer to a variable to store the steering reason.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected or if no steering occurred or
+ *                          the record index is out of bounds.
+ */
+INT wifi_getBandSteeringLog(INT record_index, ULONG *pSteeringTime, CHAR *pClientMAC, INT *pSourceSSIDIndex, INT *pDestSSIDIndex, INT *pSteeringReason);
 
-/* wifi_getApAssociatedDevicesHighWatermarkThreshold() function */
 /**
-* @brief Get the HighWatermarkThreshold value, that is lesser than or equal to MaxAssociatedDevices.
-*
-* Setting this parameter does not actually limit the number of clients that can associate with this access point
-* as that is controlled by MaxAssociatedDevices.
-* MaxAssociatedDevices or 50.
-* The default value of this parameter should be equal to MaxAssociatedDevices.
-* In case MaxAssociatedDevices is 0 (zero), the default value of this parameter should be 50.
-* A value of 0 means that there is no specific limit and Watermark calculation algorithm should be turned off.
-*
-* @param[in]  apIndex  Access Point index
-* @param[out] output   HighWatermarkThreshold value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the high watermark threshold for associated devices on an AP.
+ * 
+ * This function retrieves the `HighWatermarkThreshold` value for the 
+ * specified Access Point (AP). This value represents a threshold for the 
+ * number of associated devices, and is used to trigger certain actions or 
+ * notifications when the number of connected clients reaches this level.
+ * 
+ * The `HighWatermarkThreshold` should be less than or equal to 
+ * `MaxAssociatedDevices`, which defines the absolute maximum number of 
+ * clients allowed to connect to the AP. Setting the `HighWatermarkThreshold`
+ * does not limit the number of associated clients; it simply provides a 
+ * means of monitoring and reacting to changes in the number of connected 
+ * devices.
+ * 
+ * The default value of `HighWatermarkThreshold` should be equal to 
+ * `MaxAssociatedDevices`, unless `MaxAssociatedDevices` is 0, in which 
+ * case the default value should be 50. A `HighWatermarkThreshold` of 0 
+ * indicates that there is no specific limit and the watermark calculation 
+ * algorithm should be disabled.
+ *
+ * @param[in] apIndex  Access Point index.
+ * @param[out] output  Pointer to a variable to store the retrieved 
+ *                     `HighWatermarkThreshold` value.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
 INT wifi_getApAssociatedDevicesHighWatermarkThreshold(INT apIndex, UINT *output);
 
-/* wifi_setApAssociatedDevicesHighWatermarkThreshold() function */
 /**
-* @brief Set the HighWatermarkThreshold value, that is lesser than or equal to MaxAssociatedDevices.
-*
-* Setting this parameter does not actually limit the number of clients that can associate with this access point
-* as that is controlled by MaxAssociatedDevices.
-* MaxAssociatedDevices or 50.
-* The default value of this parameter should be equal to MaxAssociatedDevices.
-* In case MaxAssociatedDevices is 0 (zero), the default value of this parameter should be 50. 
-* A value of 0 means that there is no specific limit and Watermark calculation algorithm should be turned off.
-*
-* @param[in] apIndex    Access Point index
-* @param[in] Threshold  HighWatermarkThreshold value 
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Sets the high watermark threshold for associated devices on an AP.
+ *
+ * This function sets the `HighWatermarkThreshold` value for the specified
+ * Access Point (AP). This value represents a threshold for the number of
+ * associated devices and is used to trigger certain actions or notifications
+ * when the number of connected clients reaches this level.
+ *
+ * The `HighWatermarkThreshold` should be less than or equal to
+ * `MaxAssociatedDevices`, which defines the absolute maximum number of clients
+ * allowed to connect to the AP. Setting the `HighWatermarkThreshold` does not
+ * limit the number of associated clients; it simply provides a means of
+ * monitoring and reacting to changes in the number of connected devices.
+ *
+ * The default value of `HighWatermarkThreshold` should be equal to
+ * `MaxAssociatedDevices`, unless `MaxAssociatedDevices` is 0, in which case
+ * the default value should be 50. A `HighWatermarkThreshold` of 0 indicates
+ * that there is no specific limit and the watermark calculation algorithm
+ * should be disabled.
+ *
+ * @param[in] apIndex   Access Point index.
+ * @param[in] Threshold HighWatermarkThreshold value to set.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
 INT wifi_setApAssociatedDevicesHighWatermarkThreshold(INT apIndex, UINT Threshold);
 
-/* wifi_getApAssociatedDevicesHighWatermarkThresholdReached() function */
 /**
-* @brief Get the number of times the current total number of associated device has reached the HighWatermarkThreshold value.
-*
-* This calculation can be based on the parameter AssociatedDeviceNumberOfEntries as well.
-* Implementation specifics about this parameter are left to the product group and the device vendors.
-* It can be updated whenever there is a new client association request to the access point.
-*
-* @param[in]  apIndex Access Point index
-* @param[out] output  Number of times the current total number of associated device has reached
-*                     the HighWatermarkThreshold value, to be returned
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the number of times the high watermark threshold has been reached.
+ * 
+ * This function retrieves the number of times the current total number of 
+ * associated devices on the specified Access Point (AP) has reached the 
+ * `HighWatermarkThreshold` value. This counter can be used to track how 
+ * often the AP approaches its maximum client capacity.
+ * 
+ * The calculation of this counter may be based on the 
+ * `AssociatedDeviceNumberOfEntries` parameter or other implementation-
+ * specific mechanisms. It is typically updated whenever a new client 
+ * association request is received by the AP.
+ *
+ * @param[in] apIndex  Access Point index.
+ * @param[out] output  Pointer to a variable to store the number of times the
+ *                     high watermark threshold has been reached.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
 INT wifi_getApAssociatedDevicesHighWatermarkThresholdReached(INT apIndex, UINT *output);
 
-/* wifi_getApAssociatedDevicesHighWatermark() function */
 /**
-* @brief Maximum number of associated devices that have ever associated with the access point concurrently
-* since the last reset of the device or WiFi module.
-*
-* @param[in]  apIndex  Access Point index
-* @param[out] output   Maximum number of associated devices that have ever associated with the access point concurrently,
-*                      to be returned 
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the high watermark of associated devices on an AP.
+ *
+ * This function retrieves the maximum number of devices that have ever been
+ * concurrently associated with the Access Point since the last reset of the
+ * device or Wi-Fi module.
+ *
+ * @param[in] apIndex Access Point index.
+ * @param[out] output  Pointer to a variable to store the high watermark value.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getApAssociatedDevicesHighWatermark(INT apIndex, UINT *output);
 
-/* wifi_getApAssociatedDevicesHighWatermarkDate() function */
 /**
-* @brief Get Date and Time at which the maximum number of associated devices ever associated with the access point
-* concurrently since the last reset of the device or WiFi module.
-*
-* In short when was AssociatedDevicesHighWatermark updated
-* This dateTime value is in UTC.
-*
-* @param[in]   apIndex             Access Point index
-* @param[out]  output_in_seconds   Date and Time at which the maximum number of associated 
-*                                  devices ever associated with the access point
-*                                  concurrenlty, to be returned.
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
+ * @brief Gets the date and time when the high watermark was reached.
+ *
+ * This function retrieves the date and time at which the maximum number of
+ * associated devices was reached on the Access Point since the last reset
+ * of the device or Wi-Fi module.
+ *
+ * @param[in] apIndex          Access Point index.
+ * @param[out] output_in_seconds Pointer to a variable to store the date and
+ *                              time, in UTC seconds.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
 INT wifi_getApAssociatedDevicesHighWatermarkDate(INT apIndex, ULONG *output_in_seconds);
 
-/* @description Set the Fast Transition capability to disabled, full FT
- * support, or adaptive FT support.  Adaptive support is the same as full
- * support except the Mobility Domain Element is not sent in Beacon Frames.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param activate - 0 = disabled, 1 = full FT support, 2 = adaptive support.
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+/**
+ * @brief Sets the Fast BSS Transition (FT) activation state.
+ *
+ * This function sets the Fast Transition capability to disabled, full FT
+ * support, or adaptive FT support. Adaptive support is the same as full
+ * support, except that the Mobility Domain Element is not sent in beacon
+ * frames.
+ *
+ * @param[in] apIndex  AP index that the setting applies to.
+ * @param[in] activate FT activation state:
+ *                     0 = disabled,
+ *                     1 = full FT support,
+ *                     2 = adaptive support.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFastBSSTransitionActivated(INT apIndex, UCHAR activate);
 
 /**
- * @brief Get the Fast Transition capability value.  
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param activate - 0 = disabled, 1 = full FT support, 2 = adaptive support.
+ * @brief Gets the Fast BSS Transition (FT) activation state.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * @param[in] apIndex  AP index that the setting applies to.
+ * @param[out] activate Pointer to a variable to store the FT activation state:
+ *                      0 = disabled,
+ *                      1 = full FT support,
+ *                      2 = adaptive support.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getBSSTransitionActivated(INT apIndex, BOOL *activate);
 /** @} */  //END OF GROUP WIFI_HAL_APIS
@@ -498,213 +390,228 @@ INT wifi_getBSSTransitionActivated(INT apIndex, BOOL *activate);
  * @{
  */
 /**
- * @brief Set the Fast Transition capability to disabled, full FT
-**
- * @brief EAP/EAPOL Authenticator information.
+ * @brief EAP/EAPOL authenticator information.
  *
- * Structure which holds the the EAP/EAPOL Config param values.
+ * Structure that holds the EAP/EAPOL configuration parameters.
  */
 typedef struct _wifi_eap_config_t
 {
-    unsigned int    uiEAPOLKeyTimeout;
-    unsigned int    uiEAPOLKeyRetries;
-    unsigned int    uiEAPIdentityRequestTimeout;
-    unsigned int    uiEAPIdentityRequestRetries;
-    unsigned int    uiEAPRequestTimeout;
-    unsigned int    uiEAPRequestRetries;
+    unsigned int uiEAPOLKeyTimeout; /**< EAPOL key timeout. */
+    unsigned int uiEAPOLKeyRetries; /**< EAPOL key retries. */
+    unsigned int uiEAPIdentityRequestTimeout; /**< EAP identity request timeout. */
+    unsigned int uiEAPIdentityRequestRetries; /**< EAP identity request retries. */
+    unsigned int uiEAPRequestTimeout; /**< EAP request timeout. */
+    unsigned int uiEAPRequestRetries; /**< EAP request retries. */
 } wifi_eap_config_t;
-/** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
- * @addtogroup WIFI_HAL_APIS
- * @{
+ * @brief Sets an EAP parameter.
+ *
+ * This function sets the EAP authentication and EAPOL handshake parameters,
+ * including:
+ *   - EAPOL Key Timeout and maximum retries (for M1 and M3 messages)
+ *   - EAP Identity Request timeout and maximum retries
+ *   - EAP Request timeout and maximum retries
+ *
+ * @param[in] apIndex VAP index.
+ * @param[in] value   Value to set (either timeout or retry value).
+ * @param[in] param   Parameter name to configure:
+ *                      - "eapolkey" (for timeout or retries)
+ *                      - "eapidentityrequest" (for timeout or retries)
+ *                      - "eaprequest" (for timeout or retries)
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
-/**
- * @brief Get the Fast Transition over DS activated value.  
- * @description Set the EAP authentication and EAPOL Handshake parameters.
- * EAPOL Key Timeout and max retries [M1 and M3]
- * EAP Identity Request and max retries
- * EAP Request Timeout and max retries
- * @param [in] apIndex - VAP number
- * @param [in] value - Either timeout or retry value
- * @param [in] param - Pramater string name to be configured as follows
- * eapolkey(timeout or retries),
- * eapidentityrequest(timeout or retries),
- * eaprequest(timeout or retries)
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
- */
-INT wifi_setEAP_Param(UINT apIndex, UINT value, char  *param);
+INT wifi_setEAP_Param(UINT apIndex, UINT value, char *param);
 
-/* @description Get the EAP authentication and EAPOL Handshake parameters.
- * EAPOL Key Timeout and max retries [M1 and M3]
- * EAP Identity Request and max retries
- * EAP Request Timeout and max retries
- * @param [in] apIndex - VAP number
- * @param [in] output to be filled
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+/**
+ * @brief Gets the EAP authentication and EAPOL handshake parameters.
+ *
+ * This function retrieves the EAP authentication and EAPOL handshake
+ * parameters, including:
+ *   - EAPOL Key Timeout and maximum retries (for M1 and M3 messages)
+ *   - EAP Identity Request timeout and maximum retries
+ *   - EAP Request timeout and maximum retries
+ *
+ * @param[in] apIndex VAP index.
+ * @param[out] output Pointer to a `wifi_eap_config_t` structure to be filled
+ *                    with the EAP parameters.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_getEAP_Param(UINT apIndex, wifi_eap_config_t *output);
 
-/* @description Get the Fast Transition over DS activated value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param activate - True for activated (enabled), false for not activated
- * (disabled).
+/**
+ * @brief Gets the Fast Transition over DS activation state.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex   AP index.
+ * @param[out] activate Pointer to a variable to store the activation state.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getFTOverDSActivated(INT apIndex, BOOL *activate);
 
 /**
- * @brief Set the Fast Transition over DS activated value. 
- * See 802.11-2016 section 13.3. 
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param activate - True for activated (enabled), false for not activated
- * (disabled).
+ * @brief Sets the Fast Transition over DS activation state.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex   AP index.
+ * @param[in] activate  Whether FT over DS is activated.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFTOverDSActivated(INT apIndex, BOOL *activate);
 
 /**
- * @brief Get the Fast Transition Mobility Domain value. 
- * See 802.11-2016 section 13.3. 
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param mobilityDomain - Value of the FT Mobility Domain for this AP.
+ * @brief Gets the FT Mobility Domain ID.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex        AP index.
+ * @param[out] mobilityDomain FT Mobility Domain ID.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getFTMobilityDomainID(INT apIndex, UCHAR mobilityDomain[2]);
 
 /**
- * @brief Set the Fast Transition Mobility Domain value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param mobilityDomain - Value of the FT Mobility Domain for this AP.
+ * @brief Sets the FT Mobility Domain ID.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex        AP index.
+ * @param[in] mobilityDomain FT Mobility Domain ID to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFTMobilityDomainID(INT apIndex, UCHAR mobilityDomain[2]);
 
 /**
- * @brief Get the Fast Transition Resource Request Support value. 
- * See 802.11-2016 section 13.3. 
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param supported - True is FT resource request supported, false is not
- * supported.
+ * @brief Gets the FT Resource Request support status.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex   AP index.
+ * @param[out] supported Whether FT Resource Request is supported.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getFTResourceRequestSupported(INT apIndex, BOOL *supported);
 
 /**
- * @brief Set the Fast Transition Resource Request Support value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param suppored - True is FT resource request supported, false is not
- * supported.
+ * @brief Sets the FT Resource Request support status.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex   AP index.
+ * @param[in] supported Whether FT Resource Request is supported.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFTResourceRequestSupported(INT apIndex, BOOL *supported);
 
 /**
- * @brief Get the Fast Transition R0 Key Lifetime value.  
- * See 802.11-2016 section 13.4.2.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param lifetime - R0 Key Lifetime.
+ * @brief Gets the Fast Transition R0 Key Lifetime value.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.4.2.
+ *
+ * @param[in] apIndex  AP index.
+ * @param[out] lifetime Pointer to a variable to store the R0 Key Lifetime.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getFTR0KeyLifetime(INT apIndex, UINT *lifetime);
 
 /**
- * @brief Set the Fast Transition R0 Key Lifetime value.  
- * See 802.11-2016 section 13.4.2
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param lifetime - R0 Key Lifetime.
+ * @brief Sets the Fast Transition R0 Key Lifetime value.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.4.2.
+ *
+ * @param[in] apIndex  AP index.
+ * @param[in] lifetime R0 Key Lifetime to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFTR0KeyLifetime(INT apIndex, UINT *lifetime);
 
 /**
- * @brief Get the Fast Transition R0 Key Holder ID value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param keyHolderID - R0 Key Holder ID string.
+ * @brief Gets the Fast Transition R0 Key Holder ID.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex    AP index.
+ * @param[out] keyHolderID Pointer to a buffer to store the R0 Key Holder ID
+ *                        string.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getFTR0KeyHolderID(INT apIndex, UCHAR *keyHolderID);
 
 /**
- * @brief Set the Fast Transition R0 Key Holder ID value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param keyHolderID - R0 Key Holder ID string.
+ * @brief Sets the Fast Transition R0 Key Holder ID.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex    AP index.
+ * @param[in] keyHolderID R0 Key Holder ID string to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFTR0KeyHolderID(INT apIndex, UCHAR *keyHolderID);
 
 /**
- * @brief Get the Fast Transition R1 Key Holder ID value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param keyHolderID - R0 Key Holder ID string.
+ * @brief Gets the Fast Transition R1 Key Holder ID.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex    AP index.
+ * @param[out] keyHolderID Pointer to a buffer to store the R1 Key Holder ID
+ *                        string.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getFTR1KeyHolderID(INT apIndex, UCHAR *keyHolderID);
 
 /**
- * @brief Set the Fast Transition R1 Key Holder ID value.  
- * See 802.11-2016 section 13.3.
- * 
- * @param apIndex - AP Index the setting applies to.
- * @param keyHolderID - R0 Key Holder ID string.
+ * @brief Sets the Fast Transition R1 Key Holder ID.
  *
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * See 802.11-2016 section 13.3.
+ *
+ * @param[in] apIndex    AP index.
+ * @param[in] keyHolderID R1 Key Holder ID string to set.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setFTR1KeyHolderID(INT apIndex, UCHAR *keyHolderID);
 
@@ -714,98 +621,140 @@ INT wifi_setFTR1KeyHolderID(INT apIndex, UCHAR *keyHolderID);
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
-typedef enum {
-    FT_SUPPORT_DISABLED,
-    FT_SUPPORT_FULL,
-    FT_SUPPORT_ADAPTIVE    
+/**
+ * @brief Fast transition support types.
+ */
+typedef enum
+{
+    FT_SUPPORT_DISABLED, /**< Fast transition disabled. */
+    FT_SUPPORT_FULL, /**< Full fast transition support. */
+    FT_SUPPORT_ADAPTIVE /**< Adaptive fast transition support. */
 } wifi_fastTrasitionSupport_t;
 
+/**
+ * @brief Maximum number of key holders.
+ */
 #define MAX_KEY_HOLDERS 8
-typedef struct {
-    mac_address_t   mac;
-    nas_id_t        nasId;
-    r0r1_key_t      key;
-} wifi_r0KH_t;
-
-typedef struct {
-    mac_address_t   mac;
-    mac_address_t   r1khId;
-    r0r1_key_t      key;
-} wifi_r1KH_t;
-
-typedef struct {
-    wifi_fastTrasitionSupport_t support;
-    USHORT                      mobilityDomain;
-    BOOL                        overDS;
-    nas_id_t                    r0KeyHolder;
-    USHORT                      r0KeyLifeTime;
-    mac_address_t               r1KeyHolder;
-    USHORT                      reassocDeadLine;
-    BOOL                        pmkR1Push;
-    UCHAR                       numR0KHs;
-    wifi_r0KH_t                 r0KH[MAX_KEY_HOLDERS];
-    UCHAR                       numR1KHs;
-    wifi_r1KH_t                 r1KH[MAX_KEY_HOLDERS];
-} wifi_FastTransitionConfig_t;
-
-/** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
- * @addtogroup WIFI_HAL_APIS
- * @{
+ * @brief R0 key holder information.
+ */
+typedef struct
+{
+    mac_address_t mac; /**< MAC address. */
+    nas_id_t nasId; /**< NAS ID. */
+    r0r1_key_t key; /**< Key. */
+} wifi_r0KH_t;
+
+/**
+ * @brief R1 key holder information.
+ */
+typedef struct
+{
+    mac_address_t mac; /**< MAC address. */
+    mac_address_t r1khId; /**< R1 key holder ID. */
+    r0r1_key_t key; /**< Key. */
+} wifi_r1KH_t;
+
+/**
+ * @brief Fast transition configuration.
+ */
+typedef struct
+{
+    wifi_fastTrasitionSupport_t support; /**< Fast transition support type. */
+    USHORT mobilityDomain; /**< Mobility domain. */
+    BOOL overDS; /**< Whether FT over DS is enabled. */
+    nas_id_t r0KeyHolder; /**< R0 key holder. */
+    USHORT r0KeyLifeTime; /**< R0 key lifetime. */
+    mac_address_t r1KeyHolder; /**< R1 key holder. */
+    USHORT reassocDeadLine; /**< Reassociation deadline. */
+    BOOL pmkR1Push; /**< Whether PMK R1 push is enabled. */
+    UCHAR numR0KHs; /**< Number of R0 key holders. */
+    wifi_r0KH_t r0KH[MAX_KEY_HOLDERS]; /**< R0 key holders. */
+    UCHAR numR1KHs; /**< Number of R1 key holders. */
+    wifi_r1KH_t r1KH[MAX_KEY_HOLDERS]; /**< R1 key holders. */
+} wifi_FastTransitionConfig_t;
+
+/**
+ * @brief Pushes the fast transition configuration to an AP.
+ *
+ * @param[in] apIndex AP index.
+ * @param[in] ftData  Pointer to a `wifi_FastTransitionConfig_t` structure
+ *                    containing the fast transition configuration data.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_pushApFastTransitionConfig(INT apIndex, wifi_FastTransitionConfig_t *ftData);
 
 /**
- * @brief Set the BTM capability to activated or deactivated,
- * same as enabled or disabled.  The word "activated" is used here because
- * that's what's used in the 802.11 specification.  When deactivate the
- * gateway ignores a BTM report request as defined in 802.11-2016 section
- * 11.11.10.3.  The AP (apIndex) BSS Transition bit in any Extended Capabilities
- * element sent out is set corresponding to the activate parameter.
+ * @brief Sets the BSS Transition activation state.
  *
- * @param apIndex - AP Index the setting applies to.
- * @param activate - True for activate false for deactivate.
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * This function sets the BSS Transition capability to activated or
+ * deactivated, which is the same as enabled or disabled. The term
+ * "activated" is used here because that is the terminology used in the
+ * 802.11 specification.
+ *
+ * When deactivated, the gateway ignores BTM (BSS Transition Management) report
+ * requests, as defined in 802.11-2016 section 11.11.10.3. The AP's
+ * (specified by `apIndex`) BSS Transition bit in any Extended Capabilities
+ * element sent out is set according to the `activate` parameter.
+ *
+ * @param[in] apIndex  AP index that the setting applies to.
+ * @param[in] activate True to activate (enable) BSS Transition, false to
+ *                     deactivate (disable).
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_setBSSTransitionActivation(UINT apIndex, BOOL activate);
 
 /**
- * @description Get the BTM capability of activated or deactivated,
- * same as enabled or disabled.
+ * @brief Gets the BSS Transition activation state.
  *
- * @param apIndex - AP Index the setting applies to.
- * @param activate - True for activate false for deactivate.
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * @param[in] apIndex  AP index.
+ * @param[out] activate Pointer to a variable to store the BSS Transition
+ *                      activation state.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getBSSTransitionActivation(UINT apIndex, BOOL *activate);
 
-/* @description Set the neighbor report capability to activated or deactivated,
- * same as enabled or disabled.  The word "activated" is used here because
- * that's what's used in the 802.11 specification.  When deactivate the
- * gateway ignores a neighbor report request as defined in 802.11-2016 section
- * 11.11.10.3.
+/**
+ * @brief Sets the Neighbor Report activation state.
  *
- * @param apIndex - AP Index the setting applies to.
- * @param activate - True for activate false for deactivate.
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * This function sets the Neighbor Report capability to activated or
+ * deactivated, which is the same as enabled or disabled. The term "activated"
+ * is used here because that is the terminology used in the 802.11
+ * specification.
+ *
+ * When deactivated, the gateway ignores neighbor report requests, as defined
+ * in 802.11-2016 section 11.11.10.3.
+ *
+ * @param[in] apIndex  AP index that the setting applies to.
+ * @param[in] activate True to activate (enable) Neighbor Report, false to
+ *                     deactivate (disable).
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_setNeighborReportActivation(UINT apIndex, BOOL activate);
 
-/* @description Get the neighbor report capability of activated or deactivated,
- * same as enabled or disabled.
+/**
+ * @brief Gets the Neighbor Report activation state.
  *
- * @param apIndex - AP Index the setting applies to.
- * @param activate - True for activate false for deactivate.
- * @return The status of the operation.
- * @retval RETURN_OK if successful.
- * @retval RETURN_ERR if any error is detected.
+ * @param[in] apIndex  AP index.
+ * @param[out] activate Pointer to a variable to store the Neighbor Report
+ *                      activation state.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getNeighborReportActivation(UINT apIndex, BOOL *activate);
 
