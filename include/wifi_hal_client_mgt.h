@@ -403,8 +403,13 @@ typedef struct _wifi_eap_config_t
     unsigned int uiEAPRequestTimeout; /**< EAP request timeout. */
     unsigned int uiEAPRequestRetries; /**< EAP request retries. */
 } wifi_eap_config_t;
+/** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
+ * @addtogroup WIFI_HAL_APIS
+ * @{
+ */
+ /**
  * @brief Sets an EAP parameter.
  *
  * This function sets the EAP authentication and EAPOL handshake parameters,
@@ -674,6 +679,8 @@ typedef struct
     UCHAR numR1KHs; /**< Number of R1 key holders. */
     wifi_r1KH_t r1KH[MAX_KEY_HOLDERS]; /**< R1 key holders. */
 } wifi_FastTransitionConfig_t;
+
+/** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
  * @brief Pushes the fast transition configuration to an AP.
