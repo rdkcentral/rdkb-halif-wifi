@@ -2880,45 +2880,48 @@ typedef struct
 
 /**
  * @brief Fronthaul BSS information.
+ *
+ * This structure contains information about a fronthaul BSS.
  */
-typedef struct
-{
-    CHAR ssid[WIFI_AP_MAX_SSID_LEN]; /**< SSID. */
-    BOOL enabled; /**< Whether the BSS is enabled. */
-    BOOL showSsid; /**< Whether to show the SSID. */
-    BOOL isolation; /**< Whether client isolation is enabled. */
-    INT mgmtPowerControl; /**< Management frame power control. */
-    UINT bssMaxSta; /**< Maximum number of stations allowed. */
-    BOOL bssTransitionActivated; /**< Whether BSS transition is activated. */
-    BOOL nbrReportActivated; /**< Whether neighbor report is activated. */
+typedef struct {
+  CHAR ssid[WIFI_AP_MAX_SSID_LEN]; /**< SSID. */
+  BOOL enabled;                  /**< Whether the BSS is enabled. */
+  BOOL showSsid;                 /**< Whether to show the SSID. */
+  BOOL isolation;                /**< Whether client isolation is enabled. */
+  INT mgmtPowerControl;          /**< Management frame power control. */
+  UINT bssMaxSta;               /**< Maximum number of stations allowed. */
+  BOOL bssTransitionActivated;    /**< Whether BSS transition is activated. */
+  BOOL nbrReportActivated;       /**< Whether neighbor report is activated. */
 
-    BOOL rapidReconnectEnable; /**< Whether rapid reconnect is enabled. **This field should not be implemented in the HAL.** */
-    UINT rapidReconnThreshold; /**< Rapid reconnect threshold. **This field should not be implemented in the HAL.** */
-    BOOL vapStatsEnable; /**< Whether VAP statistics are enabled. **This field should not be implemented in the HAL.** */
+  BOOL rapidReconnectEnable; /**< Whether rapid reconnect is enabled. This field should not be implemented in the HAL. */
+  UINT rapidReconnThreshold; /**< Rapid reconnect threshold. This field should not be implemented in the HAL. */
+  BOOL vapStatsEnable;      /**< Whether VAP statistics are enabled. This field should not be implemented in the HAL. */
 
-    wifi_vap_security_t security; /**< Security settings. */
-    wifi_interworking_t interworking; /**< Interworking settings. */
-    wifi_preassoc_control_t preassoc; /**< Pre-association control settings. */
-    wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
-    BOOL mac_filter_enable; /**< Whether MAC filtering is enabled. */
-    wifi_mac_filter_mode_t mac_filter_mode; /**< MAC filter mode. */
+  wifi_vap_security_t security;    /**< Security settings. */
+  wifi_interworking_t interworking; /**< Interworking settings. */
+  wifi_preassoc_control_t preassoc;  /**< Pre-association control settings. */
+  wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
+  BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
+  wifi_mac_filter_mode_t mac_filter_mode; /**< MAC filter mode. */
 
-    BOOL sec_changed; /**< Whether security settings have changed. **This field should not be implemented in the HAL.** */
+  BOOL sec_changed; /**< Whether security settings have changed. This field should not be implemented in the HAL. */
 
-    wifi_wps_t wps; /**< WPS settings. */
-    BOOL wmm_enabled; /**< Whether WMM is enabled. */
-    BOOL UAPSDEnabled; /**< Whether U-APSD is enabled. */
-    wifi_bitrate_t beaconRate; /**< Beacon rate. */
-    mac_address_t bssid; /**< The BSSID. This variable should only be used in the get API. It can't be used to change the interface MAC. */
-    UINT wmmNoAck; /**< WMM no-acknowledgement settings. */
-    UINT wepKeyLength; /**< WEP key length. */
-    BOOL bssHotspot; /**< Whether the BSS is a hotspot. */
-    UINT wpsPushButton; /**< WPS push button configuration. */
-    char beaconRateCtl[32]; /**< Beacon rate control string. */
-    BOOL network_initiated_greylist; /**< Whether network-initiated greylisting is enabled. */
-    BOOL mcast2ucast; /**< Whether multicast-to-unicast conversion is enabled. */
-    BOOL connected_building_enabled; /**< Whether connected building is enabled. */
-    wifi_mld_info_ap_t mld_info; /**< MLD information. */
+  wifi_wps_t wps;        /**< WPS settings. */
+  BOOL wmm_enabled;     /**< Whether WMM is enabled. */
+  BOOL UAPSDEnabled;    /**< Whether U-APSD is enabled. */
+  wifi_bitrate_t beaconRate; /**< Beacon rate. */
+  mac_address_t bssid;    /**< The BSSID. This variable should only be used in the get API. It can't be used to change the interface MAC. */
+  UINT wmmNoAck;         /**< WMM no-acknowledgement settings. */
+  UINT wepKeyLength;     /**< WEP key length. */
+  BOOL bssHotspot;       /**< Whether the BSS is a hotspot. */
+  UINT wpsPushButton;    /**< WPS push button configuration. */
+  char beaconRateCtl[32]; /**< Beacon rate control string. */
+  BOOL network_initiated_greylist; /**< Whether network-initiated greylisting is enabled. */
+  BOOL mcast2ucast;              /**< Whether multicast-to-unicast conversion is enabled. */
+  BOOL connected_building_enabled; /**< Whether connected building is enabled. */
+  wifi_mld_info_ap_t mld_info;        /**< MLD information. */
+  BOOL hostap_mgt_frame_ctrl;        /**< Whether hostapd management frame control is enabled. */
+  BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
