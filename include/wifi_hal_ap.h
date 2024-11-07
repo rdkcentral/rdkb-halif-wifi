@@ -226,7 +226,7 @@ typedef struct
     USHORT capabilityList[64]; /**< Capability list. */
 } __attribute__((packed)) wifi_capabilityListANQP_t;
 
-//**
+/**
  * @brief Roaming consortium element.
  */
 typedef struct

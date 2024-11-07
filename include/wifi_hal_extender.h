@@ -81,6 +81,8 @@ typedef struct _wifi_channelStats
    |      |            |            |  9 - VHT
    ----------------------------------------------
    NOTE: The size of this table on 4x4 can be big - we could send only non-zero elements!
+*/
+
 /**
  * @brief RX statistics for a specific rate.
  */
@@ -1280,52 +1282,122 @@ INT wifi_steering_clientDisconnect(UINT steeringgroupIndex, INT apIndex, mac_add
 /**
  * @addtogroup WIFI_HAL_TYPES
  * @{
- 
-#ifdef WIFI_HAL_VERSION_3_PHASE2
-/**
- * @brief Callback function invoked when a STA sends a BTM query.
- *
- * This callback function is invoked when a station (STA) sends a BSS
- * Transition Management (BTM) query message to a Virtual Access Point (VAP)
- * in the gateway. The driver will use the frame returned from this function
- * to process the response to the query.
- *
- * @param[in] apIndex        Access Point index.
- * @param[in] peerMac        MAC address of the peer STA.
- * @param[in] query          Pointer to the received BTM query frame.
- * @param[in] inMemSize      Size of the memory allocated for the response frame.
- * @param[out] request       Pointer to a `wifi_BTMRequest_t` structure to store
- *                          the BTM request frame.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS If successful.
- * @retval WIFI_HAL_ERROR   If any error is detected.
- */
-typedef INT (*wifi_BTMQueryRequest_callback)(UINT apIndex, mac_address_t peerMac, wifi_BTMQuery_t *query, UINT inMemSize, wifi_BTMRequest_t *request);
-#else
-/**
- * @brief Callback function invoked when a STA sends a BTM query.
- *
- * This callback function is invoked when a station (STA) sends a BSS
- * Transition Management (BTM) query message to a Virtual Access Point (VAP)
- * in the gateway. The driver will use the frame returned from this function
- * to process the response to the query.
- *
- * @param[in] apIndex        Access Point index.
- * @param[in] peerMac        MAC address of the peer STA.
- * @param[in] query          Pointer to the received BTM query frame.
- * @param[in] inMemSize      Size of the memory allocated for the response frame.
- * @param[out] request       Pointer to a `wifi_BTMRequest_t` structure to store
- *                          the BTM request frame.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS If successful.
- * @retval WIFI_HAL_ERROR   If any error is detected.
- */
-typedef INT (*wifi_BTMQueryRequest_callback)(UINT apIndex, CHAR *peerMac, wifi_BTMQuery_t *query, UINT inMemSize, wifi_BTMRequest_t *request);
-#endif
+*/
 
-/** @} */  //END OF GROUP WIFI_HAL_TYPES
+#ifdef WIFI_HAL_VERSION_3_PHASE2
+
+/**
+ * @brief Callback function invoked when a STA sends a BTM query.
+ *
+ * This callback function is invoked when a STA sends a BTM query message to a
+ * VAP in the gateway. The driver will use the frame returned from this
+ * function to process the response to the query. A BTM transaction is started
+ * by a STA sending a query or by the AP sending an autonomous request. This
+ * callback is used for the former.
+ *
+ * @param[in] apIndex The Access Point index.
+ * @param[in] peerMac The MAC address of the peer STA the query was received
+ *                    from.
+ * @param[in] query A pointer to a `wifi_BTMQuery_t` structure containing the
+ *                  BTM query frame received from the STA.
+ * @param[in] inMemSize The size of the memory allocated by the callback for
+ *                      the `request` parameter. The caller should set this to
+ *                      the maximum size for the request, otherwise the
+ *                      callback may drop elements or return an error.
+ * @param[out] request A pointer to a `wifi_BTMRequest_t` structure to be
+ *                     populated with the BTM request frame to send in
+ *                     response to the query. The caller allocates the memory
+ *                     for the response. The caller may free the memory when
+ *                     the callback returns and the response is sent to the
+ *                     STA.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS The operation was successful.
+ * @retval WIFI_HAL_ERROR An error occurred during the operation.
+ */
+typedef INT (*wifi_BTMQueryRequest_callback)(UINT apIndex,
+                                                    mac_address_t peerMac,
+                                                    wifi_BTMQuery_t *query,
+                                                    UINT inMemSize,
+                                                    wifi_BTMRequest_t *request);
+
+/**
+ * @brief Callback function invoked when a STA responds to a BTM request.
+ *
+ * This callback function is invoked when a STA responds to a BTM request from
+ * the gateway.
+ *
+ * @param[in] apIndex The Access Point index.
+ * @param[in] peerMac The MAC address of the peer the response was received
+ *                    from.
+ * @param[in] response A pointer to a `wifi_BTMResponse_t` structure
+ *                     containing the BTM response frame received from the STA.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS The operation was successful.
+ * @retval WIFI_HAL_ERROR An error occurred during the operation.
+ */
+typedef INT (*wifi_BTMResponse_callback)(UINT apIndex,
+                                            mac_address_t peerMac,
+                                            wifi_BTMResponse_t *response);
+
+#else
+
+/**
+ * @brief Callback function invoked when a STA sends a BTM query.
+ *
+ * This callback function is invoked when a STA sends a BTM query message to a
+ * VAP in the gateway. The driver will use the frame returned from this
+ * function to process the response to the query. A BTM transaction is started
+ * by a STA sending a query or by the AP sending an autonomous request. This
+ * callback is used for the former.
+ *
+ * @param[in] apIndex The Access Point index.
+ * @param[in] peerMac The MAC address of the peer STA the query was received
+ *                    from.
+ * @param[in] query A pointer to a `wifi_BTMQuery_t` structure containing the
+ *                  BTM query frame received from the STA.
+ * @param[in] inMemSize The size of the memory allocated by the callback for
+ *                      the `request` parameter. The caller should set this to
+ *                      the maximum size for the request, otherwise the
+ *                      callback may drop elements or return an error.
+ * @param[out] request A pointer to a `wifi_BTMRequest_t` structure to be
+ *                     populated with the BTM request frame to send in
+ *                     response to the query. The caller allocates the memory
+ *                     for the response. The caller may free the memory when
+ *                     the callback returns and the response is sent to the
+ *                     STA.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS The operation was successful.
+ * @retval WIFI_HAL_ERROR An error occurred during the operation.
+ */
+typedef INT (*wifi_BTMQueryRequest_callback)(UINT apIndex,
+                                                    CHAR *peerMac,
+                                                    wifi_BTMQuery_t *query,
+                                                    UINT inMemSize,
+                                                    wifi_BTMRequest_t *request);
+
+/**
+ * @brief Callback function invoked when a STA responds to a BTM request.
+ *
+ * This callback function is invoked when a STA responds to a BTM request from
+ * the gateway.
+ *
+ * @param[in] apIndex The Access Point index.
+ * @param[in] peerMac The MAC address of the peer the response was received
+ * from.
+ * @param[in] response A pointer to a `wifi_BTMResponse_t` structure
+ *                     containing the BTM response frame received from the STA.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS The operation was successful.
+ * @retval WIFI_HAL_ERROR An error occurred during the operation.
+ */
+typedef INT (*wifi_BTMResponse_callback)(UINT apIndex,
+                                            CHAR *peerMac,
+                                            wifi_BTMResponse_t *response);
+#endif
 
 /**
  * @addtogroup WIFI_HAL_APIS
@@ -1479,4 +1551,4 @@ INT wifi_getRMCapabilities(mac_address_t peer, UCHAR out_Capabilities[5]);
 }
 #endif
 
-#endif
+#endif //__WIFI_HAL_EXTENDER_H__
