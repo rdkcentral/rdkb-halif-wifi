@@ -195,7 +195,7 @@ typedef struct
  * @{
  */
 
-//**
+/**
  * @brief Gets detailed radio traffic statistics.
  *
  * This function retrieves detailed traffic statistics for the specified radio.
