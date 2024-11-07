@@ -228,6 +228,11 @@ extern "C"{
 
 #define KEY_MSG_4_OF_4(msg) \
     ((((msg)->key_info[1] & KI1_VER_MASK) == KI1_PW_KEY) && ((msg)->key_info[0] == KI0_MSG4_BITS)) /**< Checks if a key message is message 4 of 4. */
+
+/**
+ * @brief Default length of device information fields.
+ */
+#define DEFAULT_DEVICE_FIELD_LEN 64
 /**********************************************************************
                 STRUCTURE DEFINITIONS
 **********************************************************************/
@@ -858,8 +863,10 @@ typedef struct _wifi_multi_link_info_t
 
 /**
  * @brief Wi-Fi platform properties.
+ *
+ * This structure contains information about the Wi-Fi platform properties.
  */
-typedef struct
+typedef struct 
 {
     UINT numRadios; /**< Number of radios. */
     wifi_radio_capabilities_t radiocap[MAX_NUM_RADIOS]; /**< Radio capabilities. */
@@ -868,6 +875,14 @@ typedef struct
     BOOL radio_presence[MAX_NUM_RADIOS]; /**< Indicates if the interface is present (not in deep sleep). */
     wifi_multi_link_info_t mu_info; /**< Multi-Link information. */
     UINT BssMaxStaAllow; /**< Maximum number of stations supported for the given platform. Gets populated during bring-up. */
+
+    // Device Information related fields
+    CHAR manufacturer[DEFAULT_DEVICE_FIELD_LEN]; /**< Device manufacturer. */
+    CHAR serialNo[DEFAULT_DEVICE_FIELD_LEN]; /**< Device serial number. */
+    CHAR manufacturerModel[DEFAULT_DEVICE_FIELD_LEN]; /**< Device manufacturer model. */
+    CHAR software_version[DEFAULT_DEVICE_FIELD_LEN]; /**< Device software version. */
+    mac_address_t cm_mac; /**< Cable modem MAC address. */
+    mac_address_t al_1905_mac; /**< 802.11v AL MAC address. */
 } __attribute__((packed)) wifi_platform_property_t;
 
 /**

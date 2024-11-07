@@ -102,15 +102,17 @@ typedef struct _wifi_radioTemperature_t
 
 /**
  * @brief Wi-Fi radio operation parameters.
+ *
+ * This structure contains the operation parameters for a Wi-Fi radio.
  */
-typedef struct
+typedef struct 
 {
-    BOOL enable; /**< Whether the radio is enabled. */
-    wifi_freq_bands_t band; /**< The radio frequency band. */
-    BOOL autoChannelEnabled; /**< Whether auto channel selection is enabled. */
-    UINT op_class; /**< The operating class. */
-    UINT channel; /**< The radio primary channel. */
-    UINT numSecondaryChannels; /**< The number of secondary channels in the list. */
+    BOOL enable;                /**< Whether the radio is enabled. */
+    wifi_freq_bands_t band;    /**< The radio frequency band. */
+    BOOL autoChannelEnabled;     /**< Whether auto channel selection is enabled. */
+    UINT op_class;              /**< The operating class. */
+    UINT channel;               /**< The radio primary channel. */
+    UINT numSecondaryChannels;  /**< The number of secondary channels in the list. */
     UINT channelSecondary[MAXNUMSECONDARYCHANNELS]; /**< The list of secondary radio channels. */
     wifi_channelBandwidth_t channelWidth; /**< The channel bandwidth. */
     wifi_ieee80211Variant_t variant; /**< The radio operating mode. */
@@ -147,6 +149,8 @@ typedef struct
     UINT autoChanRefreshPeriod; /**< Auto channel refresh period. */
     INT mcs; /**< MCS index. */
     BOOL amsduEnable; /**< Whether AMSDU is enabled. */
+    UINT DFSTimer; /**< DFS timer. */
+    char radarDetected[256]; /**< Radar detected information. */
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**
