@@ -18,7 +18,6 @@
 */
 /**********************************************************************
     Notes:
-    All new history has to move it to CHANGELOG.md
     What is new for 2.2.0
       1. Add Country Code support
       2. Add more DCS function
@@ -103,9 +102,20 @@
  */
 #include "wifi_hal_telemetry.h"
 /**
+* Wifi client management specific APIs.
+ */
+#include "wifi_hal_client_mgt.h"
+/**
 * Wifi extender specific APIs.
 * Includes API's used by Plume Mesh.
  */
 #include "wifi_hal_extender.h"
+
+//TODO: This header file needs to be corrected, some API's defined in it are currently in use, and require correction or removal.
+/**
+* Wifi deprecated APIs.
+* APIs to be deprecated. Not add new function or structure!
+*/
+#include "wifi_hal_deprecated.h"
 
 #endif
