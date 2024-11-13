@@ -23,125 +23,116 @@
 extern "C"{
 #endif
 
-#include "wifi_hal_ap.h"
-
 /**
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
-
-typedef struct {
+/**
+ * @brief Station capabilities.
+ */
+typedef struct
+{
 
 } wifi_sta_capability_t;
 
-
-typedef struct {
-    UINT                        vap_index;
-    wifi_connection_status_t    connect_status;
-    UINT                        channel;
-    UINT                        channelWidth;
-    UINT                        op_class;
+/**
+ * @brief Station statistics.
+ */
+typedef struct
+{
+    UINT vap_index; /**< VAP index. */
+    wifi_connection_status_t connect_status; /**< Connection status. */
+    UINT channel; /**< Channel. */
+    UINT channelWidth; /**< Channel width. */
+    UINT op_class; /**< Operating class. */
 } wifi_station_stats_t;
 
 /**
- * @brief To get the station connection status
- * 
- * @param[in] apIndex    VAP index
- * @param[in] bss_dev   To get connected client BSS information
- * @param[in] sta       Station stats
- * 
- * @return The status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if error
+ * @brief Connects a client VAP to a specified BSS.
  *
- * @execution Synchronous.
- * @sideeffect None.
+ * @param[in] ap_index Index of the client VAP.
+ * @param[in] bss      Pointer to a `wifi_bss_info_t` structure containing
+ *                     information about the BSS to connect to.
  *
- * @note This function must not suspend and must not invoke any blocking system
- * calls. It should probably just send a message to a driver event handler task
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
+INT wifi_connect(INT ap_index, wifi_bss_info_t *bss);
+
+/**
+ * @brief Disconnects a client VAP.
+ *
+ * @param[in] ap_index Index of the client VAP.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
+INT wifi_disconnect(INT ap_index);
+
+/**
+ * @brief Gets the capabilities of a station.
+ *
+ * @param[in] ap_index  Index of the client VAP.
+ * @param[out] capability Pointer to a `wifi_sta_capability_t` structure to store
+ *                        the station capabilities.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
+INT wifi_getStationCapability(INT ap_index, wifi_sta_capability_t *cap);
+
+/**
+ * @brief Finds available networks.
+ *
+ * @param[in] ap_index  Index of the client VAP.
+ * @param[in] channel   Pointer to a `wifi_channel_t` structure containing the channel
+ *                      number and band information.
+ * @param[out] bss      Pointer to a pointer to an array of `wifi_bss_info_t`
+ *                      structures. The array is allocated by the HAL layer and
+ *                      should be freed by the caller.
+ * @param[out] num_bss  Pointer to a variable to store the number of BSSs found.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
+INT wifi_findNetworks(INT ap_index, wifi_channel_t *channel, wifi_bss_info_t **bss, UINT *num_bss);
+
+/**
+ * @brief Gets station statistics.
+ *
+ * @param[in] ap_index Index of the client VAP.
+ * @param[out] sta      Pointer to a `wifi_station_stats_t` structure to store the
+ *                      station statistics.
+ *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
+ */
+INT wifi_getStationStats(INT ap_index, wifi_station_stats_t *sta);
+
+/**
+ * @brief Callback function invoked when the station connection status changes.
+ *
+ * @param[in] apIndex  Index of the client VAP.
+ * @param[in] bss_dev  Pointer to a `wifi_bss_info_t` structure containing information
+ *                     about the BSS.
+ * @param[in] sta      Pointer to a `wifi_station_stats_t` structure containing the
+ *                     station statistics.
+ *
+ * @returns The status of the operation.
  */
 typedef INT ( * wifi_staConnectionStatus_callback)(INT apIndex, wifi_bss_info_t *bss_dev, wifi_station_stats_t *sta);
 
-/** @} */  //END OF GROUP WIFI_HAL_TYPES
-
 /**
- * @addtogroup WIFI_HAL_APIS
- * @{
- */
- 
- /**
- * @brief Scan for neighbour BSS on a specific frequency or list of frequencies
- *  
- * If the number of the elements in the frequency is zero then scan all frequencies
- * 
- * @param[in] index      Radio index
- * @param[in] scan_mode  Mode  how to scan
- * @param[in] dwell_time Amount of time in millisec remain on a specific channel
- * @param[in] num        Number of elements in the array
- * @param[in] chan_list  List of frequencies
+ * @brief Registers a callback function for station connection status changes.
  *
- * @return status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if any error is detected
- *
- * @execution Synchronous.
- * @sideeffect None.
- *
- * @note This function must not suspend and must not invoke any blocking system
- * calls. It should probably just send a message to a driver event handler task
- */
-INT wifi_startScan(wifi_radio_index_t index, wifi_neighborScanMode_t scan_mode, INT dwell_time, UINT num, UINT *chan_list);
-
- /**
- * @brief To connect the client to specified BSS
- * 
- * @param[in] apIndex   VAP index
- * @param[in] bss       Information about BSS that client will connect to
- *
- * @return status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if any error is detected
- *
- * @execution Synchronous.
- * @sideeffect None.
- *
- * @note This function must not suspend and must not invoke any blocking system
- * calls. It should probably just send a message to a driver event handler task
- */
-INT wifi_connect(INT apIndex, wifi_bss_info_t *bss);
-
- /**
- * @brief To disconnect the client
- * 
- * @param[in] apIndex   -   VAP index
- *
- * @return status of the operation
- * @retval WIFI_HAL_SUCCESS if successful
- * @retval WIFI_HAL_ERROR if any error is detected
- *
- * @execution Synchronous.
- * @sideeffect None.
- *
- * @note This function must not suspend and must not invoke any blocking system
- * calls. It should probably just send a message to a driver event handler task
- */
-INT wifi_disconnect(INT apIndex);
-
- /**
- * @brief Callback function to disconnect the client VAP 
- * 
- * @param[in] callback_proc  -  Call back function name
- *
- * @execution Synchronous.
- * @sideeffect None.
- *
- * @note This function must not suspend and must not invoke any blocking system
- * calls. It should probably just send a message to a driver event handler task
+ * @param[in] callback_proc Pointer to the callback function to register.
  */
 void wifi_staConnectionStatus_callback_register(wifi_staConnectionStatus_callback callback_proc);
-
-/** @} */  //END OF GROUP WIFI_HAL_APIS
-
 
 #ifdef __cplusplus
 }
