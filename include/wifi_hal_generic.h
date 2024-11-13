@@ -967,6 +967,12 @@ typedef enum {
     EAP_FAILURE
 } radius_eap_failure_code_t;
 
+typedef enum{
+    RADIUS_INIT,
+    RADIUS_FAILOVER,
+    RADIUS_FALLBACK
+}radius_fallback_failover_code_t;
+
 #define MAX_NR                  4
 #define MAX_NC                  1
 #define MAX_SUB_CARRIERS        256
