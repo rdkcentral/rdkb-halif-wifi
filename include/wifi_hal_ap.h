@@ -1591,6 +1591,33 @@ typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason)
  */
 void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
 
+/**
+ * @brief Callback function invoked when a RADIUS server fallback failure occurs.
+ *
+ * This callback function is invoked when a RADIUS server fallback failure occurs on
+ * the specified Access Point (AP).
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex         Index of the Access Point.
+ * @param[in] failure_reason  Reason for the failure.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+typedef INT ( * wifi_radiusFallback_failover_callback)(INT apIndex, INT failure_reason);
+
+/**
+ * @brief Registers a callback function for RADIUS server fallback failure events.
+ *
+ * This function registers a callback function that will be invoked when a
+ * RADIUS server fallback failure occurs.
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param callback_proc Pointer to the callback function to register.
+ */
+void wifi_radiusFallback_failover_callback_register(wifi_radiusFallback_failover_callback callback_proc);
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -2646,9 +2673,11 @@ typedef struct
     char key[64];             /**< Primary RADIUS server secret. */
     char identity[64];        /**< Primary RADIUS server identity. */
 #ifdef WIFI_HAL_VERSION_3_PHASE2
-    ip_addr_t s_ip;             /**< Secondary RADIUS server IP address. */
+    ip_addr_t s_ip;              /**< Secondary RADIUS server IP address. */
+    ip_addr_t connectedendpoint; /**< The RADIUS server IP address which is currently in use. */
 #else
     unsigned char s_ip[45];     /**< Secondary RADIUS server IP address. */
+    unsigned char connectedendpoint[45]; /**< The RADIUS server IP address which is currently in use. */
 #endif
     unsigned short s_port;      /**< Secondary RADIUS server port. */
     char s_key[64];           /**< Secondary RADIUS server secret. */

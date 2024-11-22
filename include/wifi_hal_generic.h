@@ -1075,6 +1075,12 @@ typedef enum
     EAP_FAILURE /**< EAP failure. */
 } radius_eap_failure_code_t;
 
+typedef enum{
+    RADIUS_INIT, /**< RADIUS Initialization failure. */
+    RADIUS_FAILOVER, /**< RADIUS Failover. */
+    RADIUS_FALLBACK /**< RADIUS Fallback. */
+}radius_fallback_failover_code_t;
+
 #define MAX_NR 4 /**< Maximum number of receive antennas. */
 #define MAX_NC 1 /**< Maximum number of transmit antennas. */
 #define MAX_SUB_CARRIERS 256 /**< Maximum number of subcarriers. */
