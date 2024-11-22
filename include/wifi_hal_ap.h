@@ -1605,7 +1605,6 @@ void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback call
  *
  * This callback function is invoked when a RADIUS server fallback failure occurs on
  * the specified Access Point (AP).
- * This function must not suspend and must not invoke any blocking system calls.
  *
  * @param[in] apIndex         Index of the Access Point.
  * @param[in] failure_reason  Reason for the failure.
@@ -1621,7 +1620,6 @@ typedef INT ( * wifi_radiusFallback_failover_callback)(INT apIndex, INT failure_
  *
  * This function registers a callback function that will be invoked when a
  * RADIUS server fallback failure occurs.
- * This function must not suspend and must not invoke any blocking system calls.
  *
  * @param callback_proc Pointer to the callback function to register.
  */
@@ -1638,7 +1636,6 @@ void wifi_radiusFallback_failover_callback_register(wifi_radiusFallback_failover
  *
  * This function registers a callback function that will be invoked when a
  * Wi-Fi client disassociates from an Access Point (AP).
- * This function must not suspend and must not invoke any blocking system calls.
  *
  * @param callback_proc Pointer to the callback function to register.
  */
