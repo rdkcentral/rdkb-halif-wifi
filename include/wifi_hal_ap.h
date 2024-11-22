@@ -1639,7 +1639,6 @@ void wifi_radiusFallback_failover_callback_register(wifi_radiusFallback_failover
  *
  * This function registers a callback function that will be invoked when a
  * Wi-Fi client disassociates from an Access Point (AP).
- * This function must not suspend and must not invoke any blocking system calls.
  *
  * @param callback_proc Pointer to the callback function to register.
  */

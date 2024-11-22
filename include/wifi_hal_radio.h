@@ -91,6 +91,35 @@ typedef struct
 } __attribute__((packed)) wifi_radio_11be_puncturing_info_t;
 
 /**
+ * @brief Maximum number of non operable channels in a channel.
+ * (TODO: Name to be changed in future revisions of interface for
+ * readability)
+ */
+#define MAXNUMNONOPERABLECHANNELS 10
+
+/**
+ * @brief Maximum number of operating classes in a band.
+ * (TODO: Name to be changed in future revisions of interface for
+ * readability)
+ */
+#define MAXNUMOPERCLASSESPERBAND 20
+
+/**
+ * @brief Operating Classes information.
+ *
+ * Structure that holds information of the operating class,
+ * such as maximum transmit power, array of non-operable channel
+ * associated with that operating class.
+ */
+typedef struct
+{
+    UINT opClass;                                /**< Global operating Class value */
+    INT maxTxPower;                              /**< Max Tx Power */
+    UINT numberOfNonOperChan;                    /**< Number of Nonoperable channels */
+    UINT nonOperable[MAXNUMNONOPERABLECHANNELS]; /**< Array of Non Operable channel value */
+} __attribute__((packed)) wifi_operating_classes_t;
+
+/**
  * @brief Radio temperature information.
  *
  * Structure that holds the radio temperature information.
@@ -151,6 +180,8 @@ typedef struct
     BOOL amsduEnable; /**< Whether AMSDU is enabled. */
     UINT DFSTimer; /**< DFS timer. */
     char radarDetected[256]; /**< Radar detected information. */
+    UINT numOperatingClasses; /**< Number of valid operating classes in the array operatingClasses */
+    wifi_operating_classes_t operatingClasses[MAXNUMOPERCLASSESPERBAND]; /**< Array of supported Operating classes as per Data elements Schema */
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**
