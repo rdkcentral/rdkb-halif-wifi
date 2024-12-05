@@ -2833,6 +2833,10 @@ typedef struct
     char minimum_advertised_mcs[32];     /**< Minimum advertised MCS. */
     char sixGOpInfoMinRate[32];          /**< 6G operating information minimum rate. */
     char client_deny_assoc_info[45];     /**< Client deny association information. */
+    int  time_ms;                        /**< Time to wait for meeting minimum mgmt frames for TCM threshold calcultion */
+    int  min_num_mgmt_frames;            /**< Minimum number of mgmt frames required to compute the TCM threshold. */
+    char tcm_exp_weightage[32];          /**< Alpha/Exponential weight used in the Exponential Moving Average formula. */
+    char tcm_gradient_threshold[32];     /**< Threshold against which TCM Exponential Moving Average is computed. */
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_preassoc_control_t;
 
