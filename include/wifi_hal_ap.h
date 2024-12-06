@@ -1744,6 +1744,28 @@ void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_cal
 */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
 
+/* wifi_hal_ap_max_client_rejection_callback_register() function */
+/**
+ * @brief This call back will be called whenever an authentication response with reject reason 17
+ * is received.
+ *
+ * @param[in] apIndex          Access Point Index
+ * @param[in] mac_address      client_mac_address
+ * @param[in] reject_reason    reject reason
+ *
+ * @return The status of the operation
+ * @retval RETURN_OK if successful
+ * @retval RETURN_ERR if any error is detected
+ *
+ * @execution Synchronous
+ * @sideeffect None
+ *
+ * @note This function must not suspend and must not invoke any blocking system
+ * calls. It should probably just send a message to a driver event handler task.
+ *
+ */
+typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT reason);
+
 /* wifi_radiusEapFailure_callback() function */
 /**
 * @brief This call back will be invoked when new there is a radius or EAP failure happens.
