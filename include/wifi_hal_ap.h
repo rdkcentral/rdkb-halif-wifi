@@ -522,6 +522,15 @@ typedef enum
     WIFI_EAP_TYPE_EXPANDED = 254   /**< EAP-Expanded (RFC 3748). */
 } wifi_eap_t;
 
+typedef enum {
+    WIFI_EAP_PHASE2_EAP,        /**< Enterprise EAP. */
+    WIFI_EAP_PHASE2_MSCHAPV2,   /**< Enterprise MSCHAPV2. */
+    WIFI_EAP_PHASE2_MSCHAP,     /**< Enterprise MSCHAP. */
+    WIFI_EAP_PHASE2_PAP,        /**< Enterprise PAP. */
+    WIFI_EAP_PHASE2_CHAP,       /**< Enterprise CHAP. */
+    WIFI_EAP_PHASE2_GTC         /**< Enterprise GTC. */
+} phase2_type;
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -1591,6 +1600,34 @@ typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason)
  */
 void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
 
+/**
+ * @brief Callback function invoked when a RADIUS server fallback failure occurs.
+ *
+ * This callback function is invoked when a RADIUS server fallback failure occurs on
+ * the specified Access Point (AP).
+ *
+ * @param[in] apIndex         Index of the Access Point.
+ * @param[in] failure_reason  Reason for the failure.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ *
+ * In current implementation return value is WIFI_HAL_SUCCESS and any failure of the operation
+ * is updated in the failure_reason code.
+ */
+typedef INT ( * wifi_radiusFallback_failover_callback)(INT apIndex, INT failure_reason);
+
+/**
+ * @brief Registers a callback function for RADIUS server fallback failure events.
+ *
+ * This function registers a callback function that will be invoked when a
+ * RADIUS server fallback failure occurs.
+ *
+ * @param callback_proc Pointer to the callback function to register.
+ */
+void wifi_radiusFallback_failover_callback_register(wifi_radiusFallback_failover_callback callback_proc);
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -1602,7 +1639,6 @@ void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback call
  *
  * This function registers a callback function that will be invoked when a
  * Wi-Fi client disassociates from an Access Point (AP).
- * This function must not suspend and must not invoke any blocking system calls.
  *
  * @param callback_proc Pointer to the callback function to register.
  */
@@ -2646,9 +2682,11 @@ typedef struct
     char key[64];             /**< Primary RADIUS server secret. */
     char identity[64];        /**< Primary RADIUS server identity. */
 #ifdef WIFI_HAL_VERSION_3_PHASE2
-    ip_addr_t s_ip;             /**< Secondary RADIUS server IP address. */
+    ip_addr_t s_ip;              /**< Secondary RADIUS server IP address. */
+    ip_addr_t connectedendpoint; /**< The RADIUS server IP address which is currently in use. */
 #else
     unsigned char s_ip[45];     /**< Secondary RADIUS server IP address. */
+    unsigned char connectedendpoint[45]; /**< The RADIUS server IP address which is currently in use. */
 #endif
     unsigned short s_port;      /**< Secondary RADIUS server port. */
     char s_key[64];           /**< Secondary RADIUS server secret. */
@@ -2660,6 +2698,7 @@ typedef struct
     UINT identity_req_retry_interval; /**< Identity request retry interval in seconds. */
     UINT server_retries;        /**< Number of RADIUS server retries. */
     wifi_eap_t eap_type;       /**< EAP type. */
+    phase2_type phase2;        /**< Enterprise based eap type */
 } __attribute__((packed)) wifi_radius_settings_t;
 
 /**
@@ -2794,6 +2833,10 @@ typedef struct
     char minimum_advertised_mcs[32];     /**< Minimum advertised MCS. */
     char sixGOpInfoMinRate[32];          /**< 6G operating information minimum rate. */
     char client_deny_assoc_info[45];     /**< Client deny association information. */
+    int  time_ms;                        /**< Time to wait for meeting minimum mgmt frames for TCM threshold calcultion */
+    int  min_num_mgmt_frames;            /**< Minimum number of mgmt frames required to compute the TCM threshold. */
+    char tcm_exp_weightage[32];          /**< Alpha/Exponential weight used in the Exponential Moving Average formula. */
+    char tcm_gradient_threshold[32];     /**< Threshold against which TCM Exponential Moving Average is computed. */
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_preassoc_control_t;
 
