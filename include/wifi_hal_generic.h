@@ -132,6 +132,7 @@ extern "C"{
 #define WIFI_HAL_UNSUPPORTED       -3  /**< Wi-Fi HAL unsupported operation status code. */
 #define WIFI_HAL_INVALID_ARGUMENTS -4  /**< Wi-Fi HAL invalid arguments status code. */
 #define WIFI_HAL_INVALID_VALUE     -5  /**< Wi-Fi HAL invalid value status code. */
+#define WIFI_HAL_NOT_READY         -6  /**< Wi-Fi HAL not ready status code. */
 
 #ifndef RADIO_INDEX_1
 #define RADIO_INDEX_1 1  /**< Radio index 1. */
@@ -746,6 +747,11 @@ typedef enum {
     wifi_countrycode_ZA, /**< SOUTH AFRICA */
     wifi_countrycode_ZM, /**< ZAMBIA */
     wifi_countrycode_ZW, /**< ZIMBABWE */
+    wifi_countrycode_AX, /**< ALAND_ISLANDS */
+    wifi_countrycode_BL, /**< SAINT_BARTHELEMY */
+    wifi_countrycode_CW, /**< CURACAO */
+    wifi_countrycode_MF, /**< SAINT_MARTIN */
+    wifi_countrycode_SX, /**< SINT_MAARTEN */
     wifi_countrycode_max /**< Max number of country code */
 } wifi_countrycode_type_t;
 
@@ -1074,6 +1080,12 @@ typedef enum
     RADIUS_ACCESS_REJECT = 1, /**< RADIUS access reject. */
     EAP_FAILURE /**< EAP failure. */
 } radius_eap_failure_code_t;
+
+typedef enum{
+    RADIUS_INIT, /**< RADIUS Initialization failure. */
+    RADIUS_FAILOVER, /**< RADIUS Failover. */
+    RADIUS_FALLBACK /**< RADIUS Fallback. */
+}radius_fallback_failover_code_t;
 
 #define MAX_NR 4 /**< Maximum number of receive antennas. */
 #define MAX_NC 1 /**< Maximum number of transmit antennas. */
