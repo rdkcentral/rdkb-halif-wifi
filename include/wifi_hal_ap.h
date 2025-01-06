@@ -2837,6 +2837,7 @@ typedef struct
     int  min_num_mgmt_frames;            /**< Minimum number of mgmt frames required to compute the TCM threshold. */
     char tcm_exp_weightage[32];          /**< Alpha/Exponential weight used in the Exponential Moving Average formula. */
     char tcm_gradient_threshold[32];     /**< Threshold against which TCM Exponential Moving Average is computed. */
+    char tcm_client_deny_assoc_info[64]; /**< Client deny association information for TCM. */
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_preassoc_control_t;
 
