@@ -2676,8 +2676,8 @@ typedef struct {
 
 // Not a standard value, but a reasonable maximum for vendor elements 
 // Computed by taking Max MPDU size - ~ MAX 802.11 header size - 802.11 FCS size - ~Size of required IEs
-// 2,304 is divisible by the typical Vendor IE size (6, including vendor subtype)
-#define WIFI_AP_MAX_VENDOR_IE_LEN 2304
+// 2,310 is divisible by the typical Vendor IE size (7 = IE Type[1] + IE Length[1] + OUI[3] + VIE Type[1] + VIE Subtype [1])
+#define WIFI_AP_MAX_VENDOR_IE_LEN 2310
 typedef struct {
     CHAR    ssid[WIFI_AP_MAX_SSID_LEN];
     BOOL    enabled;
@@ -2713,7 +2713,7 @@ typedef struct {
     wifi_mld_info_ap_t mld_info;
     BOOL   hostap_mgt_frame_ctrl;
     BOOL   mbo_enabled;
-    UCHAR vendor_elements[2048];
+    UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN];
     USHORT vendor_elements_len; // Length of vendor_elements currently stored since it is not null terminated
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
