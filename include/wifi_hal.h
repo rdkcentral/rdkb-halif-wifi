@@ -110,6 +110,8 @@
 * Includes API's used by Plume Mesh.
  */
 #include "wifi_hal_extender.h"
+
+//TODO: This header file needs to be corrected, some API's defined in it are currently in use, and require correction or removal.
 /**
 * Wifi deprecated APIs.
 * APIs to be deprecated. Not add new function or structure!
