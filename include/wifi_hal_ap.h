@@ -3120,6 +3120,15 @@ typedef struct
 #define WIFI_AP_MAX_SSID_LEN 33
 
 /**
+ * @brief Maximum length of the vendor information elements buffer
+ *
+ * Not a standard value, but a reasonable maximum for vendor elements 
+ * Computed by taking Max MPDU size - ~ MAX 802.11 header size - 802.11 FCS size - ~Size of required IEs
+ * 2,310 is divisible by the typical Vendor IE size (7 = IE Type[1] + IE Length[1] + OUI[3] + VIE Type[1] + VIE Subtype [1])
+ */
+#define WIFI_AP_MAX_VENDOR_IE_LEN 2310
+
+/**
  * @brief Fronthaul BSS information.
  *
  * This structure contains information about a fronthaul BSS.
@@ -3167,6 +3176,8 @@ typedef struct {
   BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
   BOOL   interop_ctrl;               /**< Whether interop ctrl is enabled. */
   UINT    inum_sta;                   /**< configuring interop stations */
+  UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
+  USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
