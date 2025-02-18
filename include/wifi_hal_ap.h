@@ -389,6 +389,15 @@ typedef enum {
     WIFI_EAP_TYPE_EXPANDED = 254 /* RFC 3748 */
 } wifi_eap_t;
 
+typedef enum {
+    WIFI_EAP_PHASE2_EAP,
+    WIFI_EAP_PHASE2_MSCHAPV2,
+    WIFI_EAP_PHASE2_MSCHAP,
+    WIFI_EAP_PHASE2_PAP,
+    WIFI_EAP_PHASE2_CHAP,
+    WIFI_EAP_PHASE2_GTC
+} phase2_type;
+
 
 typedef enum
 {
@@ -581,8 +590,10 @@ typedef struct {
     char            identity[64];       /**< The primary identity. */
 #ifdef WIFI_HAL_VERSION_3_PHASE2
     ip_addr_t       s_ip;                 /**< The secondary RADIUS server IP address. */
+    ip_addr_t       connectedendpoint;  /**< The RADIUS server IP address which is currently in use. */
 #else
     unsigned char   s_ip[45];
+    unsigned char   connectedendpoint[45];
 #endif
     unsigned short  s_port;             /**< The secondary RADIUS server port. */
     char            s_key[64];          /**< The secondary secret. */
@@ -594,13 +605,17 @@ typedef struct {
     UINT            identity_req_retry_interval;
     UINT            server_retries;
     wifi_eap_t      eap_type;
+    phase2_type     phase2;
 } __attribute__((packed)) wifi_radius_settings_t;
 
 typedef enum {
     wifi_security_key_type_psk,
     wifi_security_key_type_pass,
     wifi_security_key_type_sae,
-    wifi_security_key_type_psk_sae
+    wifi_security_key_type_psk_sae,
+    wifi_security_key_type_saeext,
+    wifi_security_key_type_sae_saeext,
+    wifi_security_key_type_psk_sae_saeext
 } wifi_security_key_type_t;
 
 typedef struct {
@@ -705,7 +720,12 @@ typedef struct {
     char supported_data_transmit_rates[32];
     char minimum_advertised_mcs[32];
     char sixGOpInfoMinRate[32];
-    char client_deny_assoc_info[32];
+    char client_deny_assoc_info[45];
+    int  time_ms;
+    int  min_num_mgmt_frames;
+    char tcm_exp_weightage[32];
+    char tcm_gradient_threshold[32];
+    char tcm_client_deny_assoc_info[64];
     wifi_vap_name_t vap_name;
 } __attribute__((packed)) wifi_preassoc_control_t;
 
@@ -715,7 +735,7 @@ typedef struct {
     char rssi_up_threshold[32];
     char snr_threshold[32]; // retrans_up
     char cu_threshold[32];
-    char client_force_disassoc_info[32];
+    char client_force_disassoc_info[45];
     wifi_vap_name_t vap_name;
 } __attribute__((packed)) wifi_postassoc_control_t;
 
@@ -791,6 +811,8 @@ typedef struct {
     BOOL   mcast2ucast;                    /**< True if 'multicast to unicast' feature is enabled for this VAP, false otherwise */
     BOOL   connected_building_enabled;
     wifi_mld_info_ap_t mld_info;
+    BOOL   hostap_mgt_frame_ctrl;
+    BOOL   mbo_enabled;
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 #define WIFI_BRIDGE_NAME_LEN  32
@@ -925,6 +947,48 @@ typedef INT(* wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_
 *
 */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
+
+/* wifi_radiusEapFailure_callback() function */
+/**
+* @brief This call back will be invoked when new there is a radius or EAP failure happens.
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] failure_reason   Failure reason
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason);
+
+/* wifi_radiusEapFailure_callback_register() function */
+
+/**
+* @brief Callback registration function.
+*
+* @param[in] callback_proc  wifi_radiusEapFailure__callback callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
+/**
 
 /**
 * @brief This call back will be invoked when DeAuth Event (reason 2 wrong password) comes from client.

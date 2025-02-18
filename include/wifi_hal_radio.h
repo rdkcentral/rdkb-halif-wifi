@@ -70,6 +70,27 @@ typedef struct {
     UCHAR punct_acs_threshold;
 } __attribute__((packed)) wifi_radio_11be_puncturing_info_t;
 
+#define MAXNUMNONOPERABLECHANNELS 10
+#define MAXNUMOPERCLASSESPERBAND 20
+typedef struct
+{
+    UINT opClass;                                /**< Global operating Class value */
+    INT maxTxPower;                              /**< Max Tx Power */
+    UINT numberOfNonOperChan;                    /**< Number of Nonoperable channels */
+    UINT nonOperable[MAXNUMNONOPERABLECHANNELS]; /**< Array of Non Operable channel value */
+} __attribute__((packed)) wifi_operating_classes_t;
+
+
+/**
+* @brief Radio temperature information.
+*
+* Structure which holds the Radio temperature information.
+*/
+typedef struct _wifi_radioTemperature_t
+{
+    UINT radio_Temperature;     /**< WiFi radio chipset temperature. */
+} wifi_radioTemperature_t; //for radio only
+
 /**
  * @brief Wifi Radio Operation Parameters
  */
@@ -116,6 +137,10 @@ typedef struct {
     UINT autoChanRefreshPeriod;
     INT  mcs;
     BOOL amsduEnable;
+    UINT DFSTimer;
+    char radarDetected[256];
+    UINT numOperatingClasses;                                            /**< Number of valid operating classes in the array operatingClasses */
+    wifi_operating_classes_t operatingClasses[MAXNUMOPERCLASSESPERBAND]; /**< Array of supported Operating classes as per Data elements Schema */
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**
@@ -248,6 +273,27 @@ INT wifi_setRadioOperatingParameters(wifi_radio_index_t radioIndex, wifi_radio_o
  * calls. It should probably just send a message to a driver event handler task
  */
 void wifi_scanResults_callback_register(wifi_scanResults_callback callback_proc);
+
+/* wifi_hal_getRadioTemperature() function */
+/**
+* @brief Get radio chipset temperature info.
+*
+* @param[in]  radioIndex      Index of Wi-Fi radio channel
+* @param[out] output_struct   wifi_radioTemperature_t *output_struct, temperature info to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_hal_getRadioTemperature(wifi_radio_index_t radioIndex, wifi_radioTemperature_t *output_struct);
+
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
 #ifdef __cplusplus
