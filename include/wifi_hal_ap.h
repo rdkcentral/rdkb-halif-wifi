@@ -389,6 +389,15 @@ typedef enum {
     WIFI_EAP_TYPE_EXPANDED = 254 /* RFC 3748 */
 } wifi_eap_t;
 
+typedef enum {
+    WIFI_EAP_PHASE2_EAP,
+    WIFI_EAP_PHASE2_MSCHAPV2,
+    WIFI_EAP_PHASE2_MSCHAP,
+    WIFI_EAP_PHASE2_PAP,
+    WIFI_EAP_PHASE2_CHAP,
+    WIFI_EAP_PHASE2_GTC
+} phase2_type;
+
 
 typedef enum
 {
@@ -581,8 +590,10 @@ typedef struct {
     char            identity[64];       /**< The primary identity. */
 #ifdef WIFI_HAL_VERSION_3_PHASE2
     ip_addr_t       s_ip;                 /**< The secondary RADIUS server IP address. */
+    ip_addr_t       connectedendpoint;  /**< The RADIUS server IP address which is currently in use. */
 #else
     unsigned char   s_ip[45];
+    unsigned char   connectedendpoint[45];
 #endif
     unsigned short  s_port;             /**< The secondary RADIUS server port. */
     char            s_key[64];          /**< The secondary secret. */
@@ -594,6 +605,7 @@ typedef struct {
     UINT            identity_req_retry_interval;
     UINT            server_retries;
     wifi_eap_t      eap_type;
+    phase2_type     phase2;
 } __attribute__((packed)) wifi_radius_settings_t;
 
 typedef enum {
@@ -709,6 +721,11 @@ typedef struct {
     char minimum_advertised_mcs[32];
     char sixGOpInfoMinRate[32];
     char client_deny_assoc_info[45];
+    int  time_ms;
+    int  min_num_mgmt_frames;
+    char tcm_exp_weightage[32];
+    char tcm_gradient_threshold[32];
+    char tcm_client_deny_assoc_info[64];
     wifi_vap_name_t vap_name;
 } __attribute__((packed)) wifi_preassoc_control_t;
 
@@ -794,6 +811,8 @@ typedef struct {
     BOOL   mcast2ucast;                    /**< True if 'multicast to unicast' feature is enabled for this VAP, false otherwise */
     BOOL   connected_building_enabled;
     wifi_mld_info_ap_t mld_info;
+    BOOL   hostap_mgt_frame_ctrl;
+    BOOL   mbo_enabled;
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 #define WIFI_BRIDGE_NAME_LEN  32

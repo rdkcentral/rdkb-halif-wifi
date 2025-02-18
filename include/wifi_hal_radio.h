@@ -70,6 +70,17 @@ typedef struct {
     UCHAR punct_acs_threshold;
 } __attribute__((packed)) wifi_radio_11be_puncturing_info_t;
 
+#define MAXNUMNONOPERABLECHANNELS 10
+#define MAXNUMOPERCLASSESPERBAND 20
+typedef struct
+{
+    UINT opClass;                                /**< Global operating Class value */
+    INT maxTxPower;                              /**< Max Tx Power */
+    UINT numberOfNonOperChan;                    /**< Number of Nonoperable channels */
+    UINT nonOperable[MAXNUMNONOPERABLECHANNELS]; /**< Array of Non Operable channel value */
+} __attribute__((packed)) wifi_operating_classes_t;
+
+
 /**
 * @brief Radio temperature information.
 *
@@ -126,6 +137,10 @@ typedef struct {
     UINT autoChanRefreshPeriod;
     INT  mcs;
     BOOL amsduEnable;
+    UINT DFSTimer;
+    char radarDetected[256];
+    UINT numOperatingClasses;                                            /**< Number of valid operating classes in the array operatingClasses */
+    wifi_operating_classes_t operatingClasses[MAXNUMOPERCLASSESPERBAND]; /**< Array of supported Operating classes as per Data elements Schema */
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**

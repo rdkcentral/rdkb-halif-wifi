@@ -180,6 +180,8 @@ extern "C"{
 #define KEY_MSG_4_OF_4(msg)             \
         ((((msg)->key_info[1] & KI1_VER_MASK) == KI1_PW_KEY) && ((msg)->key_info[0] == KI0_MSG4_BITS))
 
+// Device related information
+#define DEFAULT_DEVICE_FIELD_LEN 64
 
 /**********************************************************************
                 STRUCTURE DEFINITIONS
@@ -649,6 +651,11 @@ typedef enum {
     wifi_countrycode_ZA, /**< SOUTH AFRICA */
     wifi_countrycode_ZM, /**< ZAMBIA */
     wifi_countrycode_ZW, /**< ZIMBABWE */
+    wifi_countrycode_AX, /**< ALAND_ISLANDS */
+    wifi_countrycode_BL, /**< SAINT_BARTHELEMY */
+    wifi_countrycode_CW, /**< CURACAO */
+    wifi_countrycode_MF, /**< SAINT_MARTIN */
+    wifi_countrycode_SX, /**< SINT_MAARTEN */
     wifi_countrycode_max /**< Max number of country code */
 } wifi_countrycode_type_t;
 
@@ -760,6 +767,13 @@ typedef struct {
      BOOL radio_presence[MAX_NUM_RADIOS];         /**< Indicates if the interfaces is present (not in deep sleep)*/
      wifi_multi_link_info_t mu_info;
      UINT BssMaxStaAllow;                    /**< Maximum number of stations supported for given platform. Gets populated during bring-up. */
+     //Device Information related fields
+     CHAR manufacturer[DEFAULT_DEVICE_FIELD_LEN];
+     CHAR serialNo[DEFAULT_DEVICE_FIELD_LEN];
+     CHAR manufacturerModel[DEFAULT_DEVICE_FIELD_LEN];
+     CHAR software_version[DEFAULT_DEVICE_FIELD_LEN];
+     mac_address_t cm_mac;
+     mac_address_t al_1905_mac;
 }__attribute__((packed)) wifi_platform_property_t;
 
 /**
@@ -902,6 +916,12 @@ typedef enum {
     EAP_FAILURE
 } radius_eap_failure_code_t;
 
+typedef enum{
+    RADIUS_INIT,
+    RADIUS_FAILOVER,
+    RADIUS_FALLBACK
+} radius_fallback_failover_code_t;
+
 
 #define MAX_NR                  4
 #define MAX_NC                  1
@@ -1000,8 +1020,8 @@ typedef struct _wifi_associated_dev3
 
        UINT  cli_MaxDownlinkRate; /**< The Max data transmit rate in Mbps for the access point to the associated device. */
        UINT  cli_MaxUplinkRate;   /**<  The Max data transmit rate in Mbps for the associated device to the access point. */
-       wifi_ul_mu_stats_t  cli_DownlinkMuStats;
-       wifi_dl_mu_stats_t  cli_UplinkMuStats;
+       wifi_dl_mu_stats_t  cli_DownlinkMuStats;
+       wifi_ul_mu_stats_t  cli_UplinkMuStats;
        wifi_twt_dev_info_t cli_TwtParams; /**< TWT sessions that the device has joined */
 
        /* To facilitate retrieval of CSI data for specific associated client, an existing RDK-B Wi-Fi HAL 
