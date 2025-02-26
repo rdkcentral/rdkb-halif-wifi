@@ -1573,6 +1573,29 @@ void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_cal
  */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
 
+/* wifi_stamode_callback() function */
+/**
+* @brief This call back will be invoked for all of these assoc request,reassoc request,eapol frames
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] mac              MAC address of associated device
+* @param[in] key_mgmt         authentication key management  of associated device
+* @param[in] type             frame type of associated device
+* @param[in] radio            radio to which associated device connected
+* @param[in] mode             security mode of gateway with respect to akm
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int type, int radio, int mode);
+
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
@@ -1621,6 +1644,25 @@ typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason)
  * @param callback_proc Pointer to the callback function to register.
  */
 void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
+
+/* wifi_ap_stamode_callback_register() function */
+/**
+* @brief Callback registration function.
+*
+* @param[in] callback_proc  wifi_stamode_callback callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+void wifi_ap_stamode_callback_register(wifi_stamode_callback callback_proc);
 
 /**
  * @brief Callback function invoked when a RADIUS server fallback failure occurs.
