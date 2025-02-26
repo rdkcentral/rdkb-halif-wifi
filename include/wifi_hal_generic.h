@@ -266,7 +266,8 @@ typedef enum
     wifi_security_mode_wpa3_personal = 0x00000200, /**< WPA3 Personal. */
     wifi_security_mode_wpa3_transition = 0x00000400, /**< WPA3 Transition. */
     wifi_security_mode_wpa3_enterprise = 0x00000800, /**< WPA3 Enterprise. */
-    wifi_security_mode_enhanced_open = 0x00001000 /**< Enhanced Open. */
+    wifi_security_mode_enhanced_open = 0x00001000, /**< Enhanced Open. */
+    wifi_security_mode_wpa3_compatibility = 0x00002000 /**< WPA3 Personal Compatibility */
 } wifi_security_modes_t;
 
 /**
