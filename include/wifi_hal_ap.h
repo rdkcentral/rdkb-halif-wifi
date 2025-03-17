@@ -3047,6 +3047,37 @@ typedef struct {
  * @brief Maximum length of a bridge name.
  */
 #define WIFI_BRIDGE_NAME_LEN 32
+#define COSA_DML_WIFI_DPP_STA_MAX                                   MAX_NUM_VAP_PER_RADIO
+typedef struct {
+    CHAR            KeyManagement[32];
+    UCHAR           psk_hex[64];
+    CHAR            password[64];
+} __attribute__((packed)) wifi_vap_dpp_sta_cred_t;
+
+typedef struct {
+    unsigned int            MaxRetryCount;
+    BOOL                    Activate;
+    wifi_vap_dpp_sta_cred_t Cred;
+    CHAR                    ClientMac[18];
+    CHAR                    ActivationStatus[32];
+    CHAR                   EnrolleeResponderStatus[64];
+	UINT			        NumChannels;
+    UINT                    Channels[32];
+    CHAR                    InitiatorBootstrapSubjectPublicKeyInfo[256];
+    CHAR                    ResponderBootstrapSubjectPublicKeyInfo[256];
+} __attribute__((packed)) wifi_vap_dpp_sta_t;
+
+typedef struct {
+    CHAR                 PrivateSigningKey[512];
+    CHAR                 PrivateReconfigAccessKey[512];
+} __attribute__((packed)) wifi_vap_dpp_recfg_t;
+
+typedef struct {
+    int                 version;
+    wifi_vap_dpp_sta_index_t staIndex;
+    wifi_vap_dpp_sta_t   sta_array[MAX_NUM_VAP_PER_RADIO];
+    wifi_vap_dpp_recfg_t reconfig;
+} __attribute__((packed)) wifi_vap_dpp_t;
 
 /**
  * @brief VAP information structure.
@@ -3059,6 +3090,7 @@ typedef struct
     CHAR bridge_name[WIFI_BRIDGE_NAME_LEN]; /**< Bridge name. */
     wifi_vap_mode_t vap_mode;      /**< VAP mode. */
     wifi_vap_name_t repurposed_vap_name; /**< Repurposed VAP name. */
+    wifi_vap_dpp_t      vap_dpp;  /**< DPP information*/
     union
     {
         wifi_front_haul_bss_t bss_info; /**< Fronthaul BSS information. */
