@@ -2676,6 +2676,7 @@ typedef struct
  * @brief Virtual Access Point (VAP) index type.
  */
 typedef UINT wifi_vap_index_t;
+typedef UINT wifi_vap_dpp_sta_index_t;
 
 /**
  * @brief Wi-Fi onboarding methods.
