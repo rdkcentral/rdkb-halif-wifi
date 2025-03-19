@@ -485,7 +485,8 @@ typedef enum
     WIFI_RADIO_SCAN_MODE_FULL,      /**< Full scan. */
     WIFI_RADIO_SCAN_MODE_ONCHAN,    /**< On-channel scan. */
     WIFI_RADIO_SCAN_MODE_OFFCHAN,   /**< Off-channel scan. */
-    WIFI_RADIO_SCAN_MODE_SURVEY     /**< Survey scan. */
+    WIFI_RADIO_SCAN_MODE_SURVEY,     /**< Survey scan. */
+    WIFI_RADIO_SCAN_MODE_SELECT_CHANNELS    /**< Selected channels scan. */
 } wifi_neighborScanMode_t;
 
 /**
