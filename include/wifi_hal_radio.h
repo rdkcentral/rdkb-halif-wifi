@@ -182,7 +182,7 @@ typedef struct
     UINT DFSTimer; /**< DFS timer. */
     char radarDetected[256]; /**< Radar detected information. */
     BOOL acs_keep_out_reset; /**< ACS Keep Out Channels list to be reset */
-    wifi_channels_list_per_bandwidth channels_per_bandwidth[MAX_NUM_CHANNELBANDWIDTH_SUPPORTED]; /**< All the channel list for a particular channel bandwidth */
+    wifi_channels_list_per_bandwidth_t  channels_per_bandwidth[MAX_NUM_CHANNELBANDWIDTH_SUPPORTED]; /**< All the channel list for a particular channel bandwidth */
     UINT numOperatingClasses; /**< Number of valid operating classes in the array operatingClasses */
     wifi_operating_classes_t operatingClasses[MAXNUMOPERCLASSESPERBAND]; /**< Array of supported Operating classes as per Data elements Schema */
 } __attribute__((packed)) wifi_radio_operationParam_t;
