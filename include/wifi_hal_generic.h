@@ -444,6 +444,7 @@ typedef struct
  * @brief Wi-Fi channel lists per bandwidth.
  */
 typedef struct {
+    wifi_channelBandwidth_t chanwidth; /**< Bandwidth to which the channel blocks are mapped to */
     INT num_channels_list; /**< The number of list of channels contained within a given bandwidth */
     wifi_channels_list_t channels_list[MAX_CHANNELS]; /**< List of channel lists */
 }__attribute__((packed)) wifi_channels_list_per_bandwidth_t;
