@@ -2259,6 +2259,31 @@ INT wifi_sendActionFrame(INT apIndex,
                          UINT len);
 
 /**
+ * @brief Transmits an action frame to a station from a specific VAP.
+ *
+ * @param[in] apIndex    Index of the VAP to send the frame from.
+ * @param[in] sta        MAC address of the peer device to send the frame to.
+ * @param[in] frequency  Frequency of the channel on which this action frame
+ *                       should be sent (for public action frames that can be
+ *                       sent to a device on an off-channel).
+ * @param[in] wait       The time (in milliseconds) to wait on the channel 
+ *                       (if off-channel) after sending the action frame before
+ *                       returning to the original channel.
+ * @param[in] frame      Pointer to the frame buffer.
+ * @param[in] len        Length of the buffer.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_sendActionFrameExt(INT apIndex,
+                            mac_address_t sta,
+                            UINT frequency,
+                            UINT wait,
+                            UCHAR *frame,
+                            UINT len);
+
+/**
  * @brief GAS configuration type.
  */
 #define GAS_CFG_TYPE_SUPPORTED 1  /**< Indicates that GAS configuration is supported. */
