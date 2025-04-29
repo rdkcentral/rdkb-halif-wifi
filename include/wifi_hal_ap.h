@@ -2839,10 +2839,16 @@ typedef struct {
     wifi_channel_t  channel;    // channel to scan, 0 means scan all in the band
 } __attribute__((packed)) wifi_scan_params_t;
 
-typedef struct {
-    BOOL mld_enable;
-    UINT mld_id;
-    mac_address_t mld_addr;
+/**
+ * @brief Common MLD information.
+ */
+typedef struct
+{
+    BOOL mld_enable;      /**< Whether MLD snooping is enabled. */
+    UINT mld_id;          /**< MLD group ID. */
+    UINT mld_link_id;     /**< Link ID */
+    mac_address_t mld_addr; /**< MLD group MAC address. */
+    BOOL mld_apply;       /**< MLD configuration apply indication */
 } __attribute__((packed)) wifi_mld_common_info_t;
 
 typedef struct {
