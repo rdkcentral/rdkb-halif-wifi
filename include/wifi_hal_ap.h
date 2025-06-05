@@ -2837,7 +2837,7 @@ typedef struct
     UINT eap_req_retries;        /**< Number of EAP request retries. */
     BOOL disable_pmksa_caching;   /**< Whether PMKSA caching is disabled. */
     char key_id[32];            /**< OpenFlow tag associated with a PSK. */
-    wifi_radius_settings_t repurposed_radius;
+    wifi_radius_settings_t repurposed_radius;   /**< To Store RADIUS configs when in Non IEEE802_1x mode */
     union
     {
         wifi_radius_settings_t radius; /**< RADIUS settings. */
