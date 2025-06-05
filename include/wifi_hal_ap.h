@@ -569,25 +569,25 @@ INT wifi_getApAssociatedDevice(INT ap_index, mac_address_t *output_deviceMacAddr
 #endif
 
 typedef enum {
-    AWLAN_REASON_UNSPECIFIED = 1,
-    AWLAN_REASON_PREV_AUTH_NOT_VALID = 2,
-    AWLAN_REASON_DEAUTH_LEAVING = 3,
-    AWLAN_REASON_STA_REQ_ASSOC_WITHOUT_AUTH = 9,
-    AWLAN_REASON_MICHAEL_MIC_FAILURE = 14,
-    AWLAN_REASON_4WAY_HANDSHAKE_TIMEOUT = 15,
-    AWLAN_REASON_AKMP_NOT_VALID = 20,
-    AWLAN_REASON_IEEE_802_1X_AUTH_FAILED = 23,
-    AWLAN_REASON_INVALID_PMKID = 49
-} WlanReasonCode;
+    WIFI_REASON_UNSPECIFIED = 1,
+    WIFI_REASON_PREV_AUTH_NOT_VALID = 2,
+    WIFI_REASON_DEAUTH_LEAVING = 3,
+    WIFI_REASON_STA_REQ_ASSOC_WITHOUT_AUTH = 9,
+    WIFI_REASON_MICHAEL_MIC_FAILURE = 14,
+    WIFI_REASON_4WAY_HANDSHAKE_TIMEOUT = 15,
+    WIFI_REASON_AKMP_NOT_VALID = 20,
+    WIFI_REASON_IEEE_802_1X_AUTH_FAILED = 23,
+    WIFI_REASON_INVALID_PMKID = 49
+} wifi_reason_code_t;
 
 typedef enum {
-    AWLAN_STATUS_UNSPECIFIED_FAILURE = 1,
-    AWLAN_STATUS_AUTH_TIMEOUT = 16,
-    AWLAN_STATUS_ASSOC_REJECTED_TEMPORARILY = 30,
-    AWLAN_STATUS_ROBUST_MGMT_FRAME_POLICY_VIOLATION = 31,
-    AWLAN_STATUS_AKMP_NOT_VALID = 43,
-    AWLAN_STATUS_INVALID_PMKID = 53
-} wlan_status_code_t;
+    WIFI_STATUS_UNSPECIFIED_FAILURE = 1,
+    WIFI_STATUS_AUTH_TIMEOUT = 16,
+    WIFI_STATUS_ASSOC_REJECTED_TEMPORARILY = 30,
+    WIFI_STATUS_ROBUST_MGMT_FRAME_POLICY_VIOLATION = 31,
+    WIFI_STATUS_AKMP_NOT_VALID = 43,
+    WIFI_STATUS_INVALID_PMKID = 53
+} wifi_status_code_t;
 
 /**
  * @brief Restores Access Point parameters to factory defaults.
@@ -1595,7 +1595,7 @@ void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_cal
  */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
 
-/* wifi_ApDisassociatedDevice_callback() function */
+/* wifi_device_disassociated_callback() function */
 /**
 * @brief This call back will be invoked in onewifi when new wifi client disassociates from Access Point.
 *
@@ -1617,7 +1617,7 @@ typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT
 *
 */
 
-typedef INT ( * wifi_ApDisassociatedDevice_callback)(INT apIndex, char *src_mac,char *dest_mac, int frame_type, INT event_type);
+typedef INT ( * wifi_device_disassociated_callback)(INT apIndex, char *src_mac,char *dest_mac, INT frame_type, INT event_type);
 /* wifi_stamode_callback() function */
 /**
 * @brief This call back will be invoked for all of these assoc request,reassoc request,eapol frames
@@ -1800,7 +1800,7 @@ typedef INT ( * wifi_apDeAuthEvent_callback)(int ap_index, char *mac, int reason
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
-/* wifi_ApDeAuthEvent_callback() function */
+/* wifi_device_deauthenticated_callback() function */
 /**
 * @brief This call back will be invoked when DeAuth Event comes from client.
 *
@@ -1822,7 +1822,7 @@ typedef INT ( * wifi_apDeAuthEvent_callback)(int ap_index, char *mac, int reason
 *
 */
 
-typedef INT ( * wifi_ApDeAuthEvent_callback)(int ap_index, char *src_mac,char *dest_mac, int frame_type, int reason);
+typedef INT ( * wifi_device_deauthenticated_callback)(int ap_index, char *src_mac,char *dest_mac, int frame_type, int reason);
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
@@ -2015,7 +2015,7 @@ typedef enum
     WIFI_MGMT_FRAME_TYPE_REASSOC_RSP = 7, /**< Reassociation response frame. */
     WIFI_MGMT_FRAME_TYPE_DISASSOC = 8, /**< Disassociation frame. */
     WIFI_MGMT_FRAME_TYPE_ACTION = 9,   /**< Action frame. */
-    WIFI_MGMT_FRAME_TYPE_AUTH_RSP=10,
+    WIFI_MGMT_FRAME_TYPE_AUTH_RSP = 10, /**< Authentication response frame. */
 } wifi_mgmtFrameType_t;
 
 /**
@@ -3163,7 +3163,7 @@ typedef struct {
   BOOL hostap_mgt_frame_ctrl;        /**< Whether hostapd management frame control is enabled. */
   BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
   BOOL   interop_ctrl;               /**< Whether interop ctrl is enabled. */
-  INT    inum_sta;                   /**< configuring interop stations */
+  UINT    inum_sta;                   /**< configuring interop stations */
   UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
   USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
 } __attribute__((packed)) wifi_front_haul_bss_t;
