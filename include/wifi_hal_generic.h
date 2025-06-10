@@ -361,7 +361,7 @@ typedef struct
     unsigned short caps; /**< Capabilities. */
     unsigned int beacon_int; /**< Beacon interval. */
     unsigned int freq; /**< Frequency. */
-    unsigned char ie[256]; /**< Information elements. */
+    unsigned char ie[512]; /**< Information elements. */
     size_t ie_len; /**< Length of the information elements. */
     wifi_security_modes_t sec_mode; /**< Security mode. */
     wifi_encryption_method_t enc_method; /**< Encryption method. */
