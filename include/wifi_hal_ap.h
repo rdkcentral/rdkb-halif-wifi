@@ -568,6 +568,27 @@ INT wifi_getWifiTrafficStats(INT apIndex, wifi_trafficStats_t *output_struct);
 INT wifi_getApAssociatedDevice(INT ap_index, mac_address_t *output_deviceMacAddressArray, UINT maxNumDevices, UINT *output_numDevices);
 #endif
 
+typedef enum {
+    WIFI_REASON_UNSPECIFIED = 1,
+    WIFI_REASON_PREV_AUTH_NOT_VALID = 2,
+    WIFI_REASON_DEAUTH_LEAVING = 3,
+    WIFI_REASON_STA_REQ_ASSOC_WITHOUT_AUTH = 9,
+    WIFI_REASON_MICHAEL_MIC_FAILURE = 14,
+    WIFI_REASON_4WAY_HANDSHAKE_TIMEOUT = 15,
+    WIFI_REASON_AKMP_NOT_VALID = 20,
+    WIFI_REASON_IEEE_802_1X_AUTH_FAILED = 23,
+    WIFI_REASON_INVALID_PMKID = 49
+} wifi_reason_code_t;
+
+typedef enum {
+    WIFI_STATUS_UNSPECIFIED_FAILURE = 1,
+    WIFI_STATUS_AUTH_TIMEOUT = 16,
+    WIFI_STATUS_ASSOC_REJECTED_TEMPORARILY = 30,
+    WIFI_STATUS_ROBUST_MGMT_FRAME_POLICY_VIOLATION = 31,
+    WIFI_STATUS_AKMP_NOT_VALID = 43,
+    WIFI_STATUS_INVALID_PMKID = 53
+} wifi_status_code_t;
+
 /**
  * @brief Restores Access Point parameters to factory defaults.
  *
@@ -1574,6 +1595,29 @@ void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_cal
  */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
 
+/* wifi_device_disassociated_callback() function */
+/**
+* @brief This call back will be invoked in onewifi when new wifi client disassociates from Access Point.
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] src_mac          MAC address of disassociated device
+* @param[in] dest_mac         MAC address of AccessPoint
+* @param[in] frame_type       type of management frame
+* @param[in] event_type       type of disassociation, explicit or due to client inactivity
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+typedef INT ( * wifi_device_disassociated_callback)(INT apIndex, char *src_mac,char *dest_mac, INT frame_type, INT event_type);
 /* wifi_stamode_callback() function */
 /**
 * @brief This call back will be invoked for all of these assoc request,reassoc request,eapol frames
@@ -1633,6 +1677,7 @@ typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT re
  * @retval WIFI_HAL_SUCCESS If successful.
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
+typedef INT ( * wifi_apStatusCode_callback)(int apIndex, char *src_mac,char *dest_mac, int frame_type ,int status);
 typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason);
 
 /**
@@ -1646,6 +1691,25 @@ typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason)
  */
 void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
 
+/* wifi_apStatusCode_callback_register() function */
+/**
+* @brief Callback registration function.
+*
+* @param[in] callback_proc  wifi_apStatusCode_callback_register callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+void wifi_apStatusCode_callback_register(wifi_apStatusCode_callback callback_proc);
 /* wifi_ap_stamode_callback_register() function */
 /**
 * @brief Callback registration function.
@@ -1730,6 +1794,36 @@ void wifi_apDisassociatedDevice_callback_register(wifi_apDisassociatedDevice_cal
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 typedef INT ( * wifi_apDeAuthEvent_callback)(int ap_index, char *mac, int reason);
+/** @} */  //END OF GROUP WIFI_HAL_TYPES
+
+/**
+ * @addtogroup WIFI_HAL_TYPES
+ * @{
+ */
+/* wifi_device_deauthenticated_callback() function */
+/**
+* @brief This call back will be invoked when DeAuth Event comes from client.
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] src_mac          MAC address of client device
+* @param[in] dest_mac         MAC address of AccessPoint
+* @param[in] frame_type       type of management frame
+* @param[in] reason           type of reason, explicit or due to client inactivity
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+typedef INT ( * wifi_device_deauthenticated_callback)(int ap_index, char *src_mac,char *dest_mac, int frame_type, int reason);
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -1921,6 +2015,7 @@ typedef enum
     WIFI_MGMT_FRAME_TYPE_REASSOC_RSP = 7, /**< Reassociation response frame. */
     WIFI_MGMT_FRAME_TYPE_DISASSOC = 8, /**< Disassociation frame. */
     WIFI_MGMT_FRAME_TYPE_ACTION = 9,   /**< Action frame. */
+    WIFI_MGMT_FRAME_TYPE_AUTH_RSP = 10, /**< Authentication response frame. */
 } wifi_mgmtFrameType_t;
 
 /**
@@ -2837,6 +2932,7 @@ typedef struct
     UINT eap_req_retries;        /**< Number of EAP request retries. */
     BOOL disable_pmksa_caching;   /**< Whether PMKSA caching is disabled. */
     char key_id[32];            /**< OpenFlow tag associated with a PSK. */
+    wifi_radius_settings_t repurposed_radius;   /**< To Store RADIUS configs when in Non IEEE802_1x mode */
     union
     {
         wifi_radius_settings_t radius; /**< RADIUS settings. */
@@ -2945,6 +3041,14 @@ typedef struct
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_postassoc_control_t;
 
+typedef struct { 
+    int speed_tier;                      /**< Speed Tier for Radius AVP */
+} __attribute__((packed)) network_param_config_t;
+
+typedef struct {
+    network_param_config_t npc;          /**< Amenities Network Param Configurations*/
+} __attribute__((packed)) amenities_network_config_t;
+
 /**
  * @brief VAP modes.
  */
@@ -3047,6 +3151,7 @@ typedef struct {
   wifi_preassoc_control_t preassoc;  /**< Pre-association control settings. */
   wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
   BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
+  amenities_network_config_t am_config;  /**< Connected Building Phase Two */
   wifi_mac_filter_mode_t mac_filter_mode; /**< MAC filter mode. */
 
   BOOL sec_changed; /**< Whether security settings have changed. This field should not be implemented in the HAL. */
@@ -3064,9 +3169,12 @@ typedef struct {
   BOOL network_initiated_greylist; /**< Whether network-initiated greylisting is enabled. */
   BOOL mcast2ucast;              /**< Whether multicast-to-unicast conversion is enabled. */
   BOOL connected_building_enabled; /**< Whether connected building is enabled. */
+  BOOL mdu_enabled;   /**< Whether Managed Wifi Phase 2 is enabled. */
   wifi_mld_info_ap_t mld_info;        /**< MLD information. */
   BOOL hostap_mgt_frame_ctrl;        /**< Whether hostapd management frame control is enabled. */
   BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
+  BOOL   interop_ctrl;               /**< Whether interop ctrl is enabled. */
+  UINT    inum_sta;                   /**< configuring interop stations */
   UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
   USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
 } __attribute__((packed)) wifi_front_haul_bss_t;
