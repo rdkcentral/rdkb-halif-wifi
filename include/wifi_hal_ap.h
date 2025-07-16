@@ -2016,6 +2016,7 @@ typedef enum
     WIFI_MGMT_FRAME_TYPE_DISASSOC = 8, /**< Disassociation frame. */
     WIFI_MGMT_FRAME_TYPE_ACTION = 9,   /**< Action frame. */
     WIFI_MGMT_FRAME_TYPE_AUTH_RSP = 10, /**< Authentication response frame. */
+    WIFI_MGMT_FRAME_TYPE_BEACON = 11,   /**< Beacon frame. */
 } wifi_mgmtFrameType_t;
 
 /**
