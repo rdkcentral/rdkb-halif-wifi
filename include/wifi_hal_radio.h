@@ -546,6 +546,21 @@ INT wifi_setRadioCarrierSenseThresholdInUse(INT radioIndex, INT threshold);
 INT wifi_applyRadioSettings(INT radioIndex);
 
 /**
+* @brief  Enables CTS protection for the radio used by this Access Point.
+*
+* @param[in] radioIndex  Radio index
+* @param[in] enable   CTS protection enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*/
+INT wifi_setRadioCtsProtectionEnable(INT radioIndex, BOOL enable);
+
+/**
  * @brief Enables or disables OBSS Coexistence for a radio.
  *
  * This function enables or disables OBSS (Overlapping Basic Service Set)
