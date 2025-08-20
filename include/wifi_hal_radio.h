@@ -71,6 +71,14 @@ typedef struct {
 
 #define MAXNUMNONOPERABLECHANNELS 10
 #define MAXNUMOPERCLASSESPERBAND 20
+
+/**
+ * @brief Maximum number of traffic ID as defined by WMM QoS.
+ * Each traffic id represents user priority and traffic class as
+ * defined by WMM.
+ */
+#define MAX_AMSDU_TID 8
+
 typedef struct
 {
     UINT opClass;                                /**< Global operating Class value */
@@ -135,6 +143,7 @@ typedef struct {
     UINT autoChanRefreshPeriod;
     INT  mcs;
     BOOL amsduEnable;
+    BOOL amsduTid[MAX_AMSDU_TID]; /**< Whether AMSDU is enabled for particular traffic id. */
     UINT DFSTimer;
     char radarDetected[256];
     BOOL acs_keep_out_reset;
