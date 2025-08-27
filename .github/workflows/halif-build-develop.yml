@@ -1,0 +1,42 @@
+name: HALIF Build Check (develop)
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        platform:
+          - name: "Raspberry Pi"
+          - name: "Banana Pi R4"
+      fail-fast: false
+
+    name: Build UT for ${{ matrix.platform.name }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache APT packages
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake git autoconf automake libtool pkg-config
+
+      - name: Build unit tests (linux host)
+        run: |
+          chmod +x build_ut.sh
+          ./build_ut.sh
