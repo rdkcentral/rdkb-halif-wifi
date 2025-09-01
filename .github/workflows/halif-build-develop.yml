@@ -36,6 +36,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake git autoconf automake libtool pkg-config
 
+      - name: Allow build_ut.sh to clone private GitHub repos
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global url."https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+          git config --global --add safe.directory "$(pwd)"
+
       - name: Build unit tests (linux host)
         run: |
           chmod +x build_ut.sh
