@@ -824,6 +824,7 @@ typedef struct
     unsigned int phy_index; /**< Actual index of the PHY device. */
     unsigned int rdk_radio_index; /**< Radio index of the upper layer. */
     wifi_interface_name_t interface_name; /**< Interface name. */
+    wifi_interface_name_t mld_interface_name; /**< MLD interface name. */
     wifi_interface_name_t bridge_name; /**< Bridge name. */
     int vlan_id; /**< VLAN ID. */
     unsigned int index; /**< Index. */
