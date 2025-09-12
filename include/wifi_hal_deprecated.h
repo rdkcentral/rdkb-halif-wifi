@@ -15,11 +15,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Some material is:
- * Copyright [2014] [Cisco Systems, Inc.]
- * Licensed under the Apache License, Version 2.0
- *
 */
 #ifndef __WIFI_HAL_DEPRECATED_H__
 #define __WIFI_HAL_DEPRECATED_H__
@@ -425,27 +420,6 @@ INT wifi_setApATMAirTimePercent(INT apIndex, UINT ap_AirTimePercent);
 *
 */
 INT wifi_getApATMAirTimePercent(INT apIndex, UINT *output_ap_AirTimePercent);
-
-/**
-* @brief Set Air Time Percent for each Station.
-*
-* @param[in] apIndex          The index of Access Point array
-* @param[in] sta_MAC          If sta_MAC is new, HAL need to add this new record into ATM table for this AP;
-*                             if sta_MAC is not new, HAL need to change sta_AirTimePercent for this MAC in ATM table for this AP.
-* @param sta_AirTimePercent   if sta_AirTimePercent is 0, HAL need to remove this record from the ATM table
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_setApATMSta(INT apIndex, UCHAR *sta_MAC, UINT sta_AirTimePercent);
 
 /**
 * @brief Get the list for Air Time Percent for each Station.

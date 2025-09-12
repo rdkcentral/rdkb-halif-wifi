@@ -75,362 +75,248 @@
 #ifndef __WIFI_HAL_H__
 #define __WIFI_HAL_H__
 
+
 #ifndef ULONG
-#define ULONG unsigned long /**< Unsigned long type. */
+#define ULONG unsigned long
 #endif
 
 #ifndef BOOL
-#define BOOL unsigned char /**< Boolean type. */
+#define BOOL  unsigned char
 #endif
 
 #ifndef CHAR
-#define CHAR char /**< Character type. */
+#define CHAR  char
 #endif
 
 #ifndef UCHAR
-#define UCHAR unsigned char /**< Unsigned character type. */
+#define UCHAR unsigned char
 #endif
 
 #ifndef INT
-#define INT int /**< Integer type. */
+#define INT   int
 #endif
 
 #ifndef UINT
-#define UINT unsigned int /**< Unsigned integer type. */
+#define UINT  unsigned int
 #endif
 
 #ifndef TRUE
-#define TRUE 1 /**< Boolean true value. */
+#define TRUE     1
 #endif
 
 #ifndef FALSE
-#define FALSE 0 /**< Boolean false value. */
+#define FALSE    0
 #endif
 
 #ifndef ENABLE
-#define ENABLE 1 /**< Enable value. */
+#define ENABLE   1
 #endif
 
 #ifndef RETURN_OK
-#define RETURN_OK 0 /**< Return value indicating success. */
+#define RETURN_OK   0
 #endif
 
 #ifndef RETURN_ERR
-#define RETURN_ERR -1 /**< Return value indicating an error. */
+#define RETURN_ERR   -1
 #endif
 
 /**
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
-
 #ifndef RADIO_INDEX_1
-#define RADIO_INDEX_1 1 /**< Radio index 1. */
-#define RADIO_INDEX_2 2 /**< Radio index 2. */
-#define AP_INDEX_1 1 /**< Access Point index 1. */
-#define AP_INDEX_2 2 /**< Access Point index 2. */
-#define AP_INDEX_3 3 /**< Access Point index 3. */
-#define AP_INDEX_4 4 /**< Access Point index 4. */
-#define AP_INDEX_5 5 /**< Access Point index 5. */
-#define AP_INDEX_6 6 /**< Access Point index 6. */
-#define AP_INDEX_7 7 /**< Access Point index 7. */
-#define AP_INDEX_8 8 /**< Access Point index 8. */
-#define AP_INDEX_9 9 /**< Access Point index 9. */
-#define AP_INDEX_10 10 /**< Access Point index 10. */
-#define AP_INDEX_11 11 /**< Access Point index 11. */
-#define AP_INDEX_12 12 /**< Access Point index 12. */
-#define AP_INDEX_13 13 /**< Access Point index 13. */
-#define AP_INDEX_14 14 /**< Access Point index 14. */
-#define AP_INDEX_15 15 /**< Access Point index 15. */
-#define AP_INDEX_16 16 /**< Access Point index 16. */
+#define RADIO_INDEX_1 1
+#define RADIO_INDEX_2 2
+#define AP_INDEX_1 1
+#define AP_INDEX_2 2
+#define AP_INDEX_3 3
+#define AP_INDEX_4 4
+#define AP_INDEX_5 5
+#define AP_INDEX_6 6
+#define AP_INDEX_7 7
+#define AP_INDEX_8 8
+#define AP_INDEX_9 9
+#define AP_INDEX_10 10
+#define AP_INDEX_11 11
+#define AP_INDEX_12 12
+#define AP_INDEX_13 13
+#define AP_INDEX_14 14
+#define AP_INDEX_15 15
+#define AP_INDEX_16 16
 #endif
 
-/**
- * @brief Maximum length of a COSA DML alias name.
- */
-#define COSA_DML_ALIAS_NAME_LENGTH 64
+#define  COSA_DML_ALIAS_NAME_LENGTH             64
+#define MAX_MAC_FILT                		16
 
-/**
- * @brief Maximum number of MAC filters.
- */
-#define MAX_MAC_FILT 16
+//defines for HAL version 2.2.1
+#define WIFI_HAL_MAJOR_VERSION 2   // This is the major verion of this HAL.
+#define WIFI_HAL_MINOR_VERSION 2   // This is the minor verson of the HAL.
+#define WIFI_HAL_MAINTENANCE_VERSION 1   // This is the maintenance version of the HAL.
 
-// Defines for HAL version 2.2.1
-/**
- * @brief Wi-Fi HAL major version.
- */
-#define WIFI_HAL_MAJOR_VERSION 2
-
-/**
- * @brief Wi-Fi HAL minor version.
- */
-#define WIFI_HAL_MINOR_VERSION 2
-
-/**
- * @brief Wi-Fi HAL maintenance version.
- */
-#define WIFI_HAL_MAINTENANCE_VERSION 1
-
-/**
- * @brief Path to the hostapd configuration file.
- */
 #define HOSTAPD_CONF_FILE_PATH "/etc/hostapd.conf"
-
-/**
- * @brief Default file size.
- */
 #define FILE_SIZE 1024
-
-/**
- * @brief ASCII code for space.
- */
 #define SPACE 32
-
-/**
- * @brief ASCII code for new line.
- */
 #define NEW_LINE 10
-
-/**
- * @brief Buffer adjustment value.
- */
 #define BUFFER_ADJUSTMENT 128
-
-/**
- * @brief Word size.
- */
 #define WORD_SIZE 50
-
-/**
- * @brief Size of a MAC address.
- */
 #define MACADDRESS_SIZE 6
 
 /**********************************************************************
                 STRUCTURE DEFINITIONS
 **********************************************************************/
 
-/**
- * @brief Host details.
- */
 struct hostDetails
 {
-    char hostName[20]; /**< Host name. */
-    char InterfaceType[50]; /**< Interface type. */
+        char hostName[20];
+        char InterfaceType[50];
 };
 
-/**
- * @brief COSA DML Wi-Fi AP MAC filter.
- */
-typedef struct _COSA_DML_WIFI_AP_MAC_FILTER
+
+typedef struct
+_COSA_DML_WIFI_AP_MAC_FILTER
 {
-    ULONG InstanceNumber; /**< Instance number. */
-    char Alias[COSA_DML_ALIAS_NAME_LENGTH]; /**< Alias. */
-    char MACAddress[18]; /**< MAC address. */
-    char DeviceName[64]; /**< Device name. */
-} COSA_DML_WIFI_AP_MAC_FILTER;
+    ULONG                           InstanceNumber;
+    char                            Alias[COSA_DML_ALIAS_NAME_LENGTH];
+
+    char                            MACAddress[18];
+    char                            DeviceName[64];
+}
+COSA_DML_WIFI_AP_MAC_FILTER;
+
 
 //>> Deprecated: used for old RDKB code. 
-// TODO: Review Required
-/**
- * @brief Basic traffic statistics (deprecated).
- * @deprecated: used for old RDKB code.
- */
 typedef struct _wifi_basicTrafficStats
 {
-    ULONG wifi_BytesSent; /**< Number of bytes sent. */
-    ULONG wifi_BytesReceived; /**< Number of bytes received. */
-    ULONG wifi_PacketsSent; /**< Number of packets sent. */
-    ULONG wifi_PacketsReceived; /**< Number of packets received. */
-    ULONG wifi_Associations; /**< Number of associations. */
+     ULONG wifi_BytesSent;
+     ULONG wifi_BytesReceived;
+     ULONG wifi_PacketsSent;
+     ULONG wifi_PacketsReceived;
+     ULONG wifi_Associations; 	
 } wifi_basicTrafficStats_t;
 
-/**
- * @brief Traffic statistics.
- * @deprecated: used for old RDKB code.
- */
 typedef struct _wifi_trafficStats
 {
-    ULONG wifi_ErrorsSent; /**< Number of errors sent. */
-    ULONG wifi_ErrorsReceived; /**< Number of errors received. */
-    ULONG wifi_UnicastPacketsSent; /**< Number of unicast packets sent. */
-    ULONG wifi_UnicastPacketsReceived; /**< Number of unicast packets received. */
-    ULONG wifi_DiscardedPacketsSent; /**< Number of discarded packets sent. */
-    ULONG wifi_DiscardedPacketsReceived; /**< Number of discarded packets received. */
-    ULONG wifi_MulticastPacketsSent; /**< Number of multicast packets sent. */
-    ULONG wifi_MulticastPacketsReceived; /**< Number of multicast packets received. */
-    ULONG wifi_BroadcastPacketsSent; /**< Number of broadcast packets sent. */
-    ULONG wifi_BroadcastPacketsRecevied; /**< Number of broadcast packets received. */
-    ULONG wifi_UnknownPacketsReceived; /**< Number of unknown packets received. */
+     ULONG wifi_ErrorsSent;
+     ULONG wifi_ErrorsReceived;
+     ULONG wifi_UnicastPacketsSent;
+     ULONG wifi_UnicastPacketsReceived;
+     ULONG wifi_DiscardedPacketsSent;
+     ULONG wifi_DiscardedPacketsReceived;
+     ULONG wifi_MulticastPacketsSent;
+     ULONG wifi_MulticastPacketsReceived;
+     ULONG wifi_BroadcastPacketsSent;
+     ULONG wifi_BroadcastPacketsRecevied;
+     ULONG wifi_UnknownPacketsReceived;
 } wifi_trafficStats_t;
 
-/**
- * @brief Radio traffic statistics.
- * @deprecated: used for old RDKB code.
- */
 typedef struct _wifi_radioTrafficStats
 {
-    ULONG wifi_ErrorsSent; /**< Number of errors sent. */
-    ULONG wifi_ErrorsReceived; /**< Number of errors received. */
-    ULONG wifi_DiscardPacketsSent; /**< Number of discarded packets sent. */
-    ULONG wifi_DiscardPacketsReceived; /**< Number of discarded packets received. */
-    ULONG wifi_PLCPErrorCount; /**< Number of PLCP errors. */
-    ULONG wifi_FCSErrorCount; /**< Number of FCS errors. */
-    ULONG wifi_InvalidMACCount; /**< Number of invalid MAC addresses. */
-    ULONG wifi_PacketsOtherReceived; /**< Number of packets received from other devices. */
-    INT wifi_Noise; /**< Noise level. */
-} wifi_radioTrafficStats_t;
+	 ULONG wifi_ErrorsSent;	
+     ULONG wifi_ErrorsReceived;   
+     ULONG wifi_DiscardPacketsSent; 
+     ULONG wifi_DiscardPacketsReceived; 
+	 ULONG wifi_PLCPErrorCount;	
+	 ULONG wifi_FCSErrorCount;	
+	 ULONG wifi_InvalidMACCount;	
+	 ULONG wifi_PacketsOtherReceived;	
+	 INT   wifi_Noise; 	
+	 
+} wifi_radioTrafficStats_t;	
 
-/**
- * @brief SSID traffic statistics.
- * @deprecated: used for old RDKB code.
- */
 typedef struct _wifi_ssidTrafficStats
 {
-    ULONG wifi_RetransCount; /**< Number of retransmissions. */
-    ULONG wifi_FailedRetransCount; /**< Number of failed retransmissions. */
-    ULONG wifi_RetryCount; /**< Number of retries. */
-    ULONG wifi_MultipleRetryCount; /**< Number of multiple retries. */
-    ULONG wifi_ACKFailureCount; /**< Number of ACK failures. */
-    ULONG wifi_AggregatedPacketCount; /**< Number of aggregated packets. */
-} wifi_ssidTrafficStats_t;
+     ULONG wifi_RetransCount;	
+     ULONG wifi_FailedRetransCount; 	
+     ULONG wifi_RetryCount;  
+     ULONG wifi_MultipleRetryCount; 	
+     ULONG wifi_ACKFailureCount;  	
+     ULONG wifi_AggregatedPacketCount; 	
+	 
+} wifi_ssidTrafficStats_t;  
 
-/**
- * @brief Neighboring access point information.
- * @deprecated Used for old RDKB code.
- *
- * This structure contains information about a neighboring access point.
- */
-typedef struct _wifi_neighbor_ap {
-  CHAR ap_Radio[64];                     /**< Radio interface name. */
-  CHAR ap_SSID[64];                      /**< Service Set Identifier (SSID). */
-  CHAR ap_BSSID[64];                     /**< Basic Service Set Identifier (BSSID). */
-  CHAR ap_Mode[64];                      /**< Operating mode (e.g., Infrastructure, Adhoc). */
-  UINT ap_Channel;                      /**< Channel number. */
-  INT ap_SignalStrength;               /**< Signal strength (e.g., in dBm). */
-  CHAR ap_SecurityModeEnabled[64];     /**< Security mode enabled (e.g., WPA2-PSK). */
-  CHAR ap_EncryptionMode[64];          /**< Encryption mode (e.g., CCMP). */
-  CHAR ap_OperatingFrequencyBand[16];   /**< Operating frequency band (e.g., 2.4GHz). */
-  CHAR ap_SupportedStandards[64];      /**< Supported standards (e.g., 802.11n). */
-  CHAR ap_OperatingStandards[16];      /**< Operating standards (e.g., 802.11ac). */
-  CHAR ap_OperatingChannelBandwidth[16]; /**< Channel bandwidth (e.g., 20MHz). */
-  UINT ap_BeaconPeriod;                 /**< Beacon period in milliseconds. */
-  INT ap_Noise;                         /**< Noise level (e.g., in dBm). */
-  CHAR ap_BasicDataTransferRates[256];   /**< Basic data transfer rates. */
-  CHAR ap_SupportedDataTransferRates[256]; /**< Supported data transfer rates. */
-  UINT ap_DTIMPeriod;                    /**< Delivery Traffic Indication Message (DTIM) period. */
-  UINT ap_ChannelUtilization;            /**< Channel utilization percentage. */
+typedef struct _wifi_neighbor_ap
+{
+	 CHAR  ap_Radio[64];	
+	 CHAR  ap_SSID[64];	
+	 CHAR  ap_BSSID[64];	
+	 CHAR  ap_Mode[64];	
+	 UINT  ap_Channel;
+	 INT   ap_SignalStrength;
+	 CHAR  ap_SecurityModeEnabled[64];	
+	 CHAR  ap_EncryptionMode[64];	
+	 CHAR  ap_OperatingFrequencyBand[16];	
+	 CHAR  ap_SupportedStandards[64];	
+	 CHAR  ap_OperatingStandards[16];	
+	 CHAR  ap_OperatingChannelBandwidth[16];	
+	 UINT  ap_BeaconPeriod;	
+	 INT   ap_Noise;	
+	 CHAR  ap_BasicDataTransferRates[256];	
+	 CHAR  ap_SupportedDataTransferRates[256];
+	 UINT  ap_DTIMPeriod;
+	 UINT  ap_ChannelUtilization;	
+	 
 } wifi_neighbor_ap_t;
 //<<
 
 typedef struct _wifi_radioTrafficStats2
 {
-    ULONG radio_BytesSent;           /**< The total number of bytes transmitted out of the interface, including framing characters. */
-    ULONG radio_BytesReceived;       /**< The total number of bytes received on the interface, including framing characters. */
-    ULONG radio_PacketsSent;         /**< The total number of packets transmitted out of the interface. */
-    ULONG radio_PacketsReceived;     /**< The total number of packets received on the interface. */
+     ULONG radio_BytesSent;	/**< The total number of bytes transmitted out of the interface, including framing characters. */
+     ULONG radio_BytesReceived;	/**< The total number of bytes received on the interface, including framing characters. */
+     ULONG radio_PacketsSent;	/**< The total number of packets transmitted out of the interface. */
+     ULONG radio_PacketsReceived; /**< The total number of packets received on the interface. */
 
-    ULONG radio_ErrorsSent;          /**< The total number of outbound packets that could not be transmitted because of errors. */
-    ULONG radio_ErrorsReceived;      /**< The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol. */
-    ULONG radio_DiscardPacketsSent;   /**< The total number of outbound packets which were chosen to be discarded even though no errors had been detected to prevent their being transmitted.
-                                             One possible reason for discarding such a packet could be to free up buffer space. */
-    ULONG radio_DiscardPacketsReceived; /**< The total number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being delivered.
-                                                One possible reason for discarding such a packet could be to free up buffer space. */
-    ULONG radio_PLCPErrorCount;      /**< The number of packets that were received with a detected Physical Layer Convergence Protocol (PLCP) header error.   */
-    ULONG radio_FCSErrorCount;       /**< The number of packets that were received with a detected FCS error. This parameter is based on dot11FCSErrorCount from [Annex C/802.11-2012]. */
-    ULONG radio_InvalidMACCount;     /**< The number of packets that were received with a detected invalid MAC header error. */
-    ULONG radio_PacketsOtherReceived;/**< The number of packets that were received, but which were destined for a MAC address that is not associated with this interface. */
-    INT   radio_NoiseFloor;          /**< The noise floor for this radio channel where a recoverable signal can be obtained. Expressed as a signed integer in the range (-110:0).
-                                             Measurement should capture all energy (in dBm) from sources other than Wi-Fi devices as well as interference from Wi-Fi devices too weak to be decoded.
-                                             Measured in dBm */
-    ULONG radio_ChannelUtilization; /**< Percentage of time the channel was occupied by the radio's own activity (Activity Factor) or the activity of other radios.
-                                            Channel utilization MUST cover all user traffic, management traffic, and time the radio was unavailable for CSMA activities, including DIFS intervals, etc.
-                                            The metric is calculated and updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".
-                                            The calculation of this metric MUST only use the data collected from the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                            Units in Percentage */
-    INT   radio_ActivityFactor;     /**< Percentage of time that the radio was transmitting or receiving Wi-Fi packets to/from associated clients.
-                                            Activity factor MUST include all traffic that deals with communication between the radio and clients associated to the radio as well as management overhead for the radio, including NAV timers, beacons, probe responses,time for receiving devices to send an ACK, SIFC intervals, etc.
-                                            The metric is calculated and updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected from the just completed interval.
-                                            If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                            Units in Percentage */
-    INT   radio_CarrierSenseThreshold_Exceeded; /**< Percentage of time that the radio was unable to transmit or receive Wi-Fi packets to/from associated clients due to energy detection (ED) on the channel or clear channel assessment (CCA).
-                                                     The metric is calculated and updated in this Parameter at the end of the interval defined by "Radio Statistics Measuring Interval".
-                                                     The calculation of this metric MUST only use the data collected from the just completed interval.
-                                                     If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                                     Units in Percentage */
-    INT   radio_RetransmissionMetirc; /**< Percentage of packets that had to be re-transmitted.
-                                            Multiple re-transmissions of the same packet count as one.
-                                            The metric is calculated and updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".
-                                            The calculation of this metric MUST only use the data collected from the just completed interval.
-                                            If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                            Units  in percentage */
-    INT   radio_MaximumNoiseFloorOnChannel; /**< Maximum Noise on the channel during the measuring interval.
-                                                 The metric is updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".
-                                                 The calculation of this metric MUST only use the data collected in the just completed interval.
-                                                 If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                                 Units in dBm */
-    INT   radio_MinimumNoiseFloorOnChannel; /**< Minimum Noise on the channel.
-                                                 The metric is updated in this Parameter at the end of the interval defined by "Radio Statistics Measuring Interval".
-                                                 The calculation of this metric MUST only use the data collected in the just completed interval.
-                                                 If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                                 Units in dBm */
-    INT   radio_MedianNoiseFloorOnChannel; /**< Median Noise on the channel during the measuring interval.  
-                                                The metric is updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".
-                                                The calculation of this metric MUST only use the data collected in the just completed interval.
-                                                If this metric is queried before it has been updated with an initial calculation, it MUST return -1.
-                                                Units in dBm */
-    ULONG radio_StatisticsStartTime;    /**< The date and time at which the collection of the current set of statistics started.
-                                             This time must be updated whenever the radio statistics are reset. */
-
-} wifi_radioTrafficStats2_t;    //for radio only
+	 ULONG radio_ErrorsSent;	/**< The total number of outbound packets that could not be transmitted because of errors. */
+     ULONG radio_ErrorsReceived;    /**< The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol. */
+     ULONG radio_DiscardPacketsSent; /**< The total number of outbound packets which were chosen to be discarded even though no errors had been detected to prevent their being transmitted. One possible reason for discarding such a packet could be to free up buffer space. */
+     ULONG radio_DiscardPacketsReceived; /**< The total number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being delivered. One possible reason for discarding such a packet could be to free up buffer space. */
+	 ULONG radio_PLCPErrorCount;	/**< The number of packets that were received with a detected Physical Layer Convergence Protocol (PLCP) header error.	 */
+	 ULONG radio_FCSErrorCount;	/**< The number of packets that were received with a detected FCS error. This parameter is based on dot11FCSErrorCount from [Annex C/802.11-2012]. */
+	 ULONG radio_InvalidMACCount;	/**< The number of packets that were received with a detected invalid MAC header error. */
+	 ULONG radio_PacketsOtherReceived;	/**< The number of packets that were received, but which were destined for a MAC address that is not associated with this interface. */
+	 INT   radio_NoiseFloor; 	/**< The noise floor for this radio channel where a recoverable signal can be obtained. Expressed as a signed integer in the range (-110:0).  Measurement should capture all energy (in dBm) from sources other than Wi-Fi devices as well as interference from Wi-Fi devices too weak to be decoded. Measured in dBm */
+	 ULONG radio_ChannelUtilization; /**< Percentage of time the channel was occupied by the radio's own activity (Activity Factor) or the activity of other radios.  Channel utilization MUST cover all user traffic, management traffic, and time the radio was unavailable for CSMA activities, including DIFS intervals, etc.  The metric is calculated and updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected from the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1.  Units in Percentage */
+	 INT   radio_ActivityFactor; /**< Percentage of time that the radio was transmitting or receiving Wi-Fi packets to/from associated clients. Activity factor MUST include all traffic that deals with communication between the radio and clients associated to the radio as well as management overhead for the radio, including NAV timers, beacons, probe responses,time for receiving devices to send an ACK, SIFC intervals, etc.  The metric is calculated and updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected from the just completed interval.   If this metric is queried before it has been updated with an initial calculation, it MUST return -1. Units in Percentage */
+	 INT   radio_CarrierSenseThreshold_Exceeded; /**< Percentage of time that the radio was unable to transmit or receive Wi-Fi packets to/from associated clients due to energy detection (ED) on the channel or clear channel assessment (CCA). The metric is calculated and updated in this Parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected from the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1. Units in Percentage */
+	 INT   radio_RetransmissionMetirc; /**< Percentage of packets that had to be re-transmitted. Multiple re-transmissions of the same packet count as one.  The metric is calculated and updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".   The calculation of this metric MUST only use the data collected from the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1. Units  in percentage */
+	 INT   radio_MaximumNoiseFloorOnChannel; /**< Maximum Noise on the channel during the measuring interval.  The metric is updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected in the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1.  Units in dBm */
+	 INT   radio_MinimumNoiseFloorOnChannel; /**< Minimum Noise on the channel. The metric is updated in this Parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected in the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1. Units in dBm */
+	 INT   radio_MedianNoiseFloorOnChannel; /**< Median Noise on the channel during the measuring interval.   The metric is updated in this parameter at the end of the interval defined by "Radio Statistics Measuring Interval".  The calculation of this metric MUST only use the data collected in the just completed interval.  If this metric is queried before it has been updated with an initial calculation, it MUST return -1. Units in dBm */
+	 ULONG radio_StatisticsStartTime; 	 /**< The date and time at which the collection of the current set of statistics started.  This time must be updated whenever the radio statistics are reset. */
+	
+} wifi_radioTrafficStats2_t;	//for radio only
 
 typedef struct _wifi_radioTrafficStatsMeasure
 {
-    INT   radio_RadioStatisticsMeasuringRate;     /**< The rate at which radio related statistics are periodically collected.
-                                                        Only statistics that explicitly indicate the use of this parameter MUST use the rate set in this parameter.
-                                                        Other parameter's are assumed to collect data in real-time or nearly real-time. Default value is 30 seconds.
-                                                        This parameter MUST be persistent across reboots. If this parameter is changed, then use of the new rate MUST be deferred until the start of the next interval and all metrics using this rate MUST return -1 until the completion of the next full interval.
-                                                        Units in Seconds" */
-    INT   radio_RadioStatisticsMeasuringInterval; /**< The interval for which radio data MUST be retained in order and at the end of which appropriate calculations are executed and reflected in the associated radio object's.
-                                                        Only statistics that explicitly indicate the use of this parameter MUST use the interval set in this parameter.
-                                                        Default value is 30 minutes.  This parameter MUST be persistent across reboots.
-                                                        If this item is modified, then all metrics leveraging this interval as well as the metrics Total number 802.11 packet of TX and Total number 802.11 packet of RX MUST be re-initialized immediately.
-                                                        Additionally, the Statistics Start Time must be reset to the current time.
-                                                        Units in Seconds */
-} wifi_radioTrafficStatsMeasure_t;  //for radio only
+	 INT   radio_RadioStatisticsMeasuringRate; /**< Input //"The rate at which radio related statistics are periodically collected.  Only statistics that explicitly indicate the use of this parameter MUST use the rate set in this parameter  Other parameter's are assumed to collect data in real-time or nearly real-time. Default value is 30 seconds.  This parameter MUST be persistent across reboots. If this parameter is changed,  then use of the new rate MUST be deferred until the start of the next interval and all metrics using this rate MUST return -1 until the completion of the next full interval Units in Seconds" */
+	 INT   radio_RadioStatisticsMeasuringInterval; /**< Input //The interval for which radio data MUST be retained in order and at the end of which appropriate calculations are executed and reflected in the associated radio object's.  Only statistics that explicitly indicate the use of this parameter MUST use the interval set in this parameter  Default value is 30 minutes.  This parameter MUST be persistent across reboots.   If this item is modified, then all metrics leveraging this interval as well as the metrics Total number 802.11 packet of TX and Total number 802.11 packet of RX MUST be re-initialized immediately.  Additionally, the Statistics Start Time must be reset to the current time. Units in Seconds */
+} wifi_radioTrafficStatsMeasure_t;	//for radio only
 
 
 typedef struct _wifi_ssidTrafficStats2
 {
-    ULONG ssid_BytesSent;           /**< The total number of bytes transmitted out of the interface, including framing characters. */
-    ULONG ssid_BytesReceived;       /**< The total number of bytes received on the interface, including framing characters. */
-    ULONG ssid_PacketsSent;         /**< The total number of packets transmitted out of the interface. */
-    ULONG ssid_PacketsReceived;     /**< The total number of packets received on the interface. */
+     ULONG ssid_BytesSent;	/**< The total number of bytes transmitted out of the interface, including framing characters. */
+     ULONG ssid_BytesReceived;	/**< The total number of bytes received on the interface, including framing characters. */
+     ULONG ssid_PacketsSent;	/**< The total number of packets transmitted out of the interface. */
+     ULONG ssid_PacketsReceived; /**< The total number of packets received on the interface. */
 
-    ULONG ssid_RetransCount;        /**< The total number of transmitted packets which were retransmissions. Two retransmissions of the same packet results in this counter incrementing by two. */
-    ULONG ssid_FailedRetransCount;  /**< The number of packets that were not transmitted successfully due to the number of retransmission attempts exceeding an 802.11 retry limit.
-                                          This parameter is based on dot11FailedCount from [802.11-2012]. */
-    ULONG ssid_RetryCount;          /**< The number of packets that were successfully transmitted after one or more retransmissions.
-                                          This parameter is based on dot11RetryCount from [802.11-2012]. */
-    ULONG ssid_MultipleRetryCount;  /**< The number of packets that were successfully transmitted after more than one retransmission.
-                                          This parameter is based on dot11MultipleRetryCount from [802.11-2012]. */
-    ULONG ssid_ACKFailureCount;     /**< The number of expected ACKs that were never received.
-                                          This parameter is based on dot11ACKFailureCount from [802.11-2012]. */
-    ULONG ssid_AggregatedPacketCount; /**< The number of aggregated packets that were transmitted. This applies only to 802.11n and 802.11ac. */
-
-    ULONG ssid_ErrorsSent;          /**< The total number of outbound packets that could not be transmitted because of errors. */
-    ULONG ssid_ErrorsReceived;      /**< The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol. */
-    ULONG ssid_UnicastPacketsSent;   /**< The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol. */
-    ULONG ssid_UnicastPacketsReceived;  /**< The total number of received packets, delivered by this layer to a higher layer, which were not addressed to a multicast or broadcast address at this layer. */
-    ULONG ssid_DiscardedPacketsSent;   /**< The total number of outbound packets which were chosen to be discarded even though no errors had been detected to prevent their being transmitted.
-                                             One possible reason for discarding such a packet could be to free up buffer space. */
-    ULONG ssid_DiscardedPacketsReceived; /**< The total number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being delivered.
-                                                One possible reason for discarding such a packet could be to free up buffer space. */
-    ULONG ssid_MulticastPacketsSent;   /**< The total number of packets that higher-level protocols requested for transmission and which were addressed to a multicast address at this layer, including those that were discarded or not sent. */
-    ULONG ssid_MulticastPacketsReceived; /**< The total number of received packets, delivered by this layer to a higher layer, which were addressed to a multicast address at this layer. */
-    ULONG ssid_BroadcastPacketsSent;    /**< The total number of packets that higher-level protocols requested for transmission and which were addressed to a broadcast address at this layer, including those that were discarded or not sent. */
-    ULONG ssid_BroadcastPacketsRecevied; /**< The total number of packets that higher-level protocols requested for transmission and which were addressed to a broadcast address at this layer, including those that were discarded or not sent. */
-    ULONG ssid_UnknownPacketsReceived;  /**< The total number of packets received via the interface which were discarded because of an unknown or unsupported protocol. */
+     ULONG ssid_RetransCount;	/**< The total number of transmitted packets which were retransmissions. Two retransmissions of the same packet results in this counter incrementing by two. */
+     ULONG ssid_FailedRetransCount; /**< The number of packets that were not transmitted successfully due to the number of retransmission attempts exceeding an 802.11 retry limit. This parameter is based on dot11FailedCount from [802.11-2012]. */
+     ULONG ssid_RetryCount;  /**< The number of packets that were successfully transmitted after one or more retransmissions. This parameter is based on dot11RetryCount from [802.11-2012]. */
+     ULONG ssid_MultipleRetryCount; /**< The number of packets that were successfully transmitted after more than one retransmission. This parameter is based on dot11MultipleRetryCount from [802.11-2012]. */
+     ULONG ssid_ACKFailureCount;  /**< The number of expected ACKs that were never received. This parameter is based on dot11ACKFailureCount from [802.11-2012].	 */
+     ULONG ssid_AggregatedPacketCount; /**< The number of aggregated packets that were transmitted. This applies only to 802.11n and 802.11ac. */
+	 
+	 ULONG ssid_ErrorsSent;	/**< The total number of outbound packets that could not be transmitted because of errors. */
+     ULONG ssid_ErrorsReceived;    /**< The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol. */
+     ULONG ssid_UnicastPacketsSent;	/**< The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol. */
+     ULONG ssid_UnicastPacketsReceived;  /**< The total number of received packets, delivered by this layer to a higher layer, which were not addressed to a multicast or broadcast address at this layer. */
+     ULONG ssid_DiscardedPacketsSent; /**< The total number of outbound packets which were chosen to be discarded even though no errors had been detected to prevent their being transmitted. One possible reason for discarding such a packet could be to free up buffer space. */
+     ULONG ssid_DiscardedPacketsReceived; /**< The total number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being delivered. One possible reason for discarding such a packet could be to free up buffer space. */
+     ULONG ssid_MulticastPacketsSent; /**< The total number of packets that higher-level protocols requested for transmission and which were addressed to a multicast address at this layer, including those that were discarded or not sent. */
+     ULONG ssid_MulticastPacketsReceived; /**< The total number of received packets, delivered by this layer to a higher layer, which were addressed to a multicast address at this layer. */
+     ULONG ssid_BroadcastPacketsSent;  /**< The total number of packets that higher-level protocols requested for transmission and which were addressed to a broadcast address at this layer, including those that were discarded or not sent. */
+     ULONG ssid_BroadcastPacketsRecevied; /**< The total number of packets that higher-level protocols requested for transmission and which were addressed to a broadcast address at this layer, including those that were discarded or not sent. */
+     ULONG ssid_UnknownPacketsReceived;  /**< The total number of packets received via the interface which were discarded because of an unknown or unsupported protocol. */
 
 } wifi_ssidTrafficStats2_t;  //for ssid only
 
@@ -438,123 +324,111 @@ typedef struct _wifi_ssidTrafficStats2
 //Please do not edit the elements for this data structure 
 typedef struct _wifi_neighbor_ap2
 {
-    //CHAR  ap_Radio[64];  //The value MUST be the path name of a row in theDevice.WiFi.Radiotable. The Radio that detected the neighboring WiFi SSID.  
-    CHAR  ap_SSID[64]; /**< The current service set identifier in use by the neighboring WiFi SSID. The value MAY be empty for hidden SSIDs. */
-    CHAR  ap_BSSID[64];    /**< [MACAddress] The BSSID used for the neighboring WiFi SSID. */
-    CHAR  ap_Mode[64]; /**< The mode the neighboring WiFi radio is operating in. Enumeration of: AdHoc, Infrastructure */
-    UINT  ap_Channel;  /**< The current radio channel used by the neighboring WiFi radio. */
-    INT   ap_SignalStrength;   /**< An indicator of radio signal strength (RSSI) of the neighboring WiFi radio measured indBm, as an average of the last 100 packets received. */
-    CHAR  ap_SecurityModeEnabled[64];  /**< The type of encryption the neighboring WiFi SSID advertises. Enumeration of:None, WPA-WPA2 etc. */
-    CHAR  ap_EncryptionMode[64];   /**< Comma-separated list of strings. The type of encryption the neighboring WiFi SSID advertises. Each list item is an enumeration of: TKIP, AES */
-    CHAR  ap_OperatingFrequencyBand[16];   /**< Indicates the frequency band at which the radio this SSID instance is operating. Enumeration of:2.4GHz, 5GHz */
-    CHAR  ap_SupportedStandards[64];   /**< Comma-separated list of strings. List items indicate which IEEE 802.11 standards thisResultinstance can support simultaneously, in the frequency band specified byOperatingFrequencyBand. Each list item is an enumeration of: */
-    CHAR  ap_OperatingStandards[16];   /**< Comma-separated list of strings. Each list item MUST be a member of the list reported by theSupportedStandardsparameter. List items indicate which IEEE 802.11 standard that is detected for thisResult. */
-    CHAR  ap_OperatingChannelBandwidth[16];    /**< Indicates the bandwidth at which the channel is operating. Enumeration of: */
-    UINT  ap_BeaconPeriod; /**< Time interval (inms) between transmitting beacons. */
-    INT   ap_Noise;    /**< Indicator of average noise strength (indBm) received from the neighboring WiFi radio. */
-    CHAR  ap_BasicDataTransferRates[256];  /**< Comma-separated list (maximum list length 256) of strings. Basic data transmit rates (in Mbps) for the SSID. For example, ifBasicDataTransferRatesis "1,2", this indicates that the SSID is operating with basic rates of 1 Mbps and 2 Mbps. */
-    CHAR  ap_SupportedDataTransferRates[256];  /**< Comma-separated list (maximum list length 256) of strings. Data transmit rates (in Mbps) for unicast frames at which the SSID will permit a station to connect. For example, ifSupportedDataTransferRatesis "1,2,5.5", this indicates that the SSID will only permit connections at 1 Mbps, 2 Mbps and 5.5 Mbps. */
-    UINT  ap_DTIMPeriod;   /**< The number of beacon intervals that elapse between transmission of Beacon frames containing a TIM element whose DTIM count field is 0. This value is transmitted in the DTIM Period field of beacon frames. [802.11-2012] */
-    UINT  ap_ChannelUtilization;   /**< Indicates the fraction of the time AP senses that the channel is in use by the neighboring AP for transmissions. */
-    
-} wifi_neighbor_ap2_t;  //COSA_DML_NEIGHTBOURING_WIFI_RESULT
+	 //CHAR  ap_Radio[64];	//The value MUST be the path name of a row in theDevice.WiFi.Radiotable. The Radio that detected the neighboring WiFi SSID.  
+	 CHAR  ap_SSID[64];	/**< The current service set identifier in use by the neighboring WiFi SSID. The value MAY be empty for hidden SSIDs. */
+	 CHAR  ap_BSSID[64];	/**< [MACAddress] The BSSID used for the neighboring WiFi SSID. */
+	 CHAR  ap_Mode[64];	/**< The mode the neighboring WiFi radio is operating in. Enumeration of: AdHoc, Infrastructure */
+	 UINT  ap_Channel;	/**< The current radio channel used by the neighboring WiFi radio. */
+	 INT   ap_SignalStrength;	/**< An indicator of radio signal strength (RSSI) of the neighboring WiFi radio measured indBm, as an average of the last 100 packets received. */
+	 CHAR  ap_SecurityModeEnabled[64];	/**< The type of encryption the neighboring WiFi SSID advertises. Enumeration of:None, WPA-WPA2 etc. */
+	 CHAR  ap_EncryptionMode[64];	/**< Comma-separated list of strings. The type of encryption the neighboring WiFi SSID advertises. Each list item is an enumeration of: TKIP, AES */
+	 CHAR  ap_OperatingFrequencyBand[16];	/**< Indicates the frequency band at which the radio this SSID instance is operating. Enumeration of:2.4GHz, 5GHz */
+	 CHAR  ap_SupportedStandards[64];	/**< Comma-separated list of strings. List items indicate which IEEE 802.11 standards thisResultinstance can support simultaneously, in the frequency band specified byOperatingFrequencyBand. Each list item is an enumeration of: */
+	 CHAR  ap_OperatingStandards[16];	/**< Comma-separated list of strings. Each list item MUST be a member of the list reported by theSupportedStandardsparameter. List items indicate which IEEE 802.11 standard that is detected for thisResult. */
+	 CHAR  ap_OperatingChannelBandwidth[16];	/**< Indicates the bandwidth at which the channel is operating. Enumeration of: */
+	 UINT  ap_BeaconPeriod;	/**< Time interval (inms) between transmitting beacons. */
+	 INT   ap_Noise;	/**< Indicator of average noise strength (indBm) received from the neighboring WiFi radio. */
+	 CHAR  ap_BasicDataTransferRates[256];	/**< Comma-separated list (maximum list length 256) of strings. Basic data transmit rates (in Mbps) for the SSID. For example, ifBasicDataTransferRatesis "1,2", this indicates that the SSID is operating with basic rates of 1 Mbps and 2 Mbps. */
+	 CHAR  ap_SupportedDataTransferRates[256];	/**< Comma-separated list (maximum list length 256) of strings. Data transmit rates (in Mbps) for unicast frames at which the SSID will permit a station to connect. For example, ifSupportedDataTransferRatesis "1,2,5.5", this indicates that the SSID will only permit connections at 1 Mbps, 2 Mbps and 5.5 Mbps. */
+	 UINT  ap_DTIMPeriod;	/**< The number of beacon intervals that elapse between transmission of Beacon frames containing a TIM element whose DTIM count field is 0. This value is transmitted in the DTIM Period field of beacon frames. [802.11-2012] */
+	 UINT  ap_ChannelUtilization;	/**< Indicates the fraction of the time AP senses that the channel is in use by the neighboring AP for transmissions. */
+	 
+} wifi_neighbor_ap2_t;	//COSA_DML_NEIGHTBOURING_WIFI_RESULT
 
 typedef struct _wifi_diag_ipping_setting
 {
-    CHAR  ipping_Interface[256];   /**< The value MUST be the path name of a row in the IP.Interface table. The IP-layer interface over which the test is to be performed.
-                                         This identifies the source IP address to use when performing the test. Example: Device.IP.Interface.1.
-                                         If an empty string is specified, the CPE MUST use the interface as directed by its routing policy (Forwarding table entries) to determine the appropriate interface. */
-    CHAR  ipping_Host[256];    /**< Host name or address of the host to ping. In the case where Host is specified by name, and the name resolves to more than one address, it is up to the device implementation to choose which address to use. */
-    UINT  ipping_NumberOfRepetitions;  /**< Number of repetitions of the ping test to perform before reporting the results. */
-    UINT  ipping_Timeout;  /**< Timeout in milliseconds for the ping test. */
-    UINT  ipping_DataBlockSize;    /**< Size of the data block in bytes to be sent for each ping. */
-    UINT  ipping_DSCP; /**< DiffServ codepoint to be used for the test packets. By default the CPE SHOULD set this value to zero. */
+	 CHAR  ipping_Interface[256];	/**< The value MUST be the path name of a row in the IP.Interface table. The IP-layer interface over which the test is to be performed. This identifies the source IP address to use when performing the test. Example: Device.IP.Interface.1. If an empty string is specified, the CPE MUST use the interface as directed by its routing policy (Forwarding table entries) to determine the appropriate interface. */
+	 CHAR  ipping_Host[256];	/**< Host name or address of the host to ping. In the case where Host is specified by name, and the name resolves to more than one address, it is up to the device implementation to choose which address to use. */
+	 UINT  ipping_NumberOfRepetitions;	/**< Number of repetitions of the ping test to perform before reporting the results. */
+	 UINT  ipping_Timeout;	/**< Timeout in milliseconds for the ping test.	*/
+	 UINT  ipping_DataBlockSize;	/**< Size of the data block in bytes to be sent for each ping. */
+	 UINT  ipping_DSCP;	/**< DiffServ codepoint to be used for the test packets. By default the CPE SHOULD set this value to zero. */
 
-} wifi_diag_ipping_setting_t;   
+} wifi_diag_ipping_setting_t;	
 
 typedef struct _wifi_diag_ipping_result
 {
-    CHAR  ipping_DiagnosticsState[64]; /**< Indicates availability of diagnostic data.
-                                             Enumeration of: Complete, Error_CannotResolveHostName,  Error_Internal, Error_Other */
-    UINT  ipping_SuccessCount; /**< Result parameter indicating the number of successful pings (those in which a successful response was received prior to the timeout) in the most recent ping test. */
-    UINT  ipping_FailureCount; /**< Result parameter indicating the number of failed pings in the most recent ping test. */
-    UINT  ipping_AverageResponseTime;  /**< Result parameter indicating the average response time in milliseconds over all repetitions with successful responses of the most recent ping test.
-                                            If there were no successful responses, this value MUST be zero. */
-    UINT  ipping_MinimumResponseTime;  /**< Result parameter indicating the minimum response time in milliseconds over all repetitions with successful responses of the most recent ping test.
-                                            If there were no successful responses, this value MUST be zero. */
-    UINT  ipping_MaximumResponseTime;  /**< Result parameter indicating the maximum response time in milliseconds over all repetitions with successful responses of the most recent ping test.
-                                            If there were no successful responses, this value MUST be zero. */
-    
+	 CHAR  ipping_DiagnosticsState[64];	/**< Indicates availability of diagnostic data. Enumeration of:	Complete, Error_CannotResolveHostName, 	Error_Internal, Error_Other */
+	 UINT  ipping_SuccessCount;	/**< Result parameter indicating the number of successful pings (those in which a successful response was received prior to the timeout) in the most recent ping test. */
+	 UINT  ipping_FailureCount;	/**< Result parameter indicating the number of failed pings in the most recent ping test. */
+	 UINT  ipping_AverageResponseTime;	/**< Result parameter indicating the average response time in milliseconds over all repetitions with successful responses of the most recent ping test. If there were no successful responses, this value MUST be zero. */
+	 UINT  ipping_MinimumResponseTime;	/**< Result parameter indicating the minimum response time in milliseconds over all repetitions with successful responses of the most recent ping test. If there were no successful responses, this value MUST be zero. */
+	 UINT  ipping_MaximumResponseTime;	/**< Result parameter indicating the maximum response time in milliseconds over all repetitions with successful responses of the most recent ping test. If there were no successful responses, this value MUST be zero. */
+	 
 } wifi_diag_ipping_result_t;
 
 //>> -------------------------------- wifi_ap_hal --------------------------------------------
 //>> Deprecated: used for old RDKB code. 
-// TODO: Review Required
-/**
- * @brief Wi-Fi device information.
- * @deprecated Used for old RDKB code.
- *
- * This structure contains information about a Wi-Fi device.
- */
-typedef struct _wifi_device {
-  UCHAR wifi_devMacAddress[6]; /**< Device MAC address. */
-  CHAR wifi_devIPAddress[64];   /**< Device IP address. */
-  BOOL wifi_devAssociatedDeviceAuthentiationState; /**< Associated device authentication state. */
-  INT wifi_devSignalStrength; /**< Signal strength (dBm). */
-  INT wifi_devTxRate;         /**< Transmit rate (kbps). */
-  INT wifi_devRxRate;         /**< Receive rate (kbps). */
+typedef struct _wifi_device
+{
+     UCHAR wifi_devMacAddress[6];
+     CHAR wifi_devIPAddress[64];
+     BOOL wifi_devAssociatedDeviceAuthentiationState;
+     INT  wifi_devSignalStrength;
+     INT  wifi_devTxRate;
+     INT  wifi_devRxRate;
 } wifi_device_t;
 //<<
 
 //Please do not edit the elements for this data structure 
 typedef struct _wifi_associated_dev
 {
-    //UCHAR cli_devMacAddress[6];
-    //CHAR  cli_devIPAddress[64];
-    //BOOL  cli_devAssociatedDeviceAuthentiationState;
-    //INT   cli_devSignalStrength;
-    //INT   cli_devTxRate;
-    //INT   cli_devRxRate;
-
-    UCHAR cli_MACAddress[6];       /**< The MAC address of an associated device. */
-    CHAR  cli_IPAddress[64];       /**< IP of the associated device */
-    BOOL  cli_AuthenticationState; /**< Whether an associated device has authenticated (true) or not (false). */
-    UINT  cli_LastDataDownlinkRate; /**< The data transmit rate in kbps that was most recently used for transmission from the access point to the associated device. */
-    UINT  cli_LastDataUplinkRate;  /**< The data transmit rate in kbps that was most recently used for transmission from the associated device to the access point. */
-    INT   cli_SignalStrength;      /**< An indicator of radio signal strength of the uplink from the associated device to the access point, measured in dBm, as an average of the last 100 packets received from the device. */
-    UINT  cli_Retransmissions;     /**< The number of packets that had to be re-transmitted, from the last 100 packets sent to the associated device. Multiple re-transmissions of the same packet count as one. */
-    BOOL  cli_Active;              /**<    boolean -   Whether or not this node is currently present in the WiFi AccessPoint network. */
-
-    CHAR  cli_OperatingStandard[64];   /**< Radio standard the associated Wi-Fi client device is operating under. Enumeration of: */
-    CHAR  cli_OperatingChannelBandwidth[64];   /**< The operating channel bandwidth of the associated device. The channel bandwidth (applicable to 802.11n and 802.11ac specifications only). Enumeration of: */
-    INT   cli_SNR;     /**< A signal-to-noise ratio (SNR) compares the level of the Wi-Fi signal to the level of background noise. Sources of noise can include microwave ovens, cordless phone, bluetooth devices, wireless video cameras, wireless game controllers, fluorescent lights and more. It is measured in decibels (dB). */
-    CHAR  cli_InterferenceSources[64]; /**< Wi-Fi operates in two frequency ranges (2.4 Ghz and 5 Ghz) which may become crowded other radio products which operate in the same ranges. This parameter reports the probable interference sources that this Wi-Fi access point may be observing. The value of this parameter is a comma seperated list of the following possible sources: eg: MicrowaveOven,CordlessPhone,BluetoothDevices,FluorescentLights,ContinuousWaves,Others */
-    ULONG cli_DataFramesSentAck;   /**< The DataFramesSentAck parameter indicates the total number of MSDU frames marked as duplicates and non duplicates acknowledged. The value of this counter may be reset to zero when the CPE is rebooted. Refer section A.2.3.14 of CableLabs Wi-Fi MGMT Specification. */
-    ULONG cli_DataFramesSentNoAck; /**< The DataFramesSentNoAck parameter indicates the total number of MSDU frames retransmitted out of the interface (i.e., marked as duplicate and non-duplicate) and not acknowledged, but does not exclude those defined in the DataFramesLost parameter. The value of this counter may be reset to zero when the CPE is rebooted. Refer section A.2.3.14 of CableLabs Wi-Fi MGMT Specification. */
-    ULONG cli_BytesSent;   /**< The total number of bytes transmitted to the client device, including framing characters. */
-    ULONG cli_BytesReceived;   /**< The total number of bytes received from the client device, including framing characters. */
-    INT   cli_RSSI;    /**< The Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for transmissions from the device averaged over past 100 packets recevied from the device. */
-    INT   cli_MinRSSI; /**< The Minimum Received Signal Strength Indicator, RSSI, parameter is the minimum energy observed at the antenna receiver for past transmissions (100 packets). */
-    INT   cli_MaxRSSI; /**< The Maximum Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for past transmissions (100 packets). */
-    UINT  cli_Disassociations; /**< This parameter  represents the total number of client disassociations. Reset the parameter evey 24hrs or reboot */
-    UINT  cli_AuthenticationFailures;  /**< This parameter indicates the total number of authentication failures.  Reset the parameter evey 24hrs or reboot */
-
-} wifi_associated_dev_t;    //~COSA_DML_WIFI_AP_ASSOC_DEVICE
+     //UCHAR cli_devMacAddress[6];
+     //CHAR  cli_devIPAddress[64];
+     //BOOL  cli_devAssociatedDeviceAuthentiationState;
+     //INT   cli_devSignalStrength;
+     //INT   cli_devTxRate;
+     //INT   cli_devRxRate;
+	 
+	 UCHAR cli_MACAddress[6];		/**< The MAC address of an associated device. */
+	 CHAR  cli_IPAddress[64];		/**< IP of the associated device */
+	 BOOL  cli_AuthenticationState; /**< Whether an associated device has authenticated (true) or not (false). */
+	 UINT  cli_LastDataDownlinkRate; /**< The data transmit rate in kbps that was most recently used for transmission from the access point to the associated device. */
+	 UINT  cli_LastDataUplinkRate; 	/**< The data transmit rate in kbps that was most recently used for transmission from the associated device to the access point. */
+	 INT   cli_SignalStrength; 		/**< An indicator of radio signal strength of the uplink from the associated device to the access point, measured in dBm, as an average of the last 100 packets received from the device. */
+	 UINT  cli_Retransmissions; 	/**< The number of packets that had to be re-transmitted, from the last 100 packets sent to the associated device. Multiple re-transmissions of the same packet count as one. */
+	 BOOL  cli_Active; 				/**<	boolean	-	Whether or not this node is currently present in the WiFi AccessPoint network. */
+	
+	 CHAR  cli_OperatingStandard[64];	/**< Radio standard the associated Wi-Fi client device is operating under. Enumeration of: */
+	 CHAR  cli_OperatingChannelBandwidth[64];	/**< The operating channel bandwidth of the associated device. The channel bandwidth (applicable to 802.11n and 802.11ac specifications only). Enumeration of: */
+	 INT   cli_SNR;		/**< A signal-to-noise ratio (SNR) compares the level of the Wi-Fi signal to the level of background noise. Sources of noise can include microwave ovens, cordless phone, bluetooth devices, wireless video cameras, wireless game controllers, fluorescent lights and more. It is measured in decibels (dB). */
+	 CHAR  cli_InterferenceSources[64]; /**< Wi-Fi operates in two frequency ranges (2.4 Ghz and 5 Ghz) which may become crowded other radio products which operate in the same ranges. This parameter reports the probable interference sources that this Wi-Fi access point may be observing. The value of this parameter is a comma seperated list of the following possible sources: eg: MicrowaveOven,CordlessPhone,BluetoothDevices,FluorescentLights,ContinuousWaves,Others */
+	 ULONG cli_DataFramesSentAck;	/**< The DataFramesSentAck parameter indicates the total number of MSDU frames marked as duplicates and non duplicates acknowledged. The value of this counter may be reset to zero when the CPE is rebooted. Refer section A.2.3.14 of CableLabs Wi-Fi MGMT Specification. */
+	 ULONG cli_DataFramesSentNoAck;	/**< The DataFramesSentNoAck parameter indicates the total number of MSDU frames retransmitted out of the interface (i.e., marked as duplicate and non-duplicate) and not acknowledged, but does not exclude those defined in the DataFramesLost parameter. The value of this counter may be reset to zero when the CPE is rebooted. Refer section A.2.3.14 of CableLabs Wi-Fi MGMT Specification. */
+	 ULONG cli_BytesSent;	/**< The total number of bytes transmitted to the client device, including framing characters. */
+	 ULONG cli_BytesReceived;	/**< The total number of bytes received from the client device, including framing characters. */
+	 INT   cli_RSSI;	/**< The Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for transmissions from the device averaged over past 100 packets recevied from the device. */
+	 INT   cli_MinRSSI;	/**< The Minimum Received Signal Strength Indicator, RSSI, parameter is the minimum energy observed at the antenna receiver for past transmissions (100 packets). */
+	 INT   cli_MaxRSSI;	/**< The Maximum Received Signal Strength Indicator, RSSI, parameter is the energy observed at the antenna receiver for past transmissions (100 packets). */
+	 UINT  cli_Disassociations;	/**< This parameter  represents the total number of client disassociations. Reset the parameter evey 24hrs or reboot */
+	 UINT  cli_AuthenticationFailures;	/**< This parameter indicates the total number of authentication failures.  Reset the parameter evey 24hrs or reboot */
+	 
+} wifi_associated_dev_t;	//~COSA_DML_WIFI_AP_ASSOC_DEVICE
 
 typedef struct _wifi_radius_setting_t
 {
-    INT  RadiusServerRetries;          /**< Number of retries for Radius requests. */
-    INT  RadiusServerRequestTimeout;   /**< Radius request timeout in seconds after which the request must be retransmitted for the # of retries available. */
-    INT  PMKLifetime;                  /**< Default time in seconds after which a Wi-Fi client is forced to ReAuthenticate (def 8 hrs). */
-    BOOL PMKCaching;                   /**< Enable or disable caching of PMK.  */
-    INT  PMKCacheInterval;             /**< Time interval in seconds after which the PMKSA (Pairwise Master Key Security Association) cache is purged (def 5 minutes). */
-    INT  MaxAuthenticationAttempts;    /**< Indicates the # of time, a client can attempt to login with incorrect credentials. When this limit is reached, the client is blacklisted and not allowed to attempt loging into the network. Settings this parameter to 0 (zero) disables the blacklisting feature. */
-    INT  BlacklistTableTimeout;        /**< Time interval in seconds for which a client will continue to be blacklisted once it is marked so.  */
-    INT  IdentityRequestRetryInterval; /**< Time Interval in seconds between identity requests retries. A value of 0 (zero) disables it.   */
-    INT  QuietPeriodAfterFailedAuthentication;  /**< The enforced quiet period (time interval) in seconds following failed authentication. A value of 0 (zero) disables it. */
-    //UCHAR RadiusSecret[64];          //The secret used for handshaking with the RADIUS server [RFC2865]. When read, this parameter returns an empty string, regardless of the actual value.
-
-} wifi_radius_setting_t;
+	 INT  RadiusServerRetries; 			/**< Number of retries for Radius requests. */
+	 INT  RadiusServerRequestTimeout; 	/**< Radius request timeout in seconds after which the request must be retransmitted for the # of retries available.	 */
+	 INT  PMKLifetime; 					/**< Default time in seconds after which a Wi-Fi client is forced to ReAuthenticate (def 8 hrs).	 */
+	 BOOL PMKCaching; 					/**< Enable or disable caching of PMK.	*/
+	 INT  PMKCacheInterval; 			/**< Time interval in seconds after which the PMKSA (Pairwise Master Key Security Association) cache is purged (def 5 minutes).	*/
+	 INT  MaxAuthenticationAttempts; 	/**< Indicates the # of time, a client can attempt to login with incorrect credentials. When this limit is reached, the client is blacklisted and not allowed to attempt loging into the network. Settings this parameter to 0 (zero) disables the blacklisting feature. */
+	 INT  BlacklistTableTimeout; 		/**< Time interval in seconds for which a client will continue to be blacklisted once it is marked so.	*/
+	 INT  IdentityRequestRetryInterval; /**< Time Interval in seconds between identity requests retries. A value of 0 (zero) disables it.	*/
+	 INT  QuietPeriodAfterFailedAuthentication;  /**< The enforced quiet period (time interval) in seconds following failed authentication. A value of 0 (zero) disables it. */
+	 //UCHAR RadiusSecret[64];			//The secret used for handshaking with the RADIUS server [RFC2865]. When read, this parameter returns an empty string, regardless of the actual value.
+		 
+} wifi_radius_setting_t;	
 
 //typedef struct wifi_AC_parameters_record  // Access Catagoriy parameters.  see 802.11-2012 spec for descriptions
 //{
@@ -583,20 +457,21 @@ typedef struct _wifi_radius_setting_t
 //<< -------------------------------- wifi_ap_hal --------------------------------------------
 
 //---------------------------------------------------------------------------------------------------
-
+/* wifi_getHalVersion() function */
 /**
- * @brief Get the wifi hal version in string,
- *        e.g. "2.0.0".
- *        WIFI_HAL_MAJOR_VERSION.WIFI_HAL_MINOR_VERSION.
- *        WIFI_HAL_MAINTENANCE_VERSION
- *
- * @param[out] output_string WiFi Hal version, to be returned
- *
- * @returns INT
- * @retval WIFI_HAL_SUCCESS If successful.
- * @retval WIFI_HAL_ERROR If any error is detected.
- */
-INT wifi_getHalVersion(CHAR *output_string);
+* @description Get the wifi hal version in string, eg "2.0.0". WIFI_HAL_MAJOR_VERSION.WIFI_HAL_MINOR_VERSION.WIFI_HAL_MAINTENANCE_VERSION
+*
+* @param output_string - WiFi Hal version, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @sideeffect None
+*/
+//Wifi system api
+//Get the wifi hal version in string, eg "2.0.0".  WIFI_HAL_MAJOR_VERSION.WIFI_HAL_MINOR_VERSION.WIFI_HAL_MAINTENANCE_VERSION
+INT wifi_getHalVersion(CHAR *output_string);   //RDKB   
 
 //---------------------------------------------------------------------------------------------------
 //
@@ -604,187 +479,265 @@ INT wifi_getHalVersion(CHAR *output_string);
 //
 //---------------------------------------------------------------------------------------------------
 
+/* wifi_factoryReset() function */
 /**
- * @brief Resets the Wi-Fi subsystem to its factory default state.
- *
- * This function clears internal variables to perform a factory reset of the 
- * Wi-Fi subsystem. The specific implementation may vary depending on the 
- * hardware requirements. This function must not suspend or invoke any 
- * blocking system calls.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_factoryReset();
+* @description Clears internal variables to implement a factory reset of the Wi-Fi 
+* subsystem. Resets Implementation specifics may dictate some functionality since different hardware implementations may have different requirements.
+*
+* @param None
+*
+* @return The status of the operation.
+* @retval RETURN_OK if successful.
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//clears internal variables to implement a factory reset of the Wi-Fi subsystem
+INT wifi_factoryReset();	//RDKB
 
+/* wifi_factoryResetRadios() function */
 /**
- * @brief Restores all radio parameters to their factory defaults.
- * 
- * This function resets all radio parameters without affecting access point 
- * parameters. The specific implementation may vary depending on the hardware 
- * requirements. This function must not suspend or invoke any blocking system 
- * calls.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_factoryResetRadios();
+* @description Restore all radio parameters without touching access point parameters. Resets Implementation specifics may dictate some functionality since different hardware implementations may have different requirements.
+*
+* @param None
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+*
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Restore all radio parameters without touch access point parameters
+INT wifi_factoryResetRadios(); //RDKB
 
+/* wifi_factoryResetRadio() function */
 /**
- * @brief Restores the selected radio parameters to their factory defaults.
- *
- * This function resets the specified radio parameters without affecting
- * access point parameters. This function must not suspend or invoke any
- * blocking system calls.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_factoryResetRadio(int radioIndex);
+* @description Restore selected radio parameters without touching access point parameters
+*
+* @param radioIndex - Index of Wi-Fi Radio channel
+*
+* @return The status of the operation.
+* @retval RETURN_OK if successful.
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous.
+* @sideeffect None.
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Restore selected radio parameters without touch access point parameters
+INT wifi_factoryResetRadio(int radioIndex); 	//RDKB
 
+/* wifi_setLED() function */
 /**
- * @brief Sets the system LED status.
- *
- * This function sets the system LED status for the specified radio. This
- * function must not suspend or invoke any blocking system calls.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The LED status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setLED(INT radioIndex, BOOL enable);
+* @description Set the system LED status
+*
+* @param radioIndex - Index of Wi-Fi Radio channel
+* @param enable - LED status
+*
+* @return The status of the operation.
+* @retval RETURN_OK if successful.
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous.
+* @sideeffect None.
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the system LED status
+INT wifi_setLED(INT radioIndex, BOOL enable);	//RDKB
 
+/* wifi_init() function */
 /**
- * @brief Initializes all Wi-Fi radios.
- *
- * This function initializes all Wi-Fi radios. The specific implementation may 
- * vary depending on the hardware requirements. This function must not suspend 
- * or invoke any blocking system calls.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_init();
+* @description This function call initializes all Wi-Fi radios. Implementation 
+* specifics may dictate the functionality since different hardware implementations 
+* may have different initilization requirements.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// Initializes the wifi subsystem (all radios)
+INT wifi_init();                              //RDKB
 
+/* wifi_reset() function */
 /**
- * @brief Resets the Wi-Fi subsystem.
- *
- * This function resets the Wi-Fi subsystem, including all AP variables. The 
- * specific implementation may vary depending on the hardware requirements. 
- * This function must not suspend or invoke any blocking system calls.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_reset();
+* @description Resets the Wifi subsystem. This includes reset of all AP varibles.
+* Implementation specifics may dictate what is actualy reset since different hardware 
+* implementations may have different requirements.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// resets the wifi subsystem, deletes all APs
+INT wifi_reset();                            //RDKB
 
+/* wifi_down() function */
 /**
- * @brief Turns off transmit power for the entire Wi-Fi subsystem.
- *
- * This function turns off transmit power for all radios in the Wi-Fi 
- * subsystem. The specific implementation may vary depending on the hardware 
- * requirements. This function must not suspend or invoke any blocking system 
- * calls.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_down();
+* @description Turns off transmit power for the entire Wifi subsystem, for all radios.
+* Implementation specifics may dictate some functionality since 
+* different hardware implementations may have different requirements.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// turns off transmit power for the entire Wifi subsystem, for all radios
+INT wifi_down();                       		//RDKB
 
+/* wifi_createInitialConfigFiles() function */
 /**
- * @brief Creates initial Wi-Fi configuration files.
- *
- * This function creates Wi-Fi configuration files. The format and content of 
- * these files are implementation-dependent. This function is used to trigger 
- * this task if necessary. Some implementations may not need this function. If 
- * an implementation does not need to create config files, this function can do 
- * nothing and return WIFI_HAL_SUCCESS. This function must not suspend or 
- * invoke any blocking system calls.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_createInitialConfigFiles();                                                                       
+* @description This function creates wifi configuration files. The format
+* and content of these files are implementation dependent.  This function call is 
+* used to trigger this task if necessary. Some implementations may not need this 
+* function. If an implementation does not need to create config files the function call can 
+* do nothing and return RETURN_OK.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// creates initial implementation dependent configuration files that are later used for variable storage.  Not all implementations may need this function.  If not needed for a particular implementation simply return no-error (0)
+INT wifi_createInitialConfigFiles();                                                                                    
 
+/* wifi_getRadioCountryCode() function */
 /**
- * @brief Gets the country code for the specified Wi-Fi radio.
- *
- * This function retrieves the country code for the specified Wi-Fi radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer to store the country code.
- *                          The buffer must be at least 64 characters long.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioCountryCode(INT radioIndex, CHAR *output_string);
+* @description Outputs the country code to a max 64 character string
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Country code, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// outputs the country code to a max 64 character string
+INT wifi_getRadioCountryCode(INT radioIndex, CHAR *output_string);   
 
+/* wifi_setRadioCountryCode() function */
 /**
- * @brief Sets the country code for the specified Wi-Fi radio.
- *
- * This function sets the country code for the specified Wi-Fi radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] CountryCode A pointer to the country code string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioCountryCode(INT radioIndex, CHAR *CountryCode);
+* @description Set the country code for selected Wi-Fi radio channel.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param CountryCode - Country code 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioCountryCode(INT radioIndex, CHAR *CountryCode);       
 
 //---------------------------------------------------------------------------------------------------
 //Wifi Tr181 API
 
 //Device.WiFi.
 
+/* wifi_getRadioNumberOfEntries() function */
 /**
- * @brief Gets the total number of radios in the Wi-Fi subsystem.
- *
- * This function retrieves the total number of radios in the Wi-Fi subsystem.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.RadioNumberOfEntries`.
- *
- * @param[out] output A pointer to a variable to store the number of radios.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioNumberOfEntries(ULONG *output);
+* @description Get the total number of radios in this wifi subsystem
+*
+* @param output - Total no. of radios, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.RadioNumberOfEntries
+//Get the total number of radios in this wifi subsystem
+INT wifi_getRadioNumberOfEntries(ULONG *output); //Tr181
 
+/* wifi_getSSIDNumberOfEntries() function */
 /**
- * @brief Gets the total number of SSID entries in the Wi-Fi subsystem.
- *
- * This function retrieves the total number of SSID entries in the Wi-Fi
- * subsystem.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.SSIDNumberOfEntries`.
- *
- * @param[out] output A pointer to a variable to store the number of SSID
- *                    entries.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDNumberOfEntries(ULONG *output);
+* @description Get the total number of SSID entries in this wifi subsystem
+*
+* @param output - Total no. of SSID entries, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.SSIDNumberOfEntries
+//Get the total number of SSID entries in this wifi subsystem 
+INT wifi_getSSIDNumberOfEntries(ULONG *output); //Tr181
 
 //Device.WiFi.AccessPointNumberOfEntries
 
@@ -800,992 +753,1207 @@ INT wifi_getSSIDNumberOfEntries(ULONG *output);
 
 //Device.WiFi.Radio.
 
+/* wifi_getRadioEnable() function */
 /**
- * @brief Gets the radio enable configuration parameter.
- *
- * This function retrieves the radio enable configuration parameter for the
- * specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.Enable`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioEnable(INT radioIndex, BOOL *output_bool);
+* @description Get the Radio enable config parameter
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - Radio Enable status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Enable
+//Get the Radio enable config parameter
+INT wifi_getRadioEnable(INT radioIndex, BOOL *output_bool);	//RDKB
 
+/* wifi_setRadioEnable() function */
 /**
- * @brief Sets the radio enable configuration parameter.
- *
- * This function sets the radio enable configuration parameter for the
- * specified radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioEnable(INT radioIndex, BOOL enable);
+* @description Set the Radio enable config parameter
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - Set the selected radio's status as Enable/Disable
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the Radio enable config parameter
+INT wifi_setRadioEnable(INT radioIndex, BOOL enable);		//RDKB
 
+/* wifi_getRadioStatus() function */
 /**
- * @brief Gets the radio enable status.
- *
- * This function retrieves the radio enable status for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.Status`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioStatus(INT radioIndex, BOOL *output_bool);
+* @description Get the Radio enable status
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - Selected radio's enable status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Status
+//Get the Radio enable status
+INT wifi_getRadioStatus(INT radioIndex, BOOL *output_bool);	//RDKB
 
+/* wifi_getRadioIfName() function */
 /**
- * @brief Gets the radio interface name.
- *
- * This function retrieves the interface name for the specified radio, e.g.,
- * "wifi0".
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.Radio.{i}.Alias`
- *       * `Device.WiFi.Radio.{i}.Name`
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer to store the interface name.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioIfName(INT radioIndex, CHAR *output_string);
+* @description Get the Radio Interface name from platform, eg "wifi0"
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Interface name, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Alias
 
-/**
- * @brief Gets the maximum PHY bit rate supported by the radio.
- *
- * This function retrieves the maximum PHY bit rate supported by the specified
- * radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.MaxBitRate`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the maximum bit rate, e.g., "216.7
- *                           Mb/s", "1.3 Gb/s". Implementations must ensure
- *                           that strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioMaxBitRate(INT radioIndex, CHAR *output_string);
+//Device.WiFi.Radio.{i}.Name
+//Get the Radio Interface name from platform, eg "wifi0"
+INT wifi_getRadioIfName(INT radioIndex, CHAR *output_string); //Tr181
 
-/**
- * @brief Gets the supported frequency bands for the radio.
- *
- * This function retrieves the supported frequency bands at which the
- * specified radio can operate.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.SupportedFrequencyBands`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the supported frequency bands, e.g.,
- *                           "2.4GHz,5GHz". Implementations must ensure that
- *                           strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioSupportedFrequencyBands(INT radioIndex, CHAR *output_string);
+//Device.WiFi.Radio.{i}.LastChange
 
-/**
- * @brief Gets the operating frequency band for the radio.
- *
- * This function retrieves the frequency band at which the specified radio
- * is operating.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.OperatingFrequencyBand`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the operating frequency band, e.g.,
- *                           "2.4GHz". Implementations must ensure that
- *                           strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioOperatingFrequencyBand(INT radioIndex, CHAR *output_string);
+//Device.WiFi.Radio.{i}.LowerLayers
 
-/**
- * @brief Gets the supported radio modes.
- *
- * This function retrieves the supported radio modes for the specified
- * radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.SupportedStandards`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the supported radio modes, e.g.,
- *                           "b,g,n", "n,ac". Implementations must ensure that
- *                           strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioSupportedStandards(INT radioIndex, CHAR *output_string);
+//Device.WiFi.Radio.{i}.Upstream
 
+/* wifi_getRadioMaxBitRate() function */
 /**
- * @brief Gets the radio operating mode and pure mode flag.
- *
- * This function retrieves the operating mode and pure mode flag for the
- * specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.OperatingStandards`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the operating mode, e.g., "ac".
- *                           Implementations must ensure that strings are not
- *                           longer than this.
- * @param[out] gOnly A pointer to a boolean variable to store the g-only flag.
- * @param[out] nOnly A pointer to a boolean variable to store the n-only flag.
- * @param[out] acOnly A pointer to a boolean variable to store the ac-only
- *                    flag.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioStandard(INT radioIndex, CHAR *output_string, BOOL *gOnly,
-                          BOOL *nOnly, BOOL *acOnly);
+* @description Get the maximum PHY bit rate supported by this interface. eg: "216.7 Mb/s", "1.3 Gb/s"
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* 
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Maximum bit rate supported, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.MaxBitRate
+//Get the maximum PHY bit rate supported by this interface. eg: "216.7 Mb/s", "1.3 Gb/s"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioMaxBitRate(INT radioIndex, CHAR *output_string);	//RDKB
 
+/* wifi_getRadioSupportedFrequencyBands() function */
 /**
- * @brief Sets the radio operating mode and pure mode flag.
- *
- * This function sets the operating mode and pure mode flag for the specified
- * radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] channelMode The channel mode to set.
- * @param[in] gOnlyFlag The g-only flag to set.
- * @param[in] nOnlyFlag The n-only flag to set.
- * @param[in] acOnlyFlag The ac-only flag to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioChannelMode(INT radioIndex, CHAR *channelMode, BOOL gOnlyFlag,
-                             BOOL nOnlyFlag, BOOL acOnlyFlag);
+* @description Get Supported frequency bands at which the radio can operate. eg: "2.4GHz,5GHz"
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.  
+* Implementations must ensure that strings are not longer than this.
+* 
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Supported frequency bands, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.SupportedFrequencyBands
+//Get Supported frequency bands at which the radio can operate. eg: "2.4GHz,5GHz"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioSupportedFrequencyBands(INT radioIndex, CHAR *output_string);	//RDKB
 
+/* wifi_getRadioOperatingFrequencyBand() function */
 /**
- * @brief Gets the list of possible channels for the radio.
- *
- * This function retrieves the list of possible channels for the specified
- * radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.PossibleChannels`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the list of possible channels, e.g.,
- *                           "1-11". Implementations must ensure that strings
- *                           are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioPossibleChannels(INT radioIndex, CHAR *output_string);
+* @description Get the frequency band at which the radio is operating, eg: "2.4GHz".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* 
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Operating frequency band, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.OperatingFrequencyBand
+//Get the frequency band at which the radio is operating, eg: "2.4GHz"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioOperatingFrequencyBand(INT radioIndex, CHAR *output_string); //Tr181
 
+/* wifi_getRadioSupportedStandards() function */
 /**
- * @brief Gets the list of channels currently in use for the radio.
- *
- * This function retrieves the list of channels currently in use for the
- * specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.ChannelsInUse`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 256 octets)
- *                           to store the list of channels in use, e.g.,
- *                           "1,6,9,11". Implementations must ensure that
- *                           strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioChannelsInUse(INT radioIndex, CHAR *output_string);
+* @description Get the Supported Radio Mode. eg: "b,g,n"; "n,ac".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.
+* Implementations must ensure that strings are not longer than this.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Supported radio mode, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.SupportedStandards
+//Get the Supported Radio Mode. eg: "b,g,n"; "n,ac"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioSupportedStandards(INT radioIndex, CHAR *output_string); //Tr181
 
+/* wifi_getRadioStandard() function */
 /**
- * @brief Gets the current channel number for the radio.
- *
- * This function retrieves the current channel number for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.Channel`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_ulong A pointer to a variable to store the channel
- *                          number.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioChannel(INT radioIndex, ULONG *output_ulong);
+* @description Get the radio operating mode, and pure mode flag. eg: "ac".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.
+* Implementations must ensure that strings are not longer than this.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Radio operating mode, to be returned
+* @param gOnly - Boolean pointer variable need to be updated based on the "output_string"
+* @param nOnly - Boolean pointer variable need to be updated based on the "output_string"
+* @param acOnly - Boolean pointer variable need to be updated based on the "output_string"
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.OperatingStandards
+//Get the radio operating mode, and pure mode flag. eg: "ac"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioStandard(INT radioIndex, CHAR *output_string, BOOL *gOnly, BOOL *nOnly, BOOL *acOnly);	//RDKB
 
+/* wifi_setRadioChannelMode() function */
 /**
- * @brief Sets the current channel number for the radio.
- *
- * This function sets the current channel number for the specified radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] channel The channel number to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioChannel(INT radioIndex, ULONG channel);
+* @description Set the radio operating mode, and pure mode flag.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param channelMode - Pass the channelMode for specified radio index
+* @param gOnlyFlag - Pass operating mode flag for setting pure mode flag
+* @param nOnlyFlag - Pass operating mode flag for setting pure mode flag
+* @param acOnlyFlag - Pass operating mode flag for setting pure mode flag
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the radio operating mode, and pure mode flag. 
+INT wifi_setRadioChannelMode(INT radioIndex, CHAR *channelMode, BOOL gOnlyFlag, BOOL nOnlyFlag, BOOL acOnlyFlag);	//RDKB
 
+/* wifi_getRadioPossibleChannels() function */
 /**
- * @brief Enables or disables auto channel selection for the radio.
- *
- * This function enables or disables a driver-level variable to indicate if
- * auto channel selection is enabled on the specified radio. This "auto
- * channel" refers to the auto channel selection when the radio is up, which
- * is different from the dynamic channel/frequency selection (DFC/DCS).
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable/disable status of auto channel selection.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioAutoChannelEnable(INT radioIndex, BOOL enable);
+* @description Get the list of supported channel. eg: "1-11".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.
+* Implementations must ensure that strings are not longer than this.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - List of supported radio channels, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.PossibleChannels
+//Get the list of supported channel. eg: "1-11"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioPossibleChannels(INT radioIndex, CHAR *output_string);	//RDKB
 
+/* wifi_getRadioChannelsInUse() function */
 /**
- * @brief Checks if the driver supports auto channel selection.
- *
- * This function checks if the driver supports auto channel selection for the
- * specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.AutoChannelSupported`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the auto channel
- *                         support status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioAutoChannelSupported(INT radioIndex, BOOL *output_bool);
+* @description Get the list of supported channel. eg: "1-11".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.
+* Implementations must ensure that strings are not longer than this.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - List of supported radio channels, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.ChannelsInUse
+//Get the list for used channel. eg: "1,6,9,11"
+//The output_string is a max length 256 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioChannelsInUse(INT radioIndex, CHAR *output_string);	//RDKB
 
+/* wifi_getRadioChannel() function */
 /**
- * @brief Gets the auto channel enable status for the radio.
- *
- * This function retrieves the auto channel enable status for the specified
- * radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the auto channel
- *                         enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioAutoChannelEnable(INT radioIndex, BOOL *output_bool);
+* @description Get the running channel number.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_ulong - Running channel number, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Channel
+//Get the running channel number 
+INT wifi_getRadioChannel(INT radioIndex,ULONG *output_ulong);	//RDKB
 
+/* wifi_setRadioChannel() function */
 /**
- * @brief Enables or disables auto channel selection for the radio.
- *
- * This function enables or disables a driver-level variable to indicate if
- * auto channel selection is enabled on the specified radio. This "auto
- * channel" refers to the auto channel selection when the radio is up, which
- * is different from the dynamic channel/frequency selection (DFC/DCS).
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable/disable status of auto channel selection.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioAutoChannelEnable(INT radioIndex, BOOL enable);
+* @description Set the running channel number.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param channel - Channel number to be set as running wifi radio channel
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the running channel number 
+INT wifi_setRadioChannel(INT radioIndex, ULONG channel);	//RDKB	//AP only
 
+/* wifi_setRadioAutoChannelEnable() function */
 /**
- * @brief Checks if the driver supports Dynamic Channel Selection (DCS).
- *
- * This function checks if the driver supports DCS for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSSupported`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the DCS support
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDCSSupported(INT radioIndex, BOOL *output_bool);
+* @description Enables or disables a driver level variable to indicate if auto channel selection is enabled on this radio.
+* This "auto channel" means the auto channel selection when radio is up. (which is different from the dynamic channel/frequency selection (DFC/DCS))
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - Enable/Disable selected radio channel as auto channel radio
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Enables or disables a driver level variable to indicate if auto channel selection is enabled on this radio
+//This "auto channel" means the auto channel selection when radio is up. (which is different from the dynamic channel/frequency selection (DFC/DCS))
+INT wifi_setRadioAutoChannelEnable(INT radioIndex, BOOL enable); //RDKB
 
+/* wifi_getRadioAutoChannelSupported() function */
 /**
- * @brief Gets the DCS enable status for the radio.
- *
- * This function retrieves the DCS enable status for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSEnable`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the DCS enable
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDCSEnable(INT radioIndex, BOOL *output_bool);
+* @description Check if the driver support the AutoChannel.
+* \n Device.WiFi.Radio.{i}.AutoChannelSupported
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param BOOL *output_bool - Value of Auto Channel Supported, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.AutoChannelSupported
+//Check if the driver support the AutoChannel
+INT wifi_getRadioAutoChannelSupported(INT radioIndex, BOOL *output_bool); //Tr181
 
+/* wifi_getRadioAutoChannelEnable() function */
 /**
- * @brief Enables or disables DCS for the radio.
- *
- * This function enables or disables DCS for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSEnable`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable/disable status of DCS.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioDCSEnable(INT radioIndex, BOOL enable);
+* @description Get the AutoChannel enable status.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param BOOL *output_bool - Auto Channel Enabled status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Get the AutoChannel enable status
+INT wifi_getRadioAutoChannelEnable(INT radioIndex, BOOL *output_bool);	//Tr181
 
+/* wifi_setRadioAutoChannelEnable() function */
 /**
- * @brief Gets the DCS channel pool for the radio.
- *
- * This function retrieves the DCS channel pool for the specified radio. The
- * value of this parameter is a comma-separated list of channel numbers.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_pool A pointer to a buffer (max length: 256 octets) to
- *                         store the DCS channel pool. Implementations must
- *                         ensure that strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDCSChannelPool(INT radioIndex, CHAR *output_pool);
+* @description Enables or disables a driver level variable to indicate if auto channel selection is enabled on this radio.
+* This "auto channel" means the auto channel selection when radio is up. (which is different from the dynamic channel/frequency selection (DFC/DCS))
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - Enable/Disable selected radio channel as auto channel radio
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the AutoChannel enable status
+INT wifi_setRadioAutoChannelEnable(INT radioIndex, BOOL enable);	//Tr181
 
+/* wifi_getRadioDCSSupported() function */
 /**
- * @brief Sets the DCS channel pool for the radio.
- *
- * This function sets the DCS channel pool for the specified radio. The value
- * of this parameter is a comma-separated list of channel numbers.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] pool A pointer to a buffer (max length: 256 octets) containing
- *                 the DCS channel pool to set. Implementations must ensure
- *                 that strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioDCSChannelPool(INT radioIndex, CHAR *pool);
+* @description Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSSupported.
+* Check if the driver support the DCS
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - DCS Supported flag for the radio index, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSSupported
+//Check if the driver support the DCS
+INT wifi_getRadioDCSSupported(INT radioIndex, BOOL *output_bool); 	//RDKB
 
+/* wifi_getRadioDCSEnable() function */
 /**
- * @brief Gets the DCS scan time for the radio.
- *
- * This function retrieves the DCS scan time for the specified radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_interval_seconds A pointer to a variable to store the
- *                                    interval time in seconds.
- * @param[out] output_dwell_milliseconds A pointer to a variable to store the
- *                                      dwell time in milliseconds.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDCSScanTime(INT radioIndex, INT *output_interval_seconds,
-                              INT *output_dwell_milliseconds);
+* @description Get DCS of the selected wifi radio channel's enable/disable status.
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSEnable
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - DCS Enable flag for the selected radio index, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSEnable
+INT wifi_getRadioDCSEnable(INT radioIndex, BOOL *output_bool);		//RDKB
 
+/* wifi_setRadioDCSEnable() function */
 /**
- * @brief Sets the DCS scan time for the radio.
- *
- * This function sets the DCS scan time for the specified radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] interval_seconds The interval time in seconds.
- * @param[in] dwell_milliseconds The dwell time in milliseconds.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioDCSScanTime(INT radioIndex, INT interval_seconds,
-                             INT dwell_milliseconds);
+* @description Enable/Disable selected wifi radio channel's DCS.
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_DCSEnable
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - Set the value of DCS Enable flag for the selected radio index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioDCSEnable(INT radioIndex, BOOL enable);			//RDKB
 
+/* wifi_getRadioDCSChannelPool() function */
 /**
- * @brief Gets the DFS support status for the radio.
- *
- * This function retrieves the DFS support status for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsSupported`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the DFS support
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDfsSupport(INT radioIndex, BOOL *output_bool);
+* @description Get radio DCS channel pool.
+* The output_string is a max length 256 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* The value of this parameter is a comma seperated list of channel number.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_pool - DCS channel pool for the selected radio index,to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//The output_string is a max length 256 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+//The value of this parameter is a comma seperated list of channel number
+INT wifi_getRadioDCSChannelPool(INT radioIndex, CHAR *output_pool);			//RDKB
 
+/* wifi_setRadioDCSChannelPool() function */
 /**
- * @brief Gets the DFS enable status for the radio.
- *
- * This function retrieves the DFS enable status for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsEnable`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the DFS enable
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDfsEnable(INT radioIndex, BOOL *output_bool);
+* @description Set radio DCS channel pool.
+* The output_string is a max length 256 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* The value of this parameter is a comma seperated list of channel number.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param pool - Set DCS channel pool for the selected radio index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioDCSChannelPool(INT radioIndex, CHAR *pool);			//RDKB
 
+/* wifi_getRadioDCSScanTime() function */
 /**
- * @brief Enables or disables DFS for the radio.
- *
- * This function enables or disables DFS for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsEnable`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable/disable status of DFS.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioDfsEnable(INT radioIndex, BOOL enable);
+* @description Get radio DCS scan time.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_interval_seconds - Get the interval time in seconds
+* @param output_dwell_milliseconds - Get the dwell time in milliseconds
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioDCSScanTime(INT radioIndex, INT *output_interval_seconds, INT *output_dwell_milliseconds);
 
+/* wifi_setRadioDCSScanTime() function */
 /**
- * @brief Checks if the driver supports the auto channel refresh period.
- *
- * This function checks if the driver supports the auto channel refresh period
- * for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.AutoChannelRefreshPeriod`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_bool A pointer to a variable to store the auto channel
- *                         refresh period support status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioAutoChannelRefreshPeriodSupported(INT radioIndex,
-                                                  BOOL *output_bool);
+* @description Set radio DCS scan time.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param interval_seconds - Set the interval time in seconds
+* @param dwell_milliseconds - Set the dwell time in milliseconds
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioDCSScanTime(INT radioIndex, INT interval_seconds, INT dwell_milliseconds);
 
+/* wifi_getRadioDfsSupport() function */
 /**
- * @brief Gets the auto channel refresh period for the radio.
- *
- * This function retrieves the auto channel refresh period for the specified
- * radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_ulong A pointer to a variable to store the auto channel
- *                          refresh period in seconds.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioAutoChannelRefreshPeriod(INT radioIndex, ULONG *output_ulong);
+* @description Get radio DFS support.
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsSupported
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - Get DFS support for the selected radio index in the pre-allocated buffer
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsSupported
+//Get radio DFS support
+INT wifi_getRadioDfsSupport(INT radioIndex, BOOL *output_bool);		//RDKB
 
+/* wifi_getRadioDfsEnable() function */
 /**
- * @brief Sets the auto channel refresh period for the radio.
- *
- * This function sets the auto channel refresh period for the specified radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] seconds The auto channel refresh period in seconds.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioAutoChannelRefreshPeriod(INT radioIndex, ULONG seconds);
+* @description Get the Dfs enable status.
+* Data model parameter used to check the DFS enable status is,
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsEnable
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - Get DFS Enable status of the selected radio channel
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsEnable					
+INT wifi_getRadioDfsEnable(INT radioIndex, BOOL *output_bool);		//RDKB				
 
+/* wifi_setRadioDfsEnable() function */
 /**
- * @brief Gets the operating channel bandwidth for the radio.
- *
- * This function retrieves the operating channel bandwidth for the specified
- * radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.OperatingChannelBandwidth`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the operating channel bandwidth, e.g.,
- *                           "20MHz", "40MHz", "80MHz", "80+80", "160".
- *                           Implementations must ensure that strings are not
- *                           longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioOperatingChannelBandwidth(INT radioIndex, CHAR *output_string);
+* @description Set the Dfs enable status.
+* Data model parameter used to check the DFS enable status is "Device.WiFi.Radio.{i}.X_COMCAST-COM_DfsEnable".
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - Set DFS Enable status of the selected radio channel
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioDfsEnable(INT radioIndex, BOOL enabled);			//RDKB				
 
+/* wifi_getRadioAutoChannelRefreshPeriodSupported() function */
 /**
- * @brief Sets the operating channel bandwidth for the radio.
- *
- * This function sets the operating channel bandwidth for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.OperatingChannelBandwidth`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] bandwidth A pointer to a buffer containing the operating channel
- *                      bandwidth string to set, e.g., "20MHz", "40MHz",
- *                      "80MHz", "80+80", "160".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioOperatingChannelBandwidth(INT radioIndex, CHAR *bandwidth);
+* @description Check if the driver support the AutoChannelRefreshPeriod.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - Get auto channel refresh period support for the selected radio channel in the pre-allocated bool buffer.
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.AutoChannelRefreshPeriod
+//Check if the driver support the AutoChannelRefreshPeriod
+INT wifi_getRadioAutoChannelRefreshPeriodSupported(INT radioIndex, BOOL *output_bool); //Tr181
 
+/* wifi_getRadioAutoChannelRefreshPeriod() function */
 /**
- * @brief Gets the secondary extension channel position for the radio.
- *
- * This function retrieves the secondary extension channel position for the
- * specified radio. This is applicable only for 40MHz and 80MHz bandwidths.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.ExtensionChannel`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the secondary extension channel
- *                           position, e.g., "AboveControlChannel" or
- *                           "BelowControlChannel". Implementations must ensure
- *                           that strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioExtChannel(INT radioIndex, CHAR *output_string);
+* @description Check if the driver support the AutoChannelRefreshPeriod.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_bool - Get auto channel refresh period support for the selected radio channel in the pre-allocated bool buffer.
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Get the DCS refresh period in seconds
+INT wifi_getRadioAutoChannelRefreshPeriod(INT radioIndex, ULONG *output_ulong); //Tr181
 
+/* wifi_setRadioAutoChannelRefreshPeriod() function */
 /**
- * @brief Sets the secondary extension channel position for the radio.
- *
- * This function sets the secondary extension channel position for the
- * specified radio. This is applicable only for 40MHz and 80MHz bandwidths.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.ExtensionChannel`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] string A pointer to a buffer containing the secondary extension
- *                   channel position string to set, e.g.,
- *                   "AboveControlChannel" or "BelowControlChannel".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioExtChannel(INT radioIndex, CHAR *string);
+* @description Set the DCS refresh period in seconds.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param seconds - Set auto channel refresh period in seconds support for the selected radio channel
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the DCS refresh period in seconds
+INT wifi_setRadioAutoChannelRefreshPeriod(INT radioIndex, ULONG seconds); //Tr181
 
+/* wifi_getRadioOperatingChannelBandwidth() function */
 /**
- * @brief Gets the guard interval value for the radio.
- *
- * This function retrieves the guard interval value for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.GuardInterval`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_string A pointer to a buffer (max length: 64 octets)
- *                           to store the guard interval value, e.g.,
- *                           "400nsec" or "800nsec". Implementations must
- *                           ensure that strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioGuardInterval(INT radioIndex, CHAR *output_string);
+* @description Get the Operating Channel Bandwidth. eg "20MHz", "40MHz", "80MHz", "80+80", "160".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Get operating channel bandwidth for the selected radio channel in the pre-allocated char buffer
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.OperatingChannelBandwidth
+//Get the Operating Channel Bandwidth. eg "20MHz", "40MHz", "80MHz", "80+80", "160"
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioOperatingChannelBandwidth(INT radioIndex, CHAR *output_string); //Tr181
 
+/* wifi_setRadioOperatingChannelBandwidth() function */
 /**
- * @brief Sets the guard interval value for the radio.
- *
- * This function sets the guard interval value for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.GuardInterval`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] string A pointer to a buffer containing the guard interval value
- *                   string to set, e.g., "400nsec" or "800nsec".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioGuardInterval(INT radioIndex, CHAR *string);
+* @description Set the Operating Channel Bandwidth. eg "20MHz", "40MHz", "80MHz", "80+80", "160".
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param bandwidth - Set operating channel bandwidth for the selected radio channel
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the Operating Channel Bandwidth.
+INT wifi_setRadioOperatingChannelBandwidth(INT radioIndex, CHAR *bandwidth); //Tr181	//AP only
 
+/* wifi_getRadioExtChannel() function */
 /**
- * @brief Gets the Modulation Coding Scheme (MCS) index for the radio.
- *
- * This function retrieves the MCS index for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.MCS`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_INT A pointer to a variable to store the MCS index, e.g.,
- *                        "-1", "1", "15".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioMCS(INT radioIndex, INT *output_INT);
+* @description Get the secondary extension channel position, "AboveControlChannel" or "BelowControlChannel". (this is for 40MHz and 80MHz bandwith only).
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* \n Device.WiFi.Radio.{i}.ExtensionChannel
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Secondary extension channel position, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.ExtensionChannel
+//Get the secondary extension channel position, "AboveControlChannel" or "BelowControlChannel". (this is for 40MHz and 80MHz bandwith only)
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioExtChannel(INT radioIndex, CHAR *output_string); //Tr181
 
+/* wifi_setRadioExtChannel() function */
 /**
- * @brief Sets the Modulation Coding Scheme (MCS) index for the radio.
- *
- * This function sets the MCS index for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.MCS`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] MCS The MCS index value to set, e.g., "-1", "1", "15".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioMCS(INT radioIndex, INT MCS);
+* @description Set the secondary extension channel position, "AboveControlChannel" or "BelowControlChannel". (this is for 40MHz and 80MHz bandwith only).
+* \n Device.WiFi.Radio.{i}.ExtensionChannel
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param string - Secondary extension channel position
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the extension channel.
+INT wifi_setRadioExtChannel(INT radioIndex, CHAR *string); //Tr181	//AP only
 
+/* wifi_getRadioGuardInterval() function */
 /**
- * @brief Gets the supported transmit power levels for the radio.
- *
- * This function retrieves the supported transmit power levels for the
- * specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.TransmitPowerSupported`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_list A pointer to a buffer (max length: 64 octets) to
- *                         store the supported transmit power levels, e.g.,
- *                         "0,25,50,75,100". Implementations must ensure that
- *                         strings are not longer than this.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioTransmitPowerSupported(INT radioIndex, CHAR *output_list);
+* @description Get the guard interval value. eg "400nsec" or "800nsec".
+* The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* \n Device.WiFi.Radio.{i}.GuardInterval
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_string - Guard interval value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.GuardInterval
+//Get the guard interval value. eg "400nsec" or "800nsec" 
+//The output_string is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioGuardInterval(INT radioIndex, CHAR *output_string);	//Tr181
 
+/* wifi_setRadioGuardInterval() function */
 /**
- * @brief Gets the current transmit power level for the radio.
- *
- * This function retrieves the current transmit power level for the specified
- * radio. The transmit power level is in units of full power for this radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.TransmitPower`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_ulong A pointer to a variable to store the transmit power
- *                          level, e.g., "75", "100".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioTransmitPower(INT radioIndex, ULONG *output_ulong);
+* @description Set the guard interval value. eg "400nsec" or "800nsec".
+* \n Device.WiFi.Radio.{i}.GuardInterval
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param string - Guard interval value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the guard interval value.
+INT wifi_setRadioGuardInterval(INT radioIndex, CHAR *string);	//Tr181
 
+/* wifi_getRadioMCS() function */
 /**
- * @brief Sets the transmit power level for the radio.
- *
- * This function sets the transmit power level for the specified radio. The
- * transmit power level is in units of full power for this radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.TransmitPower`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] TransmitPower The transmit power level to set, e.g., "75", "100".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioTransmitPower(INT radioIndex, ULONG TransmitPower);
+* @description Get the Modulation Coding Scheme index, eg: "-1", "1", "15".
+* \n Device.WiFi.Radio.{i}.MCS
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_INT - Modulation Coding Scheme index, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.MCS
+//Get the Modulation Coding Scheme index, eg: "-1", "1", "15"
+INT wifi_getRadioMCS(INT radioIndex, INT *output_INT); //Tr181
 
+/* wifi_setRadioMCS() function */
 /**
- * @brief Checks if the radio supports IEEE 802.11h.
- *
- * This function checks if the specified radio supports IEEE 802.11h, which
- * solves interference with satellites and radar using the same 5 GHz
- * frequency band.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.IEEE80211hSupported`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] Supported A pointer to a variable to store the IEEE 802.11h
- *                       support status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioIEEE80211hSupported(INT radioIndex, BOOL *Supported);
+* @description Set the Modulation Coding Scheme index, eg: "-1", "1", "15".
+* \n Device.WiFi.Radio.{i}.MCS
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param MCS - Modulation Coding Scheme index value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set the Modulation Coding Scheme index
+INT wifi_setRadioMCS(INT radioIndex, INT MCS); //Tr181
 
+/* wifi_getRadioTransmitPowerSupported() function */
 /**
- * @brief Gets the IEEE 802.11h enable status for the radio.
- *
- * This function retrieves the IEEE 802.11h enable status for the specified
- * radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.IEEE80211hEnabled`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] enable A pointer to a variable to store the IEEE 802.11h enable
- *                    status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioIEEE80211hEnabled(INT radioIndex, BOOL *enable);
+* @description Get supported Transmit Power list, eg : "0,25,50,75,100".
+* The output_list is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+* \n Device.WiFi.Radio.{i}.TransmitPowerSupported
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_list - Transmit power list, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.TransmitPowerSupported
+//Get supported Transmit Power list, eg : "0,25,50,75,100"
+//The output_list is a max length 64 octet string that is allocated by the RDKB code.  Implementations must ensure that strings are not longer than this.
+INT wifi_getRadioTransmitPowerSupported(INT radioIndex, CHAR *output_list); //Tr181
 
+/* wifi_getRadioTransmitPower() function */
 /**
- * @brief Enables or disables IEEE 802.11h for the radio.
- *
- * This function enables or disables IEEE 802.11h for the specified radio.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.IEEE80211hEnabled`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable/disable status of IEEE 802.11h.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioIEEE80211hEnabled(INT radioIndex, BOOL enable);
+* @description Get current Transmit Power, eg "75", "100".
+* The transmite power level is in units of full power for this radio.
+* \n Device.WiFi.Radio.{i}.TransmitPower
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param ULONG *output_ulong - Current Transmit power value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.TransmitPower
+//Get current Transmit Power, eg "75", "100"
+//The transmite power level is in units of full power for this radio.
+INT wifi_getRadioTransmitPower(INT radioIndex, ULONG *output_ulong);	//RDKB
 
+/* wifi_setRadioTransmitPower() function */
 /**
- * @brief Gets the carrier sense threshold range for the radio.
- *
- * This function retrieves the carrier sense threshold range supported by the
- * specified radio. It is measured in dBm. Refer to section A.2.3.2 of
- * CableLabs Wi-Fi MGMT Specification.
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.Radio.{i}.RegulatoryDomain`
- *       * `Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdRange`
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output A pointer to a variable to store the carrier sense
- *                    threshold range.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioCarrierSenseThresholdRange(INT radioIndex, INT *output);
+* @description Set current Transmit Power, eg "75", "100".
+* The transmite power level is in units of full power for this radio.
+* \n Device.WiFi.Radio.{i}.TransmitPower
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param TransmitPower - Transmit power value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set Transmit Power
+//The transmite power level is in units of full power for this radio.
+INT wifi_setRadioTransmitPower(INT radioIndex, ULONG TransmitPower);	//RDKB
 
+/* wifi_getRadioIEEE80211hSupported() function */
 /**
- * @brief Gets the carrier sense threshold currently in use for the radio.
- *
- * This function retrieves the RSSI signal level at which CS/CCA detects a
- * busy condition for the specified radio. It is measured in dBm. This
- * attribute enables APs to increase minimum sensitivity to avoid detecting
- * busy condition from multiple/weak Wi-Fi sources in dense Wi-Fi
- * environments. Refer to section A.2.3.2 of CableLabs Wi-Fi MGMT
- * Specification.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdInUse`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output A pointer to a variable to store the carrier sense
- *                    threshold in use.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioCarrierSenseThresholdInUse(INT radioIndex, INT *output);
+* @description Get 80211h Supported.  
+* 80211h solves interference with satellites and radar using the same 5 GHz frequency band.
+* \n Device.WiFi.Radio.{i}.IEEE80211hSupported
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param Supported - 80211h Supported, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.IEEE80211hSupported
+//get 80211h Supported.  80211h solves interference with satellites and radar using the same 5 GHz frequency band
+INT wifi_getRadioIEEE80211hSupported(INT radioIndex, BOOL *Supported);  //Tr181
 
+/* wifi_getRadioIEEE80211hEnabled() function */
 /**
- * @brief Sets the carrier sense threshold for the radio.
- *
- * This function sets the RSSI signal level at which CS/CCA detects a busy
- * condition for the specified radio. It is measured in dBm. This attribute
- * enables APs to increase minimum sensitivity to avoid detecting busy
- * condition from multiple/weak Wi-Fi sources in dense Wi-Fi environments.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdInUse`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] threshold The carrier sense threshold to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioCarrierSenseThresholdInUse(INT radioIndex, INT threshold);
+* @description Get 80211h feature enable.
+* \n Device.WiFi.Radio.{i}.IEEE80211hEnabled
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - 80211h feature enable, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.IEEE80211hEnabled
+//Get 80211h feature enable
+INT wifi_getRadioIEEE80211hEnabled(INT radioIndex, BOOL *enable);  //Tr181
+
+/* wifi_setRadioIEEE80211hEnabled() function */
+/**
+* @description Set 80211h feature enable.
+* \n Device.WiFi.Radio.{i}.IEEE80211hEnabled
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - 80211h feature enable
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set 80211h feature enable
+INT wifi_setRadioIEEE80211hEnabled(INT radioIndex, BOOL enable);  //Tr181
+
+/* wifi_getRadioCarrierSenseThresholdRange() function */
+/**
+* @description Indicates the Carrier Sense ranges supported by the radio. It is measured in dBm. Refer section A.2.3.2 of CableLabs Wi-Fi MGMT Specification.
+* \n Device.WiFi.Radio.{i}.RegulatoryDomain
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdRange		
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output - Carrier sense threshold range, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.RegulatoryDomain
+
+//Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdRange		
+//Indicates the Carrier Sense ranges supported by the radio. It is measured in dBm. Refer section A.2.3.2 of CableLabs Wi-Fi MGMT Specification.
+INT wifi_getRadioCarrierSenseThresholdRange(INT radioIndex, INT *output);  //P3
+
+/* wifi_getRadioCarrierSenseThresholdInUse() function */
+/**
+* @description The RSSI signal level at which CS/CCA detects a busy condition. This attribute enables APs to increase minimum sensitivity to avoid detecting busy condition from multiple/weak Wi-Fi sources in dense Wi-Fi environments. It is measured in dBm. Refer section A.2.3.2 of CableLabs Wi-Fi MGMT Specification.
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdInUse
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output - Carrier sense threshold in use, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdInUse
+//The RSSI signal level at which CS/CCA detects a busy condition. This attribute enables APs to increase minimum sensitivity to avoid detecting busy condition from multiple/weak Wi-Fi sources in dense Wi-Fi environments. It is measured in dBm. Refer section A.2.3.2 of CableLabs Wi-Fi MGMT Specification.
+INT wifi_getRadioCarrierSenseThresholdInUse(INT radioIndex, INT *output);	//P3
+
+/* wifi_setRadioCarrierSenseThresholdInUse() function */
+/**
+* @description Set Carrier sense threshold in use for the selected radio index. 
+* The RSSI signal level at which CS/CCA detects a busy condition. This attribute enables APs to increase minimum sensitivity to avoid detecting busy condition from multiple/weak Wi-Fi sources in dense Wi-Fi environments. It is measured in dBm.
+* \n Device.WiFi.Radio.{i}.X_COMCAST-COM_CarrierSenseThresholdInUse
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param threshold - Carrier sense threshold, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioCarrierSenseThresholdInUse(INT radioIndex, INT threshold);	//P3
 
 //Device.WiFi.Radio.{i}.X_COMCAST-COM_ChannelSwitchingCount
 //This parameter indicates the total number of Channel Changes.  Reset the parameter every 24 hrs or reboot
 //INT wifi_getRadioChannelSwitchingCount(INT radioIndex, INT *output); 	//P3
 
 
+/* wifi_getRadioBeaconPeriod() function */
 /**
- * @brief Gets the beacon period for the radio.
- *
- * This function retrieves the time interval between transmitting beacons
- * for the specified radio. It is expressed in milliseconds. This parameter
- * is based on dot11BeaconPeriod from [802.11-2012].
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.BeaconPeriod`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output A pointer to a variable to store the beacon period.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioBeaconPeriod(INT radioIndex, UINT *output);
+* @description Time interval between transmitting beacons (expressed in milliseconds). This parameter is based ondot11BeaconPeriod from [802.11-2012].
+* \n Device.WiFi.Radio.{i}.BeaconPeriod
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output - Radio Beacon period, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.BeaconPeriod
+//Time interval between transmitting beacons (expressed in milliseconds). This parameter is based ondot11BeaconPeriod from [802.11-2012].
+INT wifi_getRadioBeaconPeriod(INT radioIndex, UINT *output); 
 
+/* wifi_setRadioBeaconPeriod() function */
 /**
- * @brief Sets the beacon period for the radio.
- *
- * This function sets the time interval between transmitting beacons for the
- * specified radio. It is expressed in milliseconds. This parameter is based
- * on dot11BeaconPeriod from [802.11-2012].
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.BeaconPeriod`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] BeaconPeriod The beacon period to set, in milliseconds.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioBeaconPeriod(INT radioIndex, UINT BeaconPeriod);
+* @description Time interval between transmitting beacons (expressed in milliseconds). This parameter is based ondot11BeaconPeriod from [802.11-2012].
+* \n Device.WiFi.Radio.{i}.BeaconPeriod
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param BeaconPeriod - Radio Beacon period
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioBeaconPeriod(INT radioIndex, UINT BeaconPeriod); 
 
+/* wifi_getRadioBasicDataTransmitRates() function */
 /**
- * @brief Gets the basic data transmit rates for the radio.
- *
- * This function retrieves the set of data rates, in Mbps, that have to be
- * supported by all stations that desire to join this BSS. The stations have
- * to be able to receive and transmit at each of the data rates listed in
- * BasicDataTransmitRates. For example, a value of "1,2" indicates that
- * stations support 1 Mbps and 2 Mbps. Most control packets use a data rate in
- * BasicDataTransmitRates.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.BasicDataTransmitRates`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output A pointer to a buffer to store the comma-separated list
- *                    of data rates.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description Get the set of data rates, in Mbps, that have to be supported by all stations that desire to join this BSS. The stations have to be able to receive and transmit at each of the data rates listed inBasicDataTransmitRates. For example, a value of "1,2", indicates that stations support 1 Mbps and 2 Mbps. Most control packets use a data rate in BasicDataTransmitRates.
+* \n Device.WiFi.Radio.{i}.BasicDataTransmitRates
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output - Comma-separated list of strings, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.BasicDataTransmitRates
+//Comma-separated list of strings. The set of data rates, in Mbps, that have to be supported by all stations that desire to join this BSS. The stations have to be able to receive and transmit at each of the data rates listed inBasicDataTransmitRates. For example, a value of "1,2", indicates that stations support 1 Mbps and 2 Mbps. Most control packets use a data rate in BasicDataTransmitRates.	
 INT wifi_getRadioBasicDataTransmitRates(INT radioIndex, CHAR *output);
 
+/* wifi_setRadioBasicDataTransmitRates() function */
 /**
- * @brief Sets the basic data transmit rates for the radio.
- *
- * This function sets the set of data rates, in Mbps, that have to be supported
- * by all stations that desire to join this BSS. The stations have to be able
- * to receive and transmit at each of the data rates listed in
- * BasicDataTransmitRates. For example, a value of "1,2" indicates that
- * stations support 1 Mbps and 2 Mbps. Most control packets use a data rate in
- * BasicDataTransmitRates.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.BasicDataTransmitRates`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] TransmitRates A pointer to the comma-separated list of data
- *                          rates.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description Set the data rates, in Mbps, that have to be supported by all stations that desire to join this BSS. The stations have to be able to receive and transmit at each of the data rates listed inBasicDataTransmitRates. For example, a value of "1,2", indicates that stations support 1 Mbps and 2 Mbps. Most control packets use a data rate in BasicDataTransmitRates.
+* \n Device.WiFi.Radio.{i}.BasicDataTransmitRates
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param TransmitRates - Comma-separated list of strings
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
 INT wifi_setRadioBasicDataTransmitRates(INT radioIndex, CHAR *TransmitRates);
 
 //---------------------------------------------------------------------------------------------------
@@ -1813,115 +1981,145 @@ INT wifi_setRadioBasicDataTransmitRates(INT radioIndex, CHAR *TransmitRates);
 //Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_MedianNoiseFloorOnChannel
 //Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_StatisticsStartTime
 
+/* wifi_getRadioTrafficStats2() function */
 /**
- * @brief Gets detailed radio traffic statistics.
- *
- * This function retrieves detailed radio traffic statistics for the specified
- * radio.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_struct A pointer to a `wifi_radioTrafficStats2_t`
- *                           structure to store the traffic statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioTrafficStats2(INT radioIndex,
-                               wifi_radioTrafficStats2_t *output_struct);
+* @description Get detail radio traffic static info.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_struct - wifi_radioTrafficStats2_t *output_struct, all traffic stats info to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Get detail radio traffic static info
+INT wifi_getRadioTrafficStats2(INT radioIndex, wifi_radioTrafficStats2_t *output_struct); //Tr181
 
+/* wifi_setRadioTrafficStatsMeasure() function */
 /**
- * @brief Sets radio traffic statistics measurement rules.
- *
- * This function sets the measurement rules for radio traffic statistics.
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsMeasuringRate`
- *       * `Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsMeasuringInterval`
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] input_struct A pointer to a `wifi_radioTrafficStatsMeasure_t`
- *                         structure containing the measurement rules.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioTrafficStatsMeasure(
-    INT radioIndex, wifi_radioTrafficStatsMeasure_t *input_struct);
+* @description Set radio traffic static Measuring rules.
+* \n Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsMeasuringRate
+* \n Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsMeasuringInterval
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param input_struct - wifi_radioTrafficStatsMeasure_t *input_struct, traffic stats measure info
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsMeasuringRate
+//Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsMeasuringInterval
+//Set radio traffic static Measureing rules
+INT wifi_setRadioTrafficStatsMeasure(INT radioIndex, wifi_radioTrafficStatsMeasure_t *input_struct); //Tr181
 
+/* wifi_setRadioTrafficStatsRadioStatisticsEnable() function */
 /**
- * @brief Enables or disables radio traffic statistics collection.
- *
- * This function enables or disables the collection of radio traffic
- * statistics.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsEnable`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] enable The enable/disable status of traffic statistics
- *                   collection.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description Set radio traffic statistics enable.
+* \n Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsEnable bool writable
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param enable - Enable/disable, traffic stats statistics
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_RadioStatisticsEnable bool writable
 INT wifi_setRadioTrafficStatsRadioStatisticsEnable(INT radioIndex, BOOL enable);
 
+//-----------------------------------------------------------------------------------------------
+/* wifi_getRadioStatsReceivedSignalLevel() function */
 /**
- * @brief Gets the received signal level statistics for the radio.
- *
- * This function retrieves the received signal level statistics for the
- * specified radio. The statistics are represented as a histogram with a
- * range from -110 to 0 dBm, divided into bins of 3 dBm. If any of the
- * parameter's representing this histogram is queried before the histogram has
- * been updated with an initial set of data, it must return -1. Units dBm.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_ReceivedSignalLevel.{i}.ReceivedSignalLevel`.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[in] signalIndex The index of the signal level bin.
- * @param[out] SignalLevel A pointer to a variable to store the signal level
- *                         value for the specified bin.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioStatsReceivedSignalLevel(INT radioIndex, INT signalIndex,
-                                          INT *SignalLevel);
+* @description Clients associated with the AP over a specific interval.  The histogram MUST have a range from -110to 0 dBm and MUST be divided in bins of 3 dBM, with bins aligning on the -110 dBm end of the range.  Received signal levels equal to or greater than the smaller boundary of a bin and less than the larger boundary are included in the respective bin.  The bin associated with the client?s current received signal level MUST be incremented when a client associates with the AP.   Additionally, the respective bins associated with each connected client?s current received signal level MUST be incremented at the interval defined by "Radio Statistics Measuring Rate".  The histogram?s bins MUST NOT be incremented at any other time.  The histogram data collected during the interval MUST be published to the parameter only at the end of the interval defined by "Radio Statistics Measuring Interval".  The underlying histogram data MUST be cleared at the start of each interval defined by "Radio Statistics Measuring Interval?. If any of the parameter's representing this histogram is queried before the histogram has been updated with an initial set of data, it MUST return -1. Units dBm.
+* \n Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_ReceivedSignalLevel.{i}.ReceivedSignalLevel
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param signalIndex - Signal index
+* @param SignalLevel - Signal level, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_ReceivedSignalLevel.{i}.
 
-/**
- * @brief Applies the radio settings.
- *
- * This function applies all previously set radio-level variables and makes
- * these settings active in the hardware. Not all implementations may need
- * this function. If not needed for a particular implementation, simply return
- * no error (0).
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_applyRadioSettings(INT radioIndex);
+//Device.WiFi.Radio.{i}.Stats.X_COMCAST-COM_ReceivedSignalLevel.{i}.ReceivedSignalLevel
+//Clients associated with the AP over a specific interval.  The histogram MUST have a range from -110to 0 dBm and MUST be divided in bins of 3 dBM, with bins aligning on the -110 dBm end of the range.  Received signal levels equal to or greater than the smaller boundary of a bin and less than the larger boundary are included in the respective bin.  The bin associated with the client?s current received signal level MUST be incremented when a client associates with the AP.   Additionally, the respective bins associated with each connected client?s current received signal level MUST be incremented at the interval defined by "Radio Statistics Measuring Rate".  The histogram?s bins MUST NOT be incremented at any other time.  The histogram data collected during the interval MUST be published to the parameter only at the end of the interval defined by "Radio Statistics Measuring Interval".  The underlying histogram data MUST be cleared at the start of each interval defined by "Radio Statistics Measuring Interval?. If any of the parameter's representing this histogram is queried before the histogram has been updated with an initial set of data, it MUST return -1. Units dBm
+INT wifi_getRadioStatsReceivedSignalLevel(INT radioIndex, INT signalIndex, INT *SignalLevel); //Tr181
 
+//-----------------------------------------------------------------------------------------------------
+/* wifi_applyRadioSettings() function */
 /**
- * @brief Gets the radio reset count.
- *
- * This function retrieves the number of times the specified radio has been
- * reset.
- *
- * @param[in] radioIndex The index of the Wi-Fi radio channel.
- * @param[out] output_int A pointer to a variable to store the reset count.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description This API is used to apply (push) all previously set radio level variables and make these settings active in the 
+* hardware. Not all implementations may need this function.  If not needed for a particular implementation simply return no-error 
+* (0).
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//This API is used to apply (push) all previously set radio level variables and make these settings active in the hardware
+//Not all implementations may need this function.  If not needed for a particular implementation simply return no-error (0)
+INT wifi_applyRadioSettings(INT radioIndex);  
+
+
+/* wifi_getRadioResetCount() function */
+/**
+* @description Get the radio reset count.
+*
+* @param radioIndex - Index of Wi-Fi radio channel
+* @param output_int - Reset count, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Radio reset count
 INT wifi_getRadioResetCount(INT radioIndex, ULONG *output_int);
 
 //---------------------------------------------------------------------------------------------------
@@ -1932,153 +2130,197 @@ INT wifi_getRadioResetCount(INT radioIndex, ULONG *output_int);
 
 //Device.WiFi.SSID.{i}.
 
+/* wifi_getSSIDRadioIndex() function */
 /**
- * @brief Gets the radio index associated with the SSID entry.
- *
- * This function retrieves the radio index associated with the specified SSID
- * entry.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] radioIndex A pointer to a variable to store the radio index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description Get the radio index associated with the SSID entry.
+*
+* @param ssidIndex - SSID index
+* @param radioIndex - Radio index, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Get the radio index assocated with this SSID entry
 INT wifi_getSSIDRadioIndex(INT ssidIndex, INT *radioIndex);
 
+/* wifi_getSSIDEnable() function */
 /**
- * @brief Gets the SSID enable configuration parameter.
- *
- * This function retrieves the SSID enable configuration parameter for the
- * specified SSID. This is not the same as the SSID enable status.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.SSID.{i}.Enable`.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] output_bool A pointer to a variable to store the enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDEnable(INT ssidIndex, BOOL *output_bool);
+* @description Get SSID enable configuration parameters (not the SSID enable status).
+* \n Device.WiFi.SSID.{i}.Enable
+*
+* @param ssidIndex - SSID index
+* @param output_bool - SSID enable, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.SSID.{i}.Enable
+//Get SSID enable configuration parameters (not the SSID enable status)
+INT wifi_getSSIDEnable(INT ssidIndex, BOOL *output_bool); //Tr181
 
+/* wifi_setSSIDEnable() function */
 /**
- * @brief Sets the SSID enable configuration parameter.
- *
- * This function sets the SSID enable configuration parameter for the
- * specified SSID.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.SSID.{i}.Enable`.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[in] enable The enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setSSIDEnable(INT ssidIndex, BOOL enable);
+* @description Set SSID enable configuration parameters.
+* \n Device.WiFi.SSID.{i}.Enable
+*
+* @param ssidIndex - SSID index
+* @param enable - SSID enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Set SSID enable configuration parameters
+INT wifi_setSSIDEnable(INT ssidIndex, BOOL enable); //Tr181
 
+/* wifi_getSSIDStatus() function */
 /**
- * @brief Gets the SSID enable status.
- *
- * This function retrieves the SSID enable status for the specified SSID.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.SSID.{i}.Status`.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] output_string A pointer to a buffer to store the enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDStatus(INT ssidIndex, CHAR *output_string);
+* @description Get SSID enable status.
+* \n Device.WiFi.SSID.{i}.Status
+*
+* @param ssidIndex - SSID index
+* @param output_string - SSID enable status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.SSID.{i}.Status
+//Get the SSID enable status
+INT wifi_getSSIDStatus(INT ssidIndex, CHAR *output_string); //Tr181
 
+/* wifi_getSSIDName() function */
 /**
- * @brief Gets the SSID name associated with the Access Point.
- *
- * This function retrieves the SSID name associated with the specified Access
- * Point.
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.SSID.{i}.Name`
- *       * `Device.WiFi.SSID.{i}.Alias`
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer (max length: 32 bytes) to
- *                           store the SSID name. The string buffer must be
- *                           preallocated by the caller.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDName(INT apIndex, CHAR *output_string);
+* @description Get SSID Name associated with the Access Point index.
+* Outputs a 32 byte or less string indicating the SSID name.  Sring buffer must be preallocated by the caller.
+* \n Device.WiFi.SSID.{i}.Name
+* \n Device.WiFi.SSID.{i}.Alias
+*
+* @param apIndex - Access Point index
+* @param output_string - SSID enable status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.SSID.{i}.Alias
 
+//Device.WiFi.SSID.{i}.Name
+// Outputs a 32 byte or less string indicating the SSID name.  Sring buffer must be preallocated by the caller.
+INT wifi_getSSIDName(INT apIndex, CHAR *output_string);        
+
+/* wifi_setSSIDName() function */
 /**
- * @brief Sets the SSID name associated with the Access Point.
- *
- * This function sets the SSID name associated with the specified Access Point.
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.SSID.{i}.Name`
- *       * `Device.WiFi.SSID.{i}.Alias`
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] ssid_string A pointer to a buffer (max length: 32 bytes)
- *                        containing the SSID name to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description Set SSID Name associated with the Access Point index.
+* \n Device.WiFi.SSID.{i}.Name
+* \n Device.WiFi.SSID.{i}.Alias
+*
+* @param apIndex - Access Point index
+* @param ssid_string - SSID Name
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// accepts a max 32 byte string and sets an internal variable to the SSID name          
 INT wifi_setSSIDName(INT apIndex, CHAR *ssid_string);
-
 // push the ssid name to the hardware //repleaced by wifi_applySSIDSettings
 //INT wifi_pushSSIDName(INT apIndex, CHAR *ssid);                         
 
 
+/* wifi_getBaseBSSID() function */
 /**
- * @brief Gets the base BSSID for the SSID.
- *
- * This function retrieves the base BSSID for the specified SSID.
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.SSID.{i}.LastChange`
- *       * `Device.WiFi.SSID.{i}.LowerLayers`
- *       * `Device.WiFi.SSID.{i}.BSSID`
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] output_string A pointer to a buffer to store the BSSID.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getBaseBSSID(INT ssidIndex, CHAR *output_string);
+* @description Get the BSSID.
+* \n Device.WiFi.SSID.{i}.BSSID
+*
+* @param ssidIndex - SSID index
+* @param output_string - Base BSSID, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.SSID.{i}.LastChange
 
+//Device.WiFi.SSID.{i}.LowerLayers
+
+//Device.WiFi.SSID.{i}.BSSID
+//Get the BSSID 
+INT wifi_getBaseBSSID(INT ssidIndex, CHAR *output_string);	//RDKB
+
+/* wifi_getSSIDMACAddress() function */
 /**
- * @brief Gets the MAC address associated with the SSID.
- *
- * This function retrieves the MAC address associated with the specified SSID.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.SSID.{i}.MACAddress`.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] output_string A pointer to a buffer to store the MAC address.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDMACAddress(INT ssidIndex, CHAR *output_string);
+* @description Get the MAC address associated with this Wifi SSID.
+* \n Device.WiFi.SSID.{i}.MACAddress
+*
+* @param ssidIndex - SSID index
+* @param output_string - MAC Address, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.SSID.{i}.MACAddress
+//Get the MAC address associated with this Wifi SSID
+INT wifi_getSSIDMACAddress(INT ssidIndex, CHAR *output_string); //Tr181
 
 //Device.WiFi.SSID.{i}.SSID
 
@@ -2108,36 +2350,48 @@ INT wifi_getSSIDMACAddress(INT ssidIndex, CHAR *output_string);
 //Device.WiFi.SSID.{i}.Stats.BroadcastPacketsReceived
 //Device.WiFi.SSID.{i}.Stats.UnknownProtoPacketsReceived	
 
+/* wifi_getSSIDTrafficStats2() function */
 /**
- * @brief Gets basic SSID traffic statistics.
- *
- * This function retrieves basic SSID traffic statistics for the specified
- * SSID.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] output_struct A pointer to a `wifi_ssidTrafficStats2_t`
- *                           structure to store the traffic statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDTrafficStats2(INT ssidIndex,
-                              wifi_ssidTrafficStats2_t *output_struct);
+* @description Get the basic SSID traffic static info.
+*
+* @param ssidIndex - SSID index
+* @param output_struct - wifi_ssidTrafficStats2_t *output_struct SSID traffic 
+* stats, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Get the basic SSID traffic static info
+INT wifi_getSSIDTrafficStats2(INT ssidIndex, wifi_ssidTrafficStats2_t *output_struct); //Tr181
 
+/* wifi_applySSIDSettings() function */
 /**
- * @brief Applies the SSID and AP settings to the hardware.
- *
- * This function applies the SSID and AP settings to the hardware. This
- * function may not be needed for all implementations. If not needed for a
- * particular implementation, it can return `WIFI_HAL_SUCCESS`.
- *
- * @param[in] ssidIndex The SSID index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description Apply SSID and AP (in the case of Acess Point devices) to the hardware.
+* Not all implementations may need this function.  If not needed for a particular implementation simply return no-error (0).
+*
+* @param ssidIndex - SSID index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Apply SSID and AP (in the case of Acess Point devices) to the hardware
+//Not all implementations may need this function.  If not needed for a particular implementation simply return no-error (0)
 INT wifi_applySSIDSettings(INT ssidIndex);
 
 
@@ -2167,129 +2421,43 @@ INT wifi_applySSIDSettings(INT ssidIndex);
 //Device.WiFi.NeighboringWiFiDiagnostic.Result.{i}.DTIMPeriod
 //Device.WiFi.NeighboringWiFiDiagnostic.Result.{i}.X_COMCAST-COM_ChannelUtilization
 
+/* wifi_getNeighboringWiFiDiagnosticResult2() function */
 /**
- * @brief Starts a Wi-Fi scan and retrieves the results.
- *
- * This function starts a Wi-Fi scan and retrieves the results into an output
- * buffer for parsing. The results will be used to manage the endpoint list.
- * The HAL function should allocate a data structure array and return it to the
- * caller with `neighbor_ap_array`.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] neighbor_ap_array A pointer to a pointer to a
- *                               `wifi_neighbor_ap2_t` array to store the
- *                               neighboring access point information.
- * @param[out] output_array_size A pointer to a variable to store the size of
- *                               the returned array.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getNeighboringWiFiDiagnosticResult2(
-    INT radioIndex, wifi_neighbor_ap2_t **neighbor_ap_array,
-    UINT *output_array_size);
+* @description Start the wifi scan and get the result into output buffer for RDKB to parser. The result will be used to manage endpoint list.
+* HAL funciton should allocate an data structure array, and return to caller with 
+"neighbor_ap_array". 
+*
+* @param radioIndex - Radio index
+* @param neighbor_ap_array - wifi_neighbor_ap2_t **neighbor_ap_array, neighbour 
+access point info to be returned
+* @param output_array_size - UINT *output_array_size, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Start the wifi scan and get the result into output buffer for RDKB to parser. The result will be used to manage endpoint list
+//HAL funciton should allocate an data structure array, and return to caller with "neighbor_ap_array"
+INT wifi_getNeighboringWiFiDiagnosticResult2(INT radioIndex, wifi_neighbor_ap2_t **neighbor_ap_array, UINT *output_array_size); //Tr181	
 
-// TODO: deprecated functions review Required
-
-/**
- * @brief Gets basic SSID traffic statistics.
- * @deprecated This function is deprecated and should not be used in new code.
- *
- * This function retrieves basic SSID traffic statistics for the specified
- * SSID.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[out] output_struct A pointer to a `wifi_ssidTrafficStats_t` structure
- *                           to store the traffic statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getSSIDTrafficStats(INT ssidIndex,
-                              wifi_ssidTrafficStats_t *output_struct);
-
-// TODO: Review Required
-
-/**
- * @brief Gets basic traffic statistics per AP.
- * @deprecated This function is deprecated and should not be used in new code.
- *
- * This function retrieves basic traffic statistics for the specified AP.
- *
- * @param[in] apIndex The AP index.
- * @param[out] output_struct A pointer to a `wifi_basicTrafficStats_t` structure
- *                           to store the traffic statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getBasicTrafficStats(INT apIndex,
-                             wifi_basicTrafficStats_t *output_struct);
-
-// TODO: Review Required
-
-/**
- * @brief Gets detailed traffic statistics per AP.
- * @deprecated This function is deprecated and should not be used in new code.
- *
- * This function retrieves detailed traffic statistics for the specified AP.
- *
- * @param[in] apIndex The AP index.
- * @param[out] output_struct A pointer to a `wifi_trafficStats_t` structure to
- *                           store the traffic statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getWifiTrafficStats(INT apIndex, wifi_trafficStats_t *output_struct);
-
-// TODO: Review Required
-
-/**
- * @brief Starts a Wi-Fi scan and retrieves the results.
- * @deprecated This function is deprecated and should not be used in new code.
- *
- * This function starts a Wi-Fi scan and retrieves the results into an output
- * buffer for parsing.
- *
- * @param[out] neighbor_ap_array A pointer to a pointer to a
- *                               `wifi_neighbor_ap_t` array to store the
- *                               neighboring access point information.
- * @param[out] output_array_size A pointer to a variable to store the size of
- *                               the returned array.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getNeighboringWiFiDiagnosticResult(
-    wifi_neighbor_ap_t **neighbor_ap_array, UINT *output_array_size);
-
-// TODO: Review Required
-
-/**
- * @brief Gets details for all associated devices.
- * @deprecated This function is deprecated and should not be used in new code.
- *
- * This function retrieves details for all associated devices for the
- * specified AP.
- *
- * @param[in] apIndex The AP index.
- * @param[out] output_ulong A pointer to a variable to store the number of
- *                          associated devices.
- * @param[out] output_struct A pointer to a pointer to a `wifi_device_t` array
- *                           to store the device details.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getAllAssociatedDeviceDetail(INT apIndex, ULONG *output_ulong,
-                                      wifi_device_t **output_struct);
+//>> Deprecated: used for old RDKB code. 
+/** Deprecated: used for old RDKB code. */
+INT wifi_getSSIDTrafficStats(INT ssidIndex, wifi_ssidTrafficStats_t *output_struct); //Tr181
+/** Deprecated: used for old RDKB code. */
+INT wifi_getBasicTrafficStats(INT apIndex, wifi_basicTrafficStats_t *output_struct);  // outputs basic traffic stats per AP
+/** Deprecated: used for old RDKB code. */
+INT wifi_getWifiTrafficStats(INT apIndex, wifi_trafficStats_t *output_struct); // outputs more detailed traffic stats per AP
+/** Deprecated: used for old RDKB code. */
+INT wifi_getNeighboringWiFiDiagnosticResult(wifi_neighbor_ap_t **neighbor_ap_array, UINT *output_array_size); //Tr181
+/** Deprecated: used for old RDKB code. */
+INT wifi_getAllAssociatedDeviceDetail(INT apIndex, ULONG *output_ulong, wifi_device_t **output_struct); //RDKB
 //<<
 
 //>> -------------------- wifi_ap_hal -----------------------------------
@@ -2300,467 +2468,540 @@ INT wifi_getAllAssociatedDeviceDetail(INT apIndex, ULONG *output_ulong,
 //---------------------------------------------------------------------------------------------------
 
 	
+/* wifi_factoryResetAP() function */
 /**
- * @brief Resets the AP parameters to factory defaults.
- *
- * This function restores the AP parameters to factory defaults without
- * changing other AP or radio parameters. A Wi-Fi reboot is not required.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_factoryResetAP(int apIndex);
+* @description Restore AP paramters to default without change other AP nor Radio parameters (No need to reboot wifi)
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_factoryResetAP(int apIndex); 	//Restore AP paramters to default without change other AP nor Radio parameters (No need to reboot wifi)
 
+/* wifi_setRadioCtsProtectionEnable() function */
 /**
- * @brief Enables or disables CTS protection for the radio.
- *
- * This function enables or disables CTS protection for the radio used by the
- * specified AP.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] enable The CTS protection enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioCtsProtectionEnable(INT radioIndex, BOOL enable);
+* @description Enables CTS protection for the radio used by this AP
+*
+* @param radioIndex - Radio index
+* @param enable - CTS protection enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioCtsProtectionEnable(INT radioIndex, BOOL enable);          //P3 // enables CTS protection for the radio used by this AP
 
+/* wifi_setRadioObssCoexistenceEnable() function */
 /**
- * @brief Enables or disables OBSS Coexistence for the radio.
- *
- * This function enables or disables OBSS Coexistence, which falls back to
- * 20MHz if necessary, for the radio used by the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The OBSS Coexistence enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioObssCoexistenceEnable(INT apIndex, BOOL enable);
+* @description enables OBSS Coexistence - fall back to 20MHz if necessary for the radio used by this 
+AP.
+*
+* @param apIndex - Access Point index
+* @param enable - OBSS Coexistence enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioObssCoexistenceEnable(INT apIndex, BOOL enable);        // enables OBSS Coexistence - fall back to 20MHz if necessary for the radio used by this ap
 
+/* wifi_setRadioFragmentationThreshold() function */
 /**
- * @brief Sets the fragmentation threshold for the radio.
- *
- * This function sets the fragmentation threshold, in bytes, for the radio
- * used by the specified AP.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] threshold The fragmentation threshold value to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioFragmentationThreshold(INT radioIndex, UINT threshold);
+* @description Sets the fragmentation threshold in bytes for the radio used by this 
+AP.
+*
+* @param radioIndex - Radio index
+* @param threshold - Fragmentation Threshold value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioFragmentationThreshold(INT radioIndex, UINT threshold);    //P3 // sets the fragmentation threshold in bytes for the radio used by this ap
 
+/* wifi_setRadioSTBCEnable() function */
 /**
- * @brief Enables or disables STBC mode for the radio.
- *
- * This function enables or disables Space-Time Block Coding (STBC) mode for
- * the radio used by the specified AP.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] STBC_Enable The STBC mode enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioSTBCEnable(INT radioIndex, BOOL STBC_Enable);
+* @description Enable STBC mode in the hardware, 0 == not enabled, 1 == enabled.
+*
+* @param radioIndex - Radio index
+* @param STBC_Enable - STBC mode enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioSTBCEnable(INT radioIndex, BOOL STBC_Enable);           // enable STBC mode in the hardwarwe, 0 == not enabled, 1 == enabled 
 
+/* wifi_getRadioAMSDUEnable() function */
 /**
- * @brief Gets the A-MSDU enable status for the radio.
- *
- * This function retrieves the Aggregated MAC Service Data Unit (A-MSDU)
- * enable status for the radio used by the specified AP.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the A-MSDU enable
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioAMSDUEnable(INT radioIndex, BOOL *output_bool);
+* @description Outputs A-MSDU enable status, 0 == not enabled, 1 == enabled.
+*
+* @param radioIndex - Radio index
+* @param output_bool - A-MSDU enable status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioAMSDUEnable(INT radioIndex, BOOL *output_bool);         // outputs A-MSDU enable status, 0 == not enabled, 1 == enabled 
 
+/* wifi_setRadioAMSDUEnable() function */
 /**
- * @brief Enables or disables A-MSDU for the radio.
- *
- * This function enables or disables A-MSDU for the radio used by the
- * specified AP.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] amsduEnable The A-MSDU enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioAMSDUEnable(INT radioIndex, BOOL amsduEnable);
+* @description Enables A-MSDU in the hardware, 0 == not enabled, 1 == enabled.
+*
+* @param radioIndex - Radio index
+* @param amsduEnable - A-MSDU enable status value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioAMSDUEnable(INT radioIndex, BOOL amsduEnable);          // enables A-MSDU in the hardware, 0 == not enabled, 1 == enabled  
 
+/* wifi_getRadioTxChainMask() function */
 /**
- * @brief Gets the number of transmit chains for the radio.
- *
- * This function retrieves the number of transmit chains for the specified
- * radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_int A pointer to a variable to store the number of
- *                        transmit chains.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioTxChainMask(INT radioIndex, INT *output_int);
+* @description Outputs the number of Tx streams.
+*
+* @param radioIndex - Radio index
+* @param output_int - Number of Tx streams, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioTxChainMask(INT radioIndex, INT *output_int);           //P2  // outputs the number of Tx streams
 
+/* wifi_setRadioTxChainMask() function */
 /**
- * @brief Sets the number of transmit chains for the radio.
- *
- * This function sets the number of transmit chains for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] numStreams The number of transmit chains to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioTxChainMask(INT radioIndex, INT numStreams);
+* @description Sets the number of Tx streams to an enviornment variable.
+*
+* @param radioIndex - Radio index
+* @param numStreams - Number of Tx streams
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioTxChainMask(INT radioIndex, INT numStreams);            //P2  // sets the number of Tx streams to an enviornment variable  
 
+/* wifi_getRadioRxChainMask() function */
 /**
- * @brief Gets the number of receive chains for the radio.
- *
- * This function retrieves the number of receive chains for the specified
- * radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_int A pointer to a variable to store the number of
- *                        receive chains.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioRxChainMask(INT radioIndex, INT *output_int);
+* @description Outputs the number of Rx streams.
+*
+* @param radioIndex - Radio index
+* @param output_int - Number of Rx streams, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioRxChainMask(INT radioIndex, INT *output_int);           //P2  // outputs the number of Rx streams
 
+/* wifi_setRadioRxChainMask() function */
 /**
- * @brief Sets the number of receive chains for the radio.
- *
- * This function sets the number of receive chains for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] numStreams The number of receive chains to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioRxChainMask(INT radioIndex, INT numStreams);
+* @description Sets the number of Rx streams to an enviornment variable.
+*
+* @param radioIndex - Radio index
+* @param numStreams - Number of Rx streams
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioRxChainMask(INT radioIndex, INT numStreams);            //P2  // sets the number of Rx streams to an enviornment variable
 
-//>> Deprecated:
-// TODO: deprecated functions review Required
-
-/**
- * @brief Pushes bridge information to the hardware.
- * @deprecated This function is deprecated and should not be used.
- *
- * This function pushes bridge information to the hardware for the specified
- * Access Point.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushBridgeInfo(INT apIndex);
-
-/**
- * @brief Pushes the radio channel number to the hardware.
- * @deprecated This function is deprecated and should not be used.
- *
- * This function pushes the radio channel number setting to the hardware.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] channel The channel number to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushRadioChannel(INT radioIndex, UINT channel);
-
-/**
- * @brief Pushes the radio channel mode to the hardware.
- * @deprecated This function is deprecated and should not be used.
- *
- * This function pushes the radio channel mode environment variable to the
- * hardware.
- *
- * @param[in] radioIndex The radio index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushRadioChannelMode(INT radioIndex);
-
-/**
- * @brief Pushes the radio transmit chain mask to the hardware.
- * @deprecated This function is deprecated and should not be used.
- *
- * This function pushes the radio transmit chain mask environment variable
- * to the hardware.
- *
- * @param[in] radioIndex The radio index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushRadioTxChainMask(INT radioIndex);
-
-/**
- * @brief Pushes the radio receive chain mask to the hardware.
- * @deprecated This function is deprecated and should not be used.
- *
- * This function pushes the radio receive chain mask environment variable
- * to the hardware.
- *
- * @param[in] radioIndex The radio index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushRadioRxChainMask(INT radioIndex);
+//>> Deprecated: 
+/** Deprecated */
+INT wifi_pushBridgeInfo(INT apIndex); 									 //P2  // Push the BridgeInfo environment variables to the hardware
+/** Deprecated */
+INT wifi_pushRadioChannel(INT radioIndex, UINT channel);                 //P2  // push the channel number setting to the hardware  //Applying changes with wifi_applyRadioSettings().
+/** Deprecated */
+INT wifi_pushRadioChannelMode(INT radioIndex);                           //P2  // push the channel mode enviornment variable that is set by "wifi_setChannelMode()" to the hardware  //Applying changes with wifi_applyRadioSettings().
+/** Deprecated */
+INT wifi_pushRadioTxChainMask(INT radioIndex);                           //P2  // push the enviornment varible that is set by "wifi_setTxChainMask()" to the hardware //Applying changes with wifi_applyRadioSettings().
+/** Deprecated */
+INT wifi_pushRadioRxChainMask(INT radioIndex);                           //P2  // push the enviornment varible that is set by "wifi_setRxChainMask()" to the hardware //Applying changes with wifi_applyRadioSettings().
 //<<
 
+/* wifi_pushSSID() function */
 /**
- * @brief Pushes the SSID environment variable to the hardware.
- *
- * This function pushes the SSID environment variable, which is set by
- * `wifi_setSsidName`, to the hardware.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] ssid The WiFi SSID value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushSSID(INT apIndex, CHAR *ssid);
+* @description Push the enviornment varible that is set by "wifi_setSsidName" to the hardware.
+*
+* @param apIndex - Access Point index
+* @param ssid - WiFi SSID value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_pushSSID(INT apIndex, CHAR *ssid); 							 // push the enviornment varible that is set by "wifi_setSsidName" to the hardware    
 
+/* wifi_pushSsidAdvertisementEnable() function */
 /**
- * @brief Pushes the SSID advertisement enable environment variable to the
- *        hardware.
- *
- * This function pushes the SSID advertisement enable environment variable,
- * which is set by `wifi_setApSsidAdvertisementEnable`, to the hardware.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The SSID advertisement enable value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushSsidAdvertisementEnable(INT apIndex, BOOL enable);
+* @description Push the enviornment varible that is set by "wifi_setApSsidAdvertisementEnable" to the hardware.
+*
+* @param apIndex - Access Point index
+* @param enable - SSID Advertisement value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_pushSsidAdvertisementEnable(INT apIndex, BOOL enable);			 // push the enviornment varible that is set by "wifi_setApSsidAdvertisementEnable" to the hardware	
 
+/* wifi_getRadioUpTime() function */
 /**
- * @brief Gets the radio uptime.
- *
- * This function retrieves the number of seconds elapsed since the radio
- * was started.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] uptime A pointer to a variable to store the radio uptime in
- *                    seconds.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioUpTime(INT radioIndex, ULONG *uptime);
+* @description Get the number of seconds elapsed since radio is started.
+*
+* @param radioIndex - Radio index
+* @param uptime - Wifi uptime, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioUpTime(INT radioIndex, ULONG *uptime);					 // get the number of seconds elapsed since radio is started	 
 
-/**
- * @brief Checks if the radio supports Reverse Direction Grant (RDG).
- *
- * This function checks if the specified radio supports RDG.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the RDG support
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioReverseDirectionGrantSupported(INT radioIndex,
-                                                BOOL *output_bool);
 
+/* wifi_getRadioReverseDirectionGrantSupported() function */
 /**
- * @brief Gets the Reverse Direction Grant (RDG) enable setting for the radio.
- *
- * This function retrieves the RDG enable setting for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the RDG enable
- *                         setting.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioReverseDirectionGrantEnable(INT radioIndex, BOOL *output_bool);
+* @description Get radio RDG enable Support.
+*
+* @param radioIndex - Radio index
+* @param output_bool - RDG enable support value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioReverseDirectionGrantSupported(INT radioIndex, BOOL *output_bool);    //Get radio RDG enable Support
 
+/* wifi_getRadioReverseDirectionGrantEnable() function */
 /**
- * @brief Enables or disables Reverse Direction Grant (RDG) for the radio.
- *
- * This function enables or disables RDG for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] enable The RDG enable setting to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioReverseDirectionGrantEnable(INT radioIndex, BOOL enable);
+* @description Get radio RDG enable setting.
+*
+* @param radioIndex - Radio index
+* @param output_bool - RDG enable setting value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioReverseDirectionGrantEnable(INT radioIndex, BOOL *output_bool);    //Get radio RDG enable setting
 
+/* wifi_setRadioReverseDirectionGrantEnable() function */
 /**
- * @brief Gets the decline Block Ack Request (BA Request) setting for the
- *        radio.
- *
- * This function retrieves the decline BA Request setting for the specified
- * radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the decline BA
- *                         Request setting.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioDeclineBARequestEnable(INT radioIndex, BOOL *output_bool);
+* @description Set radio RDG enable setting.
+*
+* @param radioIndex - Radio index
+* @param enable - RDG enable setting value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioReverseDirectionGrantEnable(INT radioIndex, BOOL enable);			//Set radio RDG enable setting
 
+/* wifi_getRadioDeclineBARequestEnable() function */
 /**
- * @brief Enables or disables declining Block Ack Requests (BA Requests) for
- *        the radio.
- *
- * This function enables or disables declining BA Requests for the specified
- * radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] enable The decline BA Request setting to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioDeclineBARequestEnable(INT radioIndex, BOOL enable);
+* @description Get radio ADDBA (ADD Block Acknowledgement) enable setting.
+*
+* @param radioIndex - Radio index
+* @param output_bool - Radio ADDBA enable setting value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioDeclineBARequestEnable(INT radioIndex, BOOL *output_bool);			//Get radio ADDBA enable setting
 
+/* wifi_setRadioDeclineBARequestEnable() function */
 /**
- * @brief Gets the auto block acknowledgement (auto block ack) setting for the
- *        radio.
- *
- * This function retrieves the auto block ack setting for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the auto block ack
- *                         setting.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioAutoBlockAckEnable(INT radioIndex, BOOL *output_bool);
+* @description Set radio ADDBA (ADD Block Acknowledgement) enable setting.
+*
+* @param radioIndex - Radio index
+* @param enable - Radio ADDBA enable setting value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioDeclineBARequestEnable(INT radioIndex, BOOL enable);				//Set radio ADDBA enable setting
 
+/* wifi_getRadioAutoBlockAckEnable() function */
 /**
- * @brief Enables or disables auto block acknowledgement (auto block ack) for
- *        the radio.
- *
- * This function enables or disables auto block ack for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] enable The auto block ack setting to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioAutoBlockAckEnable(INT radioIndex, BOOL enable);
+* @description Get radio auto block ack enable setting.
+*
+* @param radioIndex - Radio index
+* @param output_bool - Auto block ack enable setting value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioAutoBlockAckEnable(INT radioIndex, BOOL *output_bool);				//Get radio auto block ack enable setting
 
+/* wifi_setRadioAutoBlockAckEnable() function */
 /**
- * @brief Checks if the radio supports 802.11n greenfield mode.
- *
- * This function checks if the specified radio supports 802.11n greenfield
- * mode.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the greenfield mode
- *                         support status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadio11nGreenfieldSupported(INT radioIndex, BOOL *output_bool);
+* @description Set radio auto block ack enable setting.
+*
+* @param radioIndex - Radio index
+* @param enable - Auto block ack enable setting value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioAutoBlockAckEnable(INT radioIndex, BOOL enable);					//Set radio auto block ack enable setting
 
+/* wifi_getRadio11nGreenfieldSupported() function */
 /**
- * @brief Gets the 802.11n greenfield mode enable setting for the radio.
- *
- * This function retrieves the 802.11n greenfield mode enable setting for the
- * specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the greenfield mode
- *                         enable setting.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadio11nGreenfieldEnable(INT radioIndex, BOOL enable);
+* @description Get radio 11n pure mode enable support.
+*
+* @param radioIndex - Radio index
+* @param output_bool - Radio 11n pure mode enable support value, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadio11nGreenfieldSupported(INT radioIndex, BOOL *output_bool);			//Get radio 11n pure mode enable Support
 
+/* wifi_getRadio11nGreenfieldEnable() function */
 /**
- * @brief Gets the IGMP snooping enable setting for the radio.
- *
- * This function retrieves the IGMP snooping enable setting for the specified
- * radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_bool A pointer to a variable to store the IGMP snooping
- *                         enable setting.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getRadioIGMPSnoopingEnable(INT radioIndex, BOOL *output_bool);
+* @description Get radio 11n pure mode enable setting.
+*
+* @param radioIndex - Radio index
+* @param output_bool - Radio 11n pure mode enable setting, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadio11nGreenfieldEnable(INT radioIndex, BOOL *output_bool);			//Get radio 11n pure mode enable setting
 
+/* wifi_setRadio11nGreenfieldEnable() function */
 /**
- * @brief Enables or disables IGMP snooping for the radio.
- *
- * This function enables or disables IGMP snooping for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] enable The IGMP snooping enable setting to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setRadioIGMPSnoopingEnable(INT radioIndex, BOOL enable);
+* @description Set radio 11n pure mode enable setting.
+*
+* @param radioIndex - Radio index
+* @param enable - Radio 11n pure mode enable setting
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadio11nGreenfieldEnable(INT radioIndex, BOOL enable);					//Set radio 11n pure mode enable setting
+
+/* wifi_getRadioIGMPSnoopingEnable() function */
+/**
+* @description Get radio IGMP snooping enable setting.
+*
+* @param radioIndex - Radio index
+* @param output_bool - Radio IGMP snooping enable setting, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadioIGMPSnoopingEnable(INT radioIndex, BOOL *output_bool);				//Get radio IGMP snooping enable setting
+
+/* wifi_setRadioIGMPSnoopingEnable() function */
+/**
+* @description Set radio IGMP snooping enable setting.
+*
+* @param radioIndex - Radio index
+* @param enable - Radio IGMP snooping enable setting
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setRadioIGMPSnoopingEnable(INT radioIndex, BOOL enable);					//Set radio IGMP snooping enable setting
 //---------------------------------------------------------------------------------------------------
 //
 // Additional Wifi AP level APIs used for Access Point devices
@@ -2769,978 +3010,1224 @@ INT wifi_setRadioIGMPSnoopingEnable(INT radioIndex, BOOL enable);
 
 
 //AP HAL
-/**
- * @brief Creates a new Access Point (AP).
- *
- * This function creates a new AP and pushes the parameters to the hardware.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] radioIndex The radio index.
- * @param[in] essid The SSID name.
- * @param[in] hideSsid The SSID advertisement enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_createAp(INT apIndex, INT radioIndex, CHAR *essid, BOOL hideSsid);
 
+/* wifi_createAp() function */
 /**
- * @brief Deletes an AP.
- *
- * This function deletes the specified AP entry on the hardware and clears all
- * internal variables associated with it.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_deleteAp(INT apIndex);
+* @description creates a new ap and pushes these parameters to the hardware.
+*
+* @param apIndex - Access Point index
+* @param radioIndex - Radio index
+* @param essid - SSID Name
+* @param hideSsid - True/False, to SSID advertisement enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_createAp(INT apIndex, INT radioIndex, CHAR *essid, BOOL hideSsid);  // creates a new ap and pushes these parameters to the hardware
 
+/* wifi_deleteAp() function */
 /**
- * @brief Gets the AP name.
- *
- * This function retrieves the name associated with the specified AP. The
- * output string is a maximum length of 16 octets.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the AP name.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApName(INT apIndex, CHAR *output_string);
+* @description Deletes this ap entry on the hardware, clears all internal variables associaated with this ap.
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_deleteAp(INT apIndex);                                     // deletes this ap entry on the hardware, clears all internal variables associaated with this ap
 
+/* wifi_getApName() function */
 /**
- * @brief Gets the AP index from the SSID name.
- *
- * This function retrieves the index number corresponding to the given SSID
- * string.
- *
- * @param[in] inputSsidString The WiFi SSID name.
- * @param[out] ouput_int A pointer to a variable to store the AP index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApIndexFromName(CHAR *inputSsidString, INT *ouput_int);
+* @description Outputs a 16 byte or less name assocated with the AP.  
+* String buffer must be pre-allocated by the caller.
+*
+* @param apIndex - Access Point index
+* @param output_string - Access Point name, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApName(INT apIndex, CHAR *output_string);                 // Outputs a 16 byte or less name assocated with the AP.  String buffer must be pre-allocated by the caller
 
+/* wifi_getApIndexFromName() function */
 /**
- * @brief Gets the AP beacon type.
- *
- * This function retrieves the beacon type for the specified AP. The output
- * string is a maximum length of 32 octets.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the beacon type,
- *                           e.g., "None", "Basic", "WPA", "11i", "WPAand11i".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApBeaconType(INT apIndex, CHAR *output_string);
+* @description Outputs the index number in that corresponds to the SSID string.
+*
+* @param inputSsidString - WiFi SSID Name
+* @param ouput_int - Access Point index, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApIndexFromName(CHAR *inputSsidString, INT *ouput_int);	 // Outputs the index number in that corresponds to the SSID string
 
+/* wifi_getApBeaconType() function */
 /**
- * @brief Sets the AP beacon type.
- *
- * This function sets the beacon type environment variable for the specified
- * AP. Allowed input strings are "None", "Basic", "WPA", "11i", "WPAand11i".
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] beaconTypeString A pointer to the beacon type string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApBeaconType(INT apIndex, CHAR *beaconTypeString);
+* @description Outputs a 32 byte or less string indicating the beacon type as "None", "Basic", "WPA", "11i", "WPAand11i".
+*
+* @param apIndex - Access Point index
+* @param output_string - Beacon type, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApBeaconType(INT apIndex, CHAR *output_string);           // Outputs a 32 byte or less string indicating the beacon type as "None", "Basic", "WPA", "11i", "WPAand11i"
 
+/* wifi_setApBeaconType() function */
 /**
- * @brief Sets the AP beacon interval.
- *
- * This function sets the beacon interval on the hardware for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] beaconInterval The beacon interval to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApBeaconInterval(INT apIndex, INT beaconInterval);
+* @description Sets the beacon type enviornment variable. Allowed input strings are "None", "Basic", "WPA, "11i", "WPAand11i".
+*
+* @param apIndex - Access Point index
+* @param beaconTypeString - Beacon type 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApBeaconType(INT apIndex, CHAR *beaconTypeString);        // Sets the beacon type enviornment variable. Allowed input strings are "None", "Basic", "WPA, "11i", "WPAand11i"
 
+/* wifi_setApBeaconInterval() function */
 /**
- * @brief Checks if the AP supports RTS threshold.
- *
- * This function checks if the specified AP supports the RTS threshold
- * parameter.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_bool A pointer to a variable to store the RTS threshold
- *                         support status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApRtsThresholdSupported(INT apIndex, BOOL *output_bool);
+* @description Sets the beacon interval on the hardware for this AP.
+*
+* @param apIndex - Access Point index
+* @param beaconInterval - Beacon interval 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApBeaconInterval(INT apIndex, INT beaconInterval);        // sets the beacon interval on the hardware for this AP
 
+/* wifi_setApDTIMInterval() function */
 /**
- * @brief Sets the AP RTS threshold.
- *
- * This function sets the packet size threshold, in bytes, to apply RTS/CTS
- * backoff rules for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] threshold The packet size threshold to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApRtsThreshold(INT apIndex, UINT threshold);
+* @description Sets the DTIM interval for this AP.
+*
+* @param apIndex - Access Point index
+* @param dtimInterval - DTIM interval 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApDTIMInterval(INT apIndex, INT dtimInterval);			  // Sets the DTIM interval for this AP	
 
+/* wifi_getApRtsThresholdSupported() function */
 /**
- * @brief Gets the AP WPA encryption mode.
- *
- * This function retrieves the WPA encryption mode for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer (max length: 32 bytes) to
- *                           store the WPA encryption mode, e.g.,
- *                           "TKIPEncryption", "AESEncryption", or
- *                           "TKIPandAESEncryption".
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWpaEncryptoinMode(INT apIndex, CHAR *output_string);
+* @description Get the packet size threshold supported.
+*
+* @param apIndex - Access Point index
+* @param output_bool - Packet size threshold supported, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApRtsThresholdSupported(INT apIndex, BOOL *output_bool);  // Get the packet size threshold supported. 
 
+/* wifi_setApRtsThreshold() function */
 /**
- * @brief Sets the AP WPA encryption mode.
- *
- * This function sets the WPA encryption mode environment variable for the
- * specified AP. Valid string formats are "TKIPEncryption", "AESEncryption",
- * or "TKIPandAESEncryption".
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] encMode A pointer to the WPA encryption mode string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWpaEncryptionMode(INT apIndex, CHAR *encMode);
+* @description Sets the packet size threshold in bytes to apply RTS/CTS backoff rules.
+*
+* @param apIndex - Access Point index
+* @param threshold - Packet size threshold 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApRtsThreshold(INT apIndex, UINT threshold);              // sets the packet size threshold in bytes to apply RTS/CTS backoff rules. 
 
+/* wifi_getApWpaEncryptoinMode() function */
 /**
- * @brief Removes the AP security variables.
- *
- * This function deletes the internal security variable settings for the
- * specified AP.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_removeApSecVaribles(INT apIndex);
+* @description ouputs up to a 32 byte string as either "TKIPEncryption", "AESEncryption", or "TKIPandAESEncryption".
+*
+* @param apIndex - Access Point index
+* @param output_string - WPA Encryption mode, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApWpaEncryptoinMode(INT apIndex, CHAR *output_string);    // ouputs up to a 32 byte string as either "TKIPEncryption", "AESEncryption", or "TKIPandAESEncryption"
 
+/* wifi_setApWpaEncryptionMode() function */
 /**
- * @brief Disables AP encryption.
- *
- * This function changes the hardware settings to disable encryption for the
- * specified AP.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_disableApEncryption(INT apIndex);
+* @description Sets the encyption mode enviornment variable.  Valid string format is "TKIPEncryption", "AESEncryption", or "TKIPandAESEncryption".
+*
+* @param apIndex - Access Point index
+* @param encMode - WPA Encryption mode 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWpaEncryptionMode(INT apIndex, CHAR *encMode);          // sets the encyption mode enviornment variable.  Valid string format is "TKIPEncryption", "AESEncryption", or "TKIPandAESEncryption"
 
+/* wifi_removeApSecVaribles() function */
 /**
- * @brief Sets the AP authorization mode.
- *
- * This function sets the authorization mode for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] mode The authorization mode to set. The valid values are:
- *                 * 1: Open
- *                 * 2: Shared
- *                 * 4: Auto
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApAuthMode(INT apIndex, INT mode);
+* @description Deletes internal security varable settings for this ap.
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_removeApSecVaribles(INT apIndex);                            // deletes internal security varable settings for this ap
 
+/* wifi_disableApEncryption() function */
 /**
- * @brief Sets the AP basic authentication mode.
- *
- * This function sets an environment variable for the authentication mode.
- * Valid strings are "None", "EAPAuthentication" or "SharedAuthentication".
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] authMode A pointer to the authentication mode string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApBasicAuthenticationMode(INT apIndex, CHAR *authMode);
+* @description changes the hardware settings to disable encryption on this ap.
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_disableApEncryption(INT apIndex);                            // changes the hardware settings to disable encryption on this ap
 
+/* wifi_setApAuthMode() function */
 /**
- * @brief Gets the number of devices associated with the AP.
- *
- * This function retrieves the number of stations associated with the specified
- * AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_ulong A pointer to a variable to store the number of
- *                          associated devices.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApNumDevicesAssociated(INT apIndex, ULONG *output_ulong);
+* @description Set the authorization mode on this ap. mode mapping as: 1: open, 2: shared, 4:auto.
+*
+* @param apIndex - Access Point index
+* @param mode - Authorization mode
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApAuthMode(INT apIndex, INT mode);                        // set the authorization mode on this ap. mode mapping as: 1: open, 2: shared, 4:auto
 
+/* wifi_setApBasicAuthenticationMode() function */
 /**
- * @brief Manually removes the association with a device.
- *
- * This function manually removes any active Wi-Fi association with the
- * specified device on the given Access Point.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] client_mac The client device MAC address.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_kickApAssociatedDevice(INT apIndex, CHAR *client_mac);
+* @description Sets an enviornment variable for the authMode. Valid strings are "None", "EAPAuthentication" or "SharedAuthentication".
+*
+* @param apIndex - Access Point index
+* @param authMode - Authentication mode
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApBasicAuthenticationMode(INT apIndex, CHAR *authMode);   // sets an enviornment variable for the authMode. Valid strings are "None", "EAPAuthentication" or "SharedAuthentication"
 
+/* wifi_getApNumDevicesAssociated() function */
 /**
- * @brief Gets the radio index for the AP.
- *
- * This function retrieves the radio index for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_int A pointer to a variable to store the radio index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApRadioIndex(INT apIndex, INT *output_int);
+* @description Outputs the number of stations associated per AP.
+*
+* @param apIndex - Access Point index
+* @param output_ulong - Number of stations, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApNumDevicesAssociated(INT apIndex, ULONG *output_ulong); // Outputs the number of stations associated per AP
 
+/* wifi_kickApAssociatedDevice() function */
 /**
- * @brief Sets the radio index for the AP.
- *
- * This function sets the radio index for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] radioIndex The radio index to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApRadioIndex(INT apIndex, INT radioIndex);
+* @description Manually removes any active wi-fi association with the device specified on this ap.
+*
+* @param apIndex - Access Point index
+* @param client_mac - Client device MAC address
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_kickApAssociatedDevice(INT apIndex, CHAR *client_mac);  	// manually removes any active wi-fi association with the device specified on this ap
 
+/* wifi_getApRadioIndex() function */
 /**
- * @brief Gets the Access Control List (ACL) devices for the AP.
- *
- * This function retrieves the ACL MAC list for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] macArray A pointer to a buffer to store the MAC address list.
- * @param[in] buf_size The size of the buffer.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAclDevices(INT apIndex, CHAR *macArray, UINT buf_size);
+* @description Outputs the radio index for the specified ap.
+*
+* @param apIndex - Access Point index
+* @param output_int - Radio index, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApRadioIndex(INT apIndex, INT *output_int);                // outputs the radio index for the specified ap
 
+/* wifi_setApRadioIndex() function */
 /**
- * @brief Adds a device to the AP ACL.
- *
- * This function adds the specified MAC address to the AP's ACL.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] DeviceMacAddress The MAC address of the device to add.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_addApAclDevice(INT apIndex, CHAR *DeviceMacAddress);
+* @description Sets the radio index for the specific ap.
+*
+* @param apIndex - Access Point index
+* @param radioIndex - Radio index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApRadioIndex(INT apIndex, INT radioIndex);                // sets the radio index for the specific ap
 
+/* wifi_getApAclDevices() function */
 /**
- * @brief Deletes a device from the AP ACL.
- *
- * This function deletes the specified MAC address from the AP's ACL.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] DeviceMacAddress The MAC address of the device to delete.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_delApAclDevice(INT apIndex, CHAR *DeviceMacAddress);
+* @description Get the ACL MAC list per AP.
+*
+* @param apIndex - Access Point index
+* @param macArray - Mac Array list, to be returned
+* @param buf_size - Buffer size for the mac array list
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApAclDevices(INT apIndex, CHAR *macArray, UINT buf_size);	// Get the ACL MAC list per AP
 
+/* wifi_addApAclDevice() function */
 /**
- * @brief Gets the number of devices in the AP ACL.
- *
- * This function retrieves the number of devices in the AP's ACL.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_uint A pointer to a variable to store the number of
- *                         devices.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAclDeviceNum(INT apIndex, UINT *output_uint);
+* @description Adds the mac address to the filter list.
+*
+* @param apIndex - Access Point index
+* @param DeviceMacAddress - Mac Address of a device
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_addApAclDevice(INT apIndex, CHAR *DeviceMacAddress);         // adds the mac address to the filter list
 
+/* wifi_delApAclDevice() function */
 /**
- * @brief Enables or disables kicking devices on the ACL blacklist.
- *
- * This function enables or disables kicking devices that are on the ACL
- * blacklist.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The enable/disable status of kicking devices.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_kickApAclAssociatedDevices(INT apIndex, BOOL enable);
+* @description Deletes the mac address from the filter list.
+*
+* @param apIndex - Access Point index
+* @param DeviceMacAddress - Mac Address of a device
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_delApAclDevice(INT apIndex, CHAR *DeviceMacAddress);         // deletes the mac address from the filter list
 
+/* wifi_getApAclDeviceNum() function */
 /**
- * @brief Sets the AP MAC address control mode.
- *
- * This function sets the MAC address filter control mode for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] filterMode The MAC address filter control mode to set. The valid
- *                       values are:
- *                         * 0: Filter disabled
- *                         * 1: Filter as whitelist
- *                         * 2: Filter as blacklist
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApMacAddressControlMode(INT apIndex, INT filterMode);
+* @description Outputs the number of devices in the filter list.
+*
+* @param apIndex - Access Point index
+* @param output_uint - Number of devices, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApAclDeviceNum(INT apIndex, UINT *output_uint);           // outputs the number of devices in the filter list
 
+/* wifi_kickApAclAssociatedDevices() function */
 /**
- * @brief Enables or disables AP VLAN mode.
- *
- * This function enables or disables internal gateway VLAN mode for the
- * specified AP. In this mode, a VLAN tag is added to upstream (received) data
- * packets before exiting the Wi-Fi driver. VLAN tags in downstream data are
- * stripped from data packets before transmission. The default value is false.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] VlanEnabled The VLAN mode enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApVlanEnable(INT apIndex, BOOL VlanEnabled);
+* @description Enable kick for devices on acl black list.
+*
+* @param apIndex - Access Point index
+* @param enable - Enable/disable kick for devices on acl black list
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_kickApAclAssociatedDevices(INT apIndex,BOOL enable);         // enable kick for devices on acl black list
 
+/* wifi_setApMacAddressControlMode() function */
 /**
- * @brief Sets the AP VLAN ID.
- *
- * This function sets the VLAN ID for the specified AP to an internal
- * environment variable.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] vlanId The VLAN ID to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApVlanID(INT apIndex, INT vlanId);
+* @description Sets the mac address filter control mode.  0 == filter disabled, 1 == filter as whitelist, 2 == filter as blacklist.
+*
+* @param apIndex - Access Point index
+* @param filterMode - Mac Address filter control mode
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApMacAddressControlMode(INT apIndex, INT filterMode);     // sets the mac address filter control mode.  0 == filter disabled, 1 == filter as whitelist, 2 == filter as blacklist
 
+/* wifi_setApVlanEnable() function */
 /**
- * @brief Gets the AP bridge information.
- *
- * This function retrieves the bridge name, IP address, and subnet for the
- * specified AP.
- *
- * @param[in] index The Access Point index.
- * @param[out] bridgeName A pointer to a buffer to store the bridge name.
- * @param[out] IP A pointer to a buffer to store the IP address.
- * @param[out] subnet A pointer to a buffer to store the subnet.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApBridgeInfo(INT index, CHAR *bridgeName, CHAR *IP, CHAR *subnet);
+* @description Enables internal gateway VLAN mode.  In this mode a Vlan tag is added to upstream (received) data packets before exiting the Wifi driver.  VLAN tags in downstream data are stripped from data packets before transmission.  Default is FALSE.
+*
+* @param apIndex - Access Point index
+* @param VlanEnabled - Internal gateway VLAN mode
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApVlanEnable(INT apIndex, BOOL VlanEnabled);              // enables internal gateway VLAN mode.  In this mode a Vlan tag is added to upstream (received) data packets before exiting the Wifi driver.  VLAN tags in downstream data are stripped from data packets before transmission.  Default is FALSE. 
 
+/* wifi_setApVlanID() function */
 /**
- * @brief Sets the AP bridge information.
- *
- * This function sets the bridge name, IP address, and subnet for the specified
- * AP to internal environment variables. The bridge name is a maximum of 32
- * characters.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] bridgeName A pointer to the bridge name string.
- * @param[in] IP A pointer to the IP address string.
- * @param[in] subnet A pointer to the subnet string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApBridgeInfo(INT apIndex, CHAR *bridgeName, CHAR *IP, CHAR *subnet);
+* @description Sets the vlan ID for this ap to an internal enviornment variable.
+*
+* @param apIndex - Access Point index
+* @param vlanId - VLAN ID
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApVlanID(INT apIndex, INT vlanId);                        // sets the vlan ID for this ap to an internal enviornment variable
 
+/* wifi_getApBridgeInfo() function */
 /**
- * @brief Resets the AP VLAN configuration.
- *
- * This function resets the VLAN configuration for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_resetApVlanCfg(INT apIndex);
+* @description Gets bridgeName, IP address and Subnet.BridgeName is a maximum of 32 characters.
+*
+* @param index - Access Point index
+* @param bridgeName - Bridge name, to be returned
+* @param IP - IP Address, to be returned
+* @param subnet - Subnet, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApBridgeInfo(INT index, CHAR *bridgeName, CHAR *IP, CHAR *subnet);	// gets bridgeName, IP address and Subnet.
 
+/* wifi_setApBridgeInfo() function */
+/**
+* @description Sets bridgeName, IP address and Subnet to internal enviornment variables. BridgeName is a maximum of 32 characters.
+*
+* @param apIndex - Access Point index
+* @param bridgeName - Bridge name
+* @param IP - IP Address
+* @param subnet - Subnet
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApBridgeInfo(INT apIndex, CHAR *bridgeName, CHAR *IP, CHAR *subnet);   //sets bridgeName, IP address and Subnet to internal enviornment variables. bridgeName is a maximum of 32 characters, 
+//INT wifi_pushApBridgeInfo(INT apIndex);                               // push the BridgeInfo enviornment variables to the hardware //Applying changes with wifi_applyRadioSettings()
+
+/* wifi_resetApVlanCfg() function */
+/**
+* @description Reset the vlan configuration for this ap.
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_resetApVlanCfg(INT apIndex);                                 // reset the vlan configuration for this ap
 //INT wifi_setApBridging(INT apIndex, BOOL bridgeEnable);             // set the enviornment variables to control briding.  If isolation is requried then disable bridging.  //use wifi_setApIsolationEnable instead
 //INT wifi_getApRouterEnable(INT apIndex, BOOL *output_bool);           //P4 // Outputs a bool that indicates if router is enabled for this ap
 //INT wifi_setApRouterEnable(INT apIndex, BOOL routerEnabled);          //P4 // sets the routerEnabled variable for this ap
 
+/* wifi_createHostApdConfig() function */
 /**
- * @brief Creates hostapd configuration variables.
- *
- * This function creates configuration variables needed for WPA/WPS. These
- * variables are implementation-dependent and, in some implementations, are
- * used by hostapd when it is started. Specific variables that are needed are
- * dependent on the hostapd implementation. These variables are set by WPA/WPS
- * security functions in this Wi-Fi HAL. If not needed for a particular
- * implementation, this function can return `WIFI_HAL_SUCCESS`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] createWpsCfg Enable or disable WPS configuration creation.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_createHostApdConfig(INT apIndex, BOOL createWpsCfg);
+* @description Creates configuration variables needed for WPA/WPS.  These variables are implementation dependent and in some implementations these variables are used by hostapd when it is started.  Specific variables that are needed are dependent on the hostapd implementation. These variables are set by WPA/WPS security functions in this wifi HAL.  If not needed for a particular implementation this function may simply return no error.
+*
+* @param apIndex - Access Point index
+* @param createWpsCfg - Enable/Disable WPS Configuration creation
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_createHostApdConfig(INT apIndex, BOOL createWpsCfg);       // creates configuration variables needed for WPA/WPS.  These variables are implementation dependent and in some implementations these variables are used by hostapd when it is started.  Specific variables that are needed are dependent on the hostapd implementation. These variables are set by WPA/WPS security functions in this wifi HAL.  If not needed for a particular implementation this function may simply return no error.
 
+/* wifi_startHostApd() function */
 /**
- * @brief Starts hostapd.
- *
- * This function starts hostapd, using the variables in the hostapd
- * configuration with a format compatible with the specific hostapd
- * implementation.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_startHostApd();
+* @description Starts hostapd, uses the variables in the hostapd config with format compatible with the specific hostapd implementation.
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_startHostApd();                                            // starts hostapd, uses the variables in the hostapd config with format compatible with the specific hostapd implementation
 
+/* wifi_stopHostApd() function */
 /**
- * @brief Stops hostapd.
- *
- * This function stops hostapd.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_stopHostApd();
+* @description Stops hostapd
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_stopHostApd();                                             // stops hostapd
 
 //-----------------------------------------------------------------------------------------------
 
+/* wifi_setApEnable() function */
 /**
- * @brief Sets the AP enable status.
- *
- * This function sets the AP enable status variable for the specified AP.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Enable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The AP enable status to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApEnable(INT apIndex, BOOL enable);
+* @description Sets the AP enable status variable for the specified ap.
+*
+* @param apIndex - Access Point index
+* @param enable - Enable/Disable AP enable status variable
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.	
+//Device.WiFi.AccessPoint.{i}.Enable
+INT wifi_setApEnable(INT apIndex, BOOL enable);                       // sets the AP enable status variable for the specified ap.
 
+/* wifi_getApEnable() function */
 /**
- * @brief Gets the AP enable status.
- *
- * This function retrieves the setting of the internal AP enable status
- * variable, which is set by `wifi_setApEnable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_bool A pointer to a variable to store the AP enable
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApEnable(INT apIndex, BOOL *output_bool);
+* @description Outputs the setting of the internal variable that is set by wifi_setEnable().
+*
+* @param apIndex - Access Point index
+* @param output_bool - AP enable status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApEnable(INT apIndex, BOOL *output_bool);                 // Outputs the setting of the internal variable that is set by wifi_setEnable().  
 
-/**
- * @brief Gets the AP status.
- *
- * This function retrieves the AP "Enabled" or "Disabled" status from the
- * driver.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Status`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the AP status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApStatus(INT apIndex, CHAR *output_string);
 
+/* wifi_getApStatus() function */
 /**
- * @brief Checks if SSID advertisement is enabled for the AP.
- *
- * This function indicates whether or not beacons include the SSID name. It
- * outputs 1 if the SSID on the AP is enabled, otherwise it outputs 0.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_bool A pointer to a variable to store the SSID
- *                         advertisement enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSsidAdvertisementEnable(INT apIndex, BOOL *output_bool);
+* @description Outputs the AP "Enabled" "Disabled" status from driver. 
+* \n Device.WiFi.AccessPoint.{i}.Status
+*
+* @param apIndex - Access Point index
+* @param output_string - AP status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Status
+INT wifi_getApStatus(INT apIndex, CHAR *output_string);  				// Outputs the AP "Enabled" "Disabled" status from driver 
 
+/* wifi_getApSsidAdvertisementEnable() function */
 /**
- * @brief Enables or disables SSID advertisement for the AP.
- *
- * This function sets an internal variable for SSID advertisement for the
- * specified AP. Set to 1 to enable, set to 0 to disable.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The SSID advertisement enable value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSsidAdvertisementEnable(INT apIndex, BOOL enable);
+* @description Indicates whether or not beacons include the SSID name. Outputs 1 if SSID on the AP is enabled, else ouputs 0.
+* \n Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled
+*
+* @param apIndex - Access Point index
+* @param output_bool - SSID Advertisement enabled, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled		
+//Indicates whether or not beacons include the SSID name.
+INT wifi_getApSsidAdvertisementEnable(INT apIndex, BOOL *output_bool);// outputs a 1 if SSID on the AP is enabled, else ouputs 0
 
+/* wifi_setApSsidAdvertisementEnable() function */
 /**
- * @brief Pushes the SSID advertisement enable variable to the hardware.
- *
- * This function pushes the SSID advertisement enable variable to the hardware.
- * Changes are applied with `wifi_applyRadioSettings()`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The SSID advertisement enable value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_pushApSsidAdvertisementEnable(INT apIndex, BOOL enable);
+* @description Sets an internal variable for ssid advertisement.  Set to 1 to enable, set to 0 to disable.
+* \n Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled
+*
+* @param apIndex - Access Point index
+* @param enable - SSID Advertisement enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSsidAdvertisementEnable(INT apIndex, BOOL enable);      // sets an internal variable for ssid advertisement.  Set to 1 to enable, set to 0 to disable
 
+/* wifi_pushApSsidAdvertisementEnable() function */
 /**
- * @brief Gets the AP retry limit.
- *
- * This function retrieves the maximum number of retransmissions for a packet
- * for the specified AP. This corresponds to the IEEE 802.11 parameter
- * dot11ShortRetryLimit.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.RetryLimit`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the maximum number of
- *                    retransmissions for a packet.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApRetryLimit(INT apIndex, UINT *output);
+* @description Push the ssid advertisement enable variable to the hardware //Applying changs with wifi_applyRadioSettings().
+*
+* @param apIndex - Access Point index
+* @param enable - SSID Advertisement enable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_pushApSsidAdvertisementEnable(INT apIndex, BOOL enable);     // push the ssid advertisement enable variable to the hardware //Applying changs with wifi_applyRadioSettings()
 
+/* wifi_getApRetryLimit() function */
 /**
- * @brief Sets the AP retry limit.
- *
- * This function sets the maximum number of retransmissions for a packet for
- * the specified AP. This corresponds to the IEEE 802.11 parameter
- * dot11ShortRetryLimit.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.RetryLimit`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] number The maximum number of retransmissions for a packet to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApRetryLimit(INT apIndex, UINT number);
+* @description Get the maximum number of retransmission for a packet. This corresponds to IEEE 802.11 parameter dot11ShortRetryLimit.
+* \n Device.WiFi.AccessPoint.{i}.RetryLimit
+*
+* @param apIndex - Access Point index
+* @param output - Maximum number of retransmission for a packet, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.RetryLimit		
+//The maximum number of retransmission for a packet. This corresponds to IEEE 802.11 parameter dot11ShortRetryLimit.
+INT wifi_getApRetryLimit(INT apIndex, UINT *output); 
 
+/* wifi_setApRetryLimit() function */
 /**
- * @brief Checks if the AP supports Wi-Fi Multimedia (WMM).
- *
- * This function checks if the specified Access Point supports WMM Access
- * Categories (AC).
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WMMCapability`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the WMM capability
- *                    status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWMMCapability(INT apIndex, BOOL *output);
+* @description Set the maximum number of retransmission for a packet. This corresponds to IEEE 802.11 parameter dot11ShortRetryLimit.
+* \n Device.WiFi.AccessPoint.{i}.RetryLimit
+*
+* @param apIndex - Access Point index
+* @param number - Maximum number of retransmission for a packet
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApRetryLimit(INT apIndex, UINT number); 
 
+/* wifi_getApWMMCapability() function */
 /**
- * @brief Checks if the AP supports Unscheduled Automatic Power Save Delivery
- *        (U-APSD).
- *
- * This function checks if the specified Access Point supports WMM U-APSD.
- * Note that U-APSD support implies WMM support.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.UAPSDCapability`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the U-APSD capability
- *                    status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApUAPSDCapability(INT apIndex, BOOL *output);
+* @description Indicates whether this access point supports WiFi Multimedia (WMM) Access Categories (AC).
+* \n Device.WiFi.AccessPoint.{i}.WMMCapability
+*
+* @param apIndex - Access Point index
+* @param output - WMM capability, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.WMMCapability	
+//Indicates whether this access point supports WiFi Multimedia (WMM) Access Categories (AC).
+INT wifi_getApWMMCapability(INT apIndex, BOOL *output); 
 
+/* wifi_getApUAPSDCapability() function */
 /**
- * @brief Checks if WMM is enabled for the AP.
- *
- * This function checks if WMM support is currently enabled for the specified
- * AP. When enabled, this is indicated in beacon frames.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WMMEnable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the WMM enable status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWmmEnable(INT apIndex, BOOL *output);
+* @description Indicates whether this access point supports WMM Unscheduled Automatic Power Save Delivery (U-APSD). Note: U-APSD support implies WMM support.
+* \n Device.WiFi.AccessPoint.{i}.UAPSDCapability
+*
+* @param apIndex - Access Point index
+* @param output - U-APSD capability, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.UAPSDCapability		
+//Indicates whether this access point supports WMM Unscheduled Automatic Power Save Delivery (U-APSD). Note: U-APSD support implies WMM support.
+INT wifi_getApUAPSDCapability(INT apIndex, BOOL *output); 			
+			
+/* wifi_getApWmmEnable() function */
+/**
+* @description Indicates whether WMM support is currently enabled. When enabled, this is indicated in beacon frames.
+* \n Device.WiFi.AccessPoint.{i}.WMMEnable
+*
+* @param apIndex - Access Point index
+* @param output - WMM support enabled status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.WMMEnable		
+//Whether WMM support is currently enabled. When enabled, this is indicated in beacon frames.
+INT wifi_getApWmmEnable(INT apIndex, BOOL *output);                   
 
+/* wifi_setApWmmEnable() function */
 /**
- * @brief Enables or disables WMM for the AP.
- *
- * This function enables or disables WMM on the hardware for the specified AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The WMM support enabled status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWmmEnable(INT apIndex, BOOL enable);
+* @description Enables/disables WMM on the hardwawre for this AP.  enable==1, disable == 0.
+*
+* @param apIndex - Access Point index
+* @param enable - WMM support enabled status
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWmmEnable(INT apIndex, BOOL enable);                    // enables/disables WMM on the hardwawre for this AP.  enable==1, disable == 0
 
+/* wifi_getApWmmUapsdEnable() function */
 /**
- * @brief Checks if U-APSD is enabled for the AP.
- *
- * This function checks if U-APSD support is currently enabled for the
- * specified AP. When enabled, this is indicated in beacon frames. Note that
- * U-APSD can only be enabled if WMM is also enabled.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.UAPSDEnable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the U-APSD enable
- *                    status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWmmUapsdEnable(INT apIndex, BOOL *output);
+* @description Indicates whether U-APSD support is currently enabled. When enabled, this is indicated in beacon frames. Note: U-APSD can only be enabled if WMM is also enabled.
+* \n Device.WiFi.AccessPoint.{i}.UAPSDEnable
+*
+* @param apIndex - Access Point index
+* @param output - U-APSD support enabled status, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.UAPSDEnable		
+//Whether U-APSD support is currently enabled. When enabled, this is indicated in beacon frames. Note: U-APSD can only be enabled if WMM is also enabled.
+INT wifi_getApWmmUapsdEnable(INT apIndex, BOOL *output);               
 
+/* wifi_setApWmmUapsdEnable() function */
 /**
- * @brief Enables or disables U-APSD for the AP.
- *
- * This function enables or disables U-APSD on the hardware for the specified
- * AP.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The U-APSD enable/disable value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWmmUapsdEnable(INT apIndex, BOOL enable);
+* @description Enables/disables Automatic Power Save Delivery on the hardwarwe for this AP.
+*
+* @param apIndex - Access Point index
+* @param enable - U-APSD enable/disable value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWmmUapsdEnable(INT apIndex, BOOL enable);               // enables/disables Automatic Power Save Delivery on the hardwarwe for this AP
 
+/* wifi_setApWmmOgAckPolicy() function */
 /**
- * @brief Sets the WMM ACK policy for the AP.
- *
- * This function sets the WMM ACK policy on the hardware. `ackPolicy` false
- * means do not acknowledge, true means acknowledge.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] class The class.
- * @param[in] ackPolicy The acknowledge policy.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWmmOgAckPolicy(INT apIndex, INT class, BOOL ackPolicy);
+* @description Sets the WMM ACK policy on the hardware. AckPolicy false means do not acknowledge, true means acknowledge.
+*
+* @param apIndex - Access Point index
+* @param class
+* @param ackPolicy - Acknowledge policy
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// Sets the WMM ACK polity on the hardware. AckPolicy false means do not acknowledge, true means acknowledge
+INT wifi_setApWmmOgAckPolicy(INT apIndex, INT class, BOOL ackPolicy);  //RDKB
+			
+/* wifi_getApIsolationEnable() function */
+/**
+* @description Get AP isolation value.A value of true means that the devices connected to the Access Point are isolated from all other devices within the home network (as is typically the case for a Wireless Hotspot).
+* \n Device.WiFi.AccessPoint.{i}.IsolationEnable
+*
+* @param apIndex - Access Point index
+* @param output - AP Isolation enable, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.IsolationEnable	
+//Enables or disables device isolation.	A value of true means that the devices connected to the Access Point are isolated from all other devices within the home network (as is typically the case for a Wireless Hotspot).	
+INT wifi_getApIsolationEnable(INT apIndex, BOOL *output); //Tr181		
 
+/* wifi_setApIsolationEnable() function */
 /**
- * @brief Checks if AP isolation is enabled.
- *
- * This function checks if device isolation is enabled for the specified AP.
- * A value of true means that the devices connected to the Access Point are
- * isolated from all other devices within the home network (as is typically
- * the case for a Wireless Hotspot).
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.IsolationEnable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the AP isolation enable
- *                    status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApIsolationEnable(INT apIndex, BOOL *output);
+* @description Enables or disables device isolation. A value of true means that the devices connected to the Access Point are isolated from all other devices within the home network (as is typically the case for a Wireless Hotspot).
+* \n Device.WiFi.AccessPoint.{i}.IsolationEnable
+*
+* @param apIndex - Access Point index
+* @param enable - AP Isolation enable value 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApIsolationEnable(INT apIndex, BOOL enable); //Tr181					
 
+/* wifi_getApMaxAssociatedDevices() function */
 /**
- * @brief Enables or disables AP isolation.
- *
- * This function enables or disables device isolation for the specified AP.
- * A value of true means that the devices connected to the Access Point are
- * isolated from all other devices within the home network (as is typically
- * the case for a Wireless Hotspot).
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.IsolationEnable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The AP isolation enable value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApIsolationEnable(INT apIndex, BOOL enable);		
+* @description Get maximum associated devices with the Access Point index. 
+* The maximum number of devices that can simultaneously be connected to the access point. A value of 0 means that there is no specific limit.
+* \n Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices
+*
+* @param apIndex - Access Point index
+* @param output - Maximum associated devices, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices	
+//The maximum number of devices that can simultaneously be connected to the access point. A value of 0 means that there is no specific limit.			
+INT wifi_getApMaxAssociatedDevices(INT apIndex, UINT *output); //Tr181		
 
+/* wifi_setApMaxAssociatedDevices() function */
 /**
- * @brief Gets the maximum number of associated devices for the AP.
- *
- * This function retrieves the maximum number of devices that can
- * simultaneously be connected to the specified AP. A value of 0 means that
- * there is no specific limit.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the maximum number of
- *                    associated devices.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApMaxAssociatedDevices(INT apIndex, UINT *output);
+* @description Set maximum associated devices with the Access Point index. 
+* The maximum number of devices that can simultaneously be connected to the access point. A value of 0 means that there is no specific limit.
+* \n Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices
+*
+* @param apIndex - Access Point index
+* @param number - Maximum associated devices 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApMaxAssociatedDevices(INT apIndex, UINT number); //Tr181					
+					
+/* wifi_getApAssociatedDevicesHighWatermarkThreshold() function */
+/**
+* @description Get the HighWatermarkThreshold value, that is lesser than or equal to MaxAssociatedDevices. Setting this parameter does not actually limit the number of clients that can associate with this access point as that is controlled by MaxAssociatedDevices.	MaxAssociatedDevices or 50. The default value of this parameter should be equal to MaxAssociatedDevices. In case MaxAssociatedDevices is 0 (zero), the default value of this parameter should be 50. A value of 0 means that there is no specific limit and Watermark calculation algorithm should be turned off.
+* \n Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThreshold
+*
+* @param apIndex - Access Point index
+* @param output - HighWatermarkThreshold value, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThreshold	
+//The HighWatermarkThreshold value that is lesser than or equal to MaxAssociatedDevices. Setting this parameter does not actually limit the number of clients that can associate with this access point as that is controlled by MaxAssociatedDevices.	MaxAssociatedDevices or 50. The default value of this parameter should be equal to MaxAssociatedDevices. In case MaxAssociatedDevices is 0 (zero), the default value of this parameter should be 50. A value of 0 means that there is no specific limit and Watermark calculation algorithm should be turned off.			
+INT wifi_getApAssociatedDevicesHighWatermarkThreshold(INT apIndex, UINT *output); //Tr181	//P3
 
+/* wifi_setApAssociatedDevicesHighWatermarkThreshold() function */
 /**
- * @brief Sets the maximum number of associated devices for the AP.
- *
- * This function sets the maximum number of devices that can simultaneously
- * be connected to the specified AP. A value of 0 means that there is no
- * specific limit.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] number The maximum number of associated devices to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApMaxAssociatedDevices(INT apIndex, UINT number);
+* @description Set the HighWatermarkThreshold value, that is lesser than or equal to MaxAssociatedDevices. Setting this parameter does not actually limit the number of clients that can associate with this access point as that is controlled by MaxAssociatedDevices.	MaxAssociatedDevices or 50. The default value of this parameter should be equal to MaxAssociatedDevices. In case MaxAssociatedDevices is 0 (zero), the default value of this parameter should be 50. A value of 0 means that there is no specific limit and Watermark calculation algorithm should be turned off.
+* \n Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThreshold
+*
+* @param apIndex - Access Point index
+* @param Threshold - HighWatermarkThreshold value 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApAssociatedDevicesHighWatermarkThreshold(INT apIndex, UINT Threshold); //Tr181		//P3			
 
+/* wifi_getApAssociatedDevicesHighWatermarkThresholdReached() function */
 /**
- * @brief Gets the associated devices high watermark threshold for the AP.
- *
- * This function retrieves the high watermark threshold for the number of
- * associated devices for the specified AP. Setting this parameter does not
- * actually limit the number of clients that can associate with this access
- * point as that is controlled by MaxAssociatedDevices. The default value of
- * this parameter should be equal to MaxAssociatedDevices. In case
- * MaxAssociatedDevices is 0 (zero), the default value of this parameter should
- * be 50. A value of 0 means that there is no specific limit and the watermark
- * calculation algorithm should be turned off.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThreshold`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the
- *                    HighWatermarkThreshold value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAssociatedDevicesHighWatermarkThreshold(INT apIndex, UINT *output);
+* @description Get the number of times the current total number of associated device has reached the HighWatermarkThreshold value. This calculation can be based on the parameter AssociatedDeviceNumberOfEntries as well. Implementation specifics about this parameter are left to the product group and the device vendors. It can be updated whenever there is a new client association request to the access point.
+* \n Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThresholdReached
+*
+* @param apIndex - Access Point index
+* @param output - Number of times the current total number of associated device has reached the HighWatermarkThreshold value, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThresholdReached		
+//Number of times the current total number of associated device has reached the HighWatermarkThreshold value. This calculation can be based on the parameter AssociatedDeviceNumberOfEntries as well. Implementation specifics about this parameter are left to the product group and the device vendors. It can be updated whenever there is a new client association request to the access point.	
+INT wifi_getApAssociatedDevicesHighWatermarkThresholdReached(INT apIndex, UINT *output); //Tr181 //P3
 
+/* wifi_getApAssociatedDevicesHighWatermark() function */
 /**
- * @brief Sets the associated devices high watermark threshold for the AP.
- *
- * This function sets the high watermark threshold for the number of associated
- * devices for the specified AP. Setting this parameter does not actually limit
- * the number of clients that can associate with this access point as that is
- * controlled by MaxAssociatedDevices. The default value of this parameter
- * should be equal to MaxAssociatedDevices. In case MaxAssociatedDevices is 0
- * (zero), the default value of this parameter should be 50. A value of 0 means
- * that there is no specific limit and the watermark calculation algorithm
- * should be turned off.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThreshold`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] Threshold The HighWatermarkThreshold value to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApAssociatedDevicesHighWatermarkThreshold(INT apIndex,
-                                                      UINT Threshold);
+* @description Maximum number of associated devices that have ever associated with the access point concurrently since the last reset of the device or WiFi module.
+* \n Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermark
+*
+* @param apIndex - Access Point index
+* @param output - Maximum number of associated devices that have ever associated with the access point concurrently, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermark	
+//Maximum number of associated devices that have ever associated with the access point concurrently since the last reset of the device or WiFi module.	
+INT wifi_getApAssociatedDevicesHighWatermark(INT apIndex, UINT *output); //Tr181	//P3
 
+/* wifi_getApAssociatedDevicesHighWatermarkDate() function */
 /**
- * @brief Gets the number of times the associated devices high watermark
- *        threshold was reached for the AP.
- *
- * This function retrieves the number of times the current total number of
- * associated devices has reached the HighWatermarkThreshold value. This
- * calculation can be based on the parameter AssociatedDeviceNumberOfEntries as
- * well. Implementation specifics about this parameter are left to the product
- * group and the device vendors. It can be updated whenever there is a new
- * client association request to the access point.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkThresholdReached`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the number of times the
- *                    current total number of associated devices has reached
- *                    the HighWatermarkThreshold value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAssociatedDevicesHighWatermarkThresholdReached(INT apIndex,
-                                                            UINT *output);
-
-/**
- * @brief Gets the associated devices high watermark for the AP.
- *
- * This function retrieves the maximum number of associated devices that have
- * ever been associated with the access point concurrently since the last reset
- * of the device or Wi-Fi module.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermark`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a variable to store the maximum number of
- *                    associated devices that have ever associated with the
- *                    access point concurrently.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAssociatedDevicesHighWatermark(INT apIndex, UINT *output);
-
-/**
- * @brief Gets the date and time when the associated devices high watermark
- *        was reached for the AP.
- *
- * This function retrieves the date and time at which the maximum number of
- * associated devices ever associated with the access point concurrently since
- * the last reset of the device or Wi-Fi module (or in short when was
- * X_COMCAST-COM_AssociatedDevicesHighWatermark updated). This date and time
- * value is in UTC.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkDate`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_in_seconds A pointer to a variable to store the date and
- *                               time in seconds since the epoch.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAssociatedDevicesHighWatermarkDate(INT apIndex,
-                                                 ULONG *output_in_seconds);
+* @description Get Date and Time at which the maximum number of associated devices ever associated with the access point concurrenlty since the last reset of the device or WiFi module (or in short when was X_COMCAST-COM_AssociatedDevicesHighWatermark updated). This dateTime value is in UTC.
+* \n Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkDate
+*
+* @param apIndex - Access Point index
+* @param output_in_seconds - Date and Time at which the maximum number of associated devices ever associated with the access point concurrenlty, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_AssociatedDevicesHighWatermarkDate		
+//Date and Time at which the maximum number of associated devices ever associated with the access point concurrenlty since the last reset of the device or WiFi module (or in short when was X_COMCAST-COM_AssociatedDevicesHighWatermark updated). This dateTime value is in UTC.	
+INT wifi_getApAssociatedDevicesHighWatermarkDate(INT apIndex, ULONG *output_in_seconds); //Tr181	//P3
 
 					
 //Device.WiFi.AccessPoint.{i}.X_COMCAST-COM_InterworkingServiceCapability	boolean	R	
@@ -3761,160 +4248,189 @@ INT wifi_getApAssociatedDevicesHighWatermarkDate(INT apIndex,
 //-----------------------------------------------------------------------------------------------				  
 //Device.WiFi.AccessPoint.{i}.Security.	
 
+/* wifi_getApSecurityModesSupported() function */
 /**
- * @brief Gets the supported security modes for the AP.
- *
- * This function retrieves the supported security modes for the specified AP.
- * Each list item is an enumeration of: None, WEP-64, WEP-128, WPA-Personal,
- * WPA2-Personal, WPA-WPA2-Personal, WPA-Enterprise, WPA2-Enterprise,
- * WPA-WPA2-Enterprise.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.ModesSupported`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a buffer to store the comma-separated list of
- *                    security modes.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecurityModesSupported(INT apIndex, CHAR *output);
+* @description Indicates which security modes this AccessPoint instance is capable of supporting. Each list item is an enumeration of: None,WEP-64,WEP-128,WPA-Personal,WPA2-Personal,WPA-WPA2-Personal,WPA-Enterprise,WPA2-Enterprise,WPA-WPA2-Enterprise.
+* \n Device.WiFi.AccessPoint.{i}.Security.ModesSupported
+*
+* @param apIndex - Access Point index
+* @param output - Comma-separated list of security modes, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.ModesSupported	
+//Comma-separated list of strings. Indicates which security modes this AccessPoint instance is capable of supporting. Each list item is an enumeration of: None,WEP-64,WEP-128,WPA-Personal,WPA2-Personal,WPA-WPA2-Personal,WPA-Enterprise,WPA2-Enterprise,WPA-WPA2-Enterprise
+INT wifi_getApSecurityModesSupported(INT apIndex, CHAR *output); 			
+			
+/* wifi_getApSecurityModeEnabled() function */
+/**
+* @description Get the Security modes supported. The value MUST be a member of the list reported by the ModesSupported parameter. Indicates which security mode is enabled.
+* \n Device.WiFi.AccessPoint.{i}.Security.ModeEnabled	string	W
+*
+* @param apIndex - Access Point index
+* @param output - Enabled security mode, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.ModeEnabled	string	W	
+//The value MUST be a member of the list reported by the ModesSupported parameter. Indicates which security mode is enabled.
+INT wifi_getApSecurityModeEnabled(INT apIndex, CHAR *output);    
 
+/* wifi_setApSecurityModeEnabled() function */
 /**
- * @brief Gets the enabled security mode for the AP.
- *
- * This function retrieves the enabled security mode for the specified AP. The
- * value must be a member of the list reported by the `ModesSupported`
- * parameter.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.ModeEnabled`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a buffer to store the enabled security mode.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecurityModeEnabled(INT apIndex, CHAR *output);
+* @description Enable supported security mode. The value MUST be a member of the list reported by the ModesSupported parameter. Indicates which security mode is enabled.
+* \n Device.WiFi.AccessPoint.{i}.Security.ModeEnabled	string	W
+*
+* @param apIndex - Access Point index
+* @param encMode - Supported security mode 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSecurityModeEnabled(INT apIndex, CHAR *encMode);        
 
-/**
- * @brief Sets the enabled security mode for the AP.
- *
- * This function sets the enabled security mode for the specified AP. The value
- * must be a member of the list reported by the `ModesSupported` parameter.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.ModeEnabled`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] encMode A pointer to the security mode string to enable.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSecurityModeEnabled(INT apIndex, CHAR *encMode);
+//Device.WiFi.AccessPoint.{i}.Security.WEPKey	
+//A WEP key expressed as a hexadecimal string.
 
+/* wifi_getApSecurityPreSharedKey() function */
 /**
- * @brief Gets the preshared key for the AP.
- *
- * This function retrieves the preshared key for the specified AP. The key is
- * expressed as a hexadecimal string.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.PreSharedKey`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the preshared key.
- *                           The buffer must be preallocated as a 64-character
- *                           string by the caller.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecurityPreSharedKey(INT apIndex, CHAR *output_string);
+* @description Get PreSharedKey associated with a AP. A literal PreSharedKey (PSK) expressed as a hexadecimal string.
+* \n Device.WiFi.AccessPoint.{i}.Security.PreSharedKey
+*
+* @param apIndex - Access Point index
+* @param output_string - PreSharedKey, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.PreSharedKey		
+//A literal PreSharedKey (PSK) expressed as a hexadecimal string.
+INT wifi_getApSecurityPreSharedKey(INT apIndex, CHAR *output_string);         // output_string must be pre-allocated as 64 character string by caller
 
+/* wifi_setApSecurityPreSharedKey() function */
 /**
- * @brief Sets the preshared key for the AP.
- *
- * This function sets the preshared key for the specified AP. The key is
- * expressed as a hexadecimal string.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.PreSharedKey`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] preSharedKey A pointer to the preshared key string. The input
- *                         string must be a maximum of 64 characters.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSecurityPreSharedKey(INT apIndex, CHAR *preSharedKey);
+* @description Set PreSharedKey associated with a AP. A literal PreSharedKey (PSK) expressed as a hexadecimal string.
+* \n Device.WiFi.AccessPoint.{i}.Security.PreSharedKey
+*
+* @param apIndex - Access Point index
+* @param preSharedKey - PreSharedKey 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSecurityPreSharedKey(INT apIndex, CHAR *preSharedKey);          // sets an enviornment variable for the psk. Input string preSharedKey must be a maximum of 64 characters
 
+/* wifi_getApSecurityKeyPassphrase() function */
 /**
- * @brief Gets the key passphrase for the AP.
- *
- * This function retrieves the key passphrase for the specified AP. The
- * passphrase is used to generate the preshared key for WPA-Personal,
- * WPA2-Personal, or WPA-WPA2-Personal security modes.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the key passphrase.
- *                           The buffer must be preallocated as a 63-character
- *                           string by the caller.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecurityKeyPassphrase(INT apIndex, CHAR *output_string);
+* @description Get a passphrase from which the PreSharedKey is to be generated, for WPA-Personal or WPA2-Personal or WPA-WPA2-Personal security modes.
+* \n Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase string-(63)	W
+*
+* @param apIndex - Access Point index
+* @param output_string - Security key passphrase, to be returned 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase	string(63)	W	
+//A passphrase from which the PreSharedKey is to be generated, for WPA-Personal or WPA2-Personal or WPA-WPA2-Personal security modes.
+INT wifi_getApSecurityKeyPassphrase(INT apIndex, CHAR *output_string);        // outputs the passphrase, maximum 63 characters
 
+/* wifi_setApSecurityKeyPassphrase() function */
 /**
- * @brief Sets the key passphrase for the AP.
- *
- * This function sets the key passphrase for the specified AP. The passphrase
- * is used to generate the preshared key for WPA-Personal, WPA2-Personal, or
- * WPA-WPA2-Personal security modes.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] passPhrase A pointer to the key passphrase string. The input
- *                       string must be a maximum of 63 characters.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSecurityKeyPassphrase(INT apIndex, CHAR *passPhrase);
+* @description Set a passphrase from which the PreSharedKey is to be generated, for WPA-Personal or WPA2-Personal or WPA-WPA2-Personal security modes.
+* \n Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase string-(63)	W
+*
+* @param apIndex - Access Point index
+* @param passPhrase - Security key passphrase
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSecurityKeyPassphrase(INT apIndex, CHAR *passPhrase);           // sets the passphrase enviornment variable, max 63 characters
 
+//Device.WiFi.AccessPoint.{i}.Security.RekeyingInterval	unsignedInt	W	
+//The interval (expressed in seconds) in which the keys are re-generated.
+//INT wifi_getApSecurityWpaRekeyInterval(INT apIndex, INT *output_int);         // outputs the rekey interval
+//INT wifi_setApSecurityWpaRekeyInterval(INT apIndex, INT rekeyInterval);       // sets the internal variable for the rekey interval
+
+/* wifi_setApSecurityReset() function */
 /**
- * @brief Resets the AP security settings to factory defaults.
- *
- * This function resets the Wi-Fi security settings for the specified Access
- * Point to their factory default values. The affected settings include
- * `ModeEnabled`, `WEPKey`, `PreSharedKey`, and `KeyPassphrase`.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.Reset`.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description When set to true, this AccessPoint instance's WiFi security settings are reset to their factory default values. The affected settings include ModeEnabled, WEPKey, PreSharedKey and KeyPassphrase.
+* \n Device.WiFi.AccessPoint.{i}.Security.Reset
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.Reset	
+//When set to true, this AccessPoint instance's WiFi security settings are reset to their factory default values. The affected settings include ModeEnabled, WEPKey, PreSharedKey and KeyPassphrase.
 INT wifi_setApSecurityReset(INT apIndex);
 
 //Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_KeyPassphrase	string(63)	RW	
@@ -3927,501 +4443,630 @@ INT wifi_setApSecurityReset(INT apIndex);
 
 //-----------------------------------------------------------------------------------------------
 
+/* wifi_getApSecurityRadiusServer() function */
 /**
- * @brief Gets the AP RADIUS server settings.
- *
- * This function retrieves the IP address, port number, and shared secret of the
- * RADIUS server used for WLAN security. The `RadiusServerIPAddr` parameter is
- * only applicable when `ModeEnabled` is an Enterprise type (i.e.,
- * WPA-Enterprise, WPA2-Enterprise, or WPA-WPA2-Enterprise).
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr`
- *       * `Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort`
- *       * `Device.WiFi.AccessPoint.{i}.Security.RadiusSecret`
- *
- * @param apIndex The Access Point index.
- * @param IP_output A pointer to a buffer to store the RADIUS server IP
- *                  address. The buffer must be at least 64 bytes in length.
- * @param Port_output A pointer to a variable to store the RADIUS server port
- *                    number.
- * @param RadiusSecret_output A pointer to a buffer to store the RADIUS shared
- *                            secret.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecurityRadiusServer(INT apIndex, CHAR *IP_output,
-                                   UINT *Port_output,
-                                   CHAR *RadiusSecret_output);
+* @description Get the IP Address and port number of the RADIUS server, which 
+are used for WLAN security. RadiusServerIPAddr is only applicable when ModeEnabled is an Enterprise type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).  String is 64 bytes max.
+* \n Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr
+* \n Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort
+* \n Device.WiFi.AccessPoint.{i}.Security.RadiusSecret
+*
+* @param apIndex - Access Point index
+* @param IP_output - IP Address, to be returned
+* @param Port_output - Port output, to be returned
+* @param RadiusSecret_output - Radius Secret output, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr	
+//Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort	
+//Device.WiFi.AccessPoint.{i}.Security.RadiusSecret
+//The IP Address and port number of the RADIUS server used for WLAN security. RadiusServerIPAddr is only applicable when ModeEnabled is an Enterprise type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).  String is 64 bytes max
+INT wifi_getApSecurityRadiusServer(INT apIndex, CHAR *IP_output, UINT *Port_output, CHAR *RadiusSecret_output); //Tr181	
 
+/* wifi_setApSecurityRadiusServer() function */
 /**
- * @brief Sets the AP RADIUS server settings.
- *
- * This function sets the IP address, port number, and shared secret of the
- * RADIUS server used for WLAN security. The `RadiusServerIPAddr` parameter is
- * only applicable when `ModeEnabled` is an Enterprise type (i.e.,
- * WPA-Enterprise, WPA2-Enterprise, or WPA-WPA2-Enterprise).
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr`
- *       * `Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort`
- *       * `Device.WiFi.AccessPoint.{i}.Security.RadiusSecret`
- *
- * @param apIndex The Access Point index.
- * @param IPAddress A pointer to the RADIUS server IP address string. The
- *                  string must be a maximum of 64 bytes in length.
- * @param port The RADIUS server port number.
- * @param RadiusSecret A pointer to the RADIUS shared secret string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSecurityRadiusServer(INT apIndex, CHAR *IPAddress, UINT port,
-                                   CHAR *RadiusSecret);
+* @description Set the IP Address and port number of the RADIUS server, which 
+are used for WLAN security. RadiusServerIPAddr is only applicable when ModeEnabled is an Enterprise type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).  String is 64 bytes max.
+* \n Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr
+* \n Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort
+* \n Device.WiFi.AccessPoint.{i}.Security.RadiusSecret
+*
+* @param apIndex - Access Point index
+* @param IPAddress - IP Address
+* @param port - Port 
+* @param RadiusSecret - Radius Secret
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSecurityRadiusServer(INT apIndex, CHAR *IPAddress, UINT port, CHAR *RadiusSecret); //Tr181	
 
+/* wifi_getApSecuritySecondaryRadiusServer() function */
 /**
- * @brief Gets the AP secondary RADIUS server settings.
- *
- * This function retrieves the IP address, port number, and shared secret of the
- * secondary RADIUS server used for WLAN security. The `RadiusServerIPAddr`
- * parameter is only applicable when `ModeEnabled` is an Enterprise type (i.e.,
- * WPA-Enterprise, WPA2-Enterprise, or WPA-WPA2-Enterprise).
- *
- * @param apIndex The Access Point index.
- * @param IP_output A pointer to a buffer to store the RADIUS server IP
- *                  address. The buffer must be at least 64 bytes in length.
- * @param Port_output A pointer to a variable to store the RADIUS server port
- *                    number.
- * @param RadiusSecret_output A pointer to a buffer to store the RADIUS shared
- *                            secret.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecuritySecondaryRadiusServer(INT apIndex, CHAR *IP_output,
-                                           UINT *Port_output,
-                                           CHAR *RadiusSecret_output);
+* @description Get secondary IP Address, port number and RADIUS server, which 
+are used for WLAN security. RadiusServerIPAddr is only applicable when ModeEnabled is an Enterprise type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).  String is 64 bytes max.
+*
+* @param apIndex - Access Point index
+* @param IP_output - IP Address, to be returned
+* @param Port_output - Port,to be returned
+* @param RadiusSecret_output - Radius Secret, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApSecuritySecondaryRadiusServer(INT apIndex, CHAR *IP_output, UINT *Port_output, CHAR *RadiusSecret_output); //Tr181	
 
+/* wifi_setApSecuritySecondaryRadiusServer() function */
 /**
- * @brief Sets the AP secondary RADIUS server settings.
- *
- * This function sets the IP address, port number, and shared secret of the
- * secondary RADIUS server used for WLAN security. The `RadiusServerIPAddr`
- * parameter is only applicable when `ModeEnabled` is an Enterprise type (i.e.,
- * WPA-Enterprise, WPA2-Enterprise, or WPA-WPA2-Enterprise).
- *
- * @param apIndex The Access Point index.
- * @param IPAddress A pointer to the RADIUS server IP address string. The
- *                  string must be a maximum of 64 bytes in length.
- * @param port The RADIUS server port number.
- * @param RadiusSecret A pointer to the RADIUS shared secret string.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSecuritySecondaryRadiusServer(INT apIndex, CHAR *IPAddress,
-                                           UINT port, CHAR *RadiusSecret);
+* @description Set secondary IP Address, port number and RADIUS server, which 
+are used for WLAN security. RadiusServerIPAddr is only applicable when ModeEnabled is an Enterprise type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).  String is 64 bytes max.
+*
+* @param apIndex - Access Point index
+* @param IPAddress - IP Address
+* @param port - Port
+* @param RadiusSecret - Radius Secret
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSecuritySecondaryRadiusServer(INT apIndex, CHAR *IPAddress, UINT port, CHAR *RadiusSecret); //Tr181	
 
+/* wifi_getApSecurityRadiusSettings() function */
 /**
- * @brief Gets the AP RADIUS settings.
- *
- * This function retrieves the RADIUS settings for the specified Access Point.
- *
- * @note This function corresponds to the following TR-181 parameters:
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.RadiusServerRetries`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.RadiusServerRequestTimeout`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.PMKLifetime`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.PMKCaching`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.PMKCacheInterval`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.MaxAuthenticationAttempts`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.BlacklistTableTimeout`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.IdentityRequestRetryInterval`
- *       * `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.QuietPeriodAfterFailedAuthentication`
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a `wifi_radius_setting_t` structure to store
- *                    the RADIUS settings.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApSecurityRadiusSettings(INT apIndex, wifi_radius_setting_t *output);
+* @description Get Access Point security radius settings. 
+* \n Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.
+*
+* @param apIndex - Access Point index
+* @param output - wifi_radius_setting_t info (*output), to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.		
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.RadiusServerRetries	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.RadiusServerRequestTimeout	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.PMKLifetime	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.PMKCaching	boolean	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.PMKCacheInterval	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.MaxAuthenticationAttempts	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.BlacklistTableTimeout	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.IdentityRequestRetryInterval	int	W	
+//Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.QuietPeriodAfterFailedAuthentication	int	W		
+INT wifi_getApSecurityRadiusSettings(INT apIndex, wifi_radius_setting_t *output); //Tr181	
 
+/* wifi_setApSecurityRadiusSettings() function */
 /**
- * @brief Sets the AP RADIUS settings.
- *
- * This function sets the RADIUS settings for the specified Access Point.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] input A pointer to a `wifi_radius_setting_t` structure
- *                  containing the RADIUS settings to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApSecurityRadiusSettings(INT apIndex, wifi_radius_setting_t *input);
+* @description Set Access Point security radius settings. 
+* \n Device.WiFi.AccessPoint.{i}.Security.X_COMCAST-COM_RadiusSettings.
+*
+* @param apIndex - Access Point index
+* @param input - wifi_radius_setting_t info
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApSecurityRadiusSettings(INT apIndex, wifi_radius_setting_t *input); //Tr181	
 
 
 //-----------------------------------------------------------------------------------------------
 
+/* wifi_getApWpsEnable() function */
 /**
- * @brief Gets the WPS enable status for the AP.
- *
- * This function retrieves the WPS enable status for the specified Access
- * Point.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WPS.Enable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_bool A pointer to a variable to store the WPS enable
- *                         status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWpsEnable(INT apIndex, BOOL *output_bool);
+* @description Outputs the WPS enable state of this ap in output_bool.
+* \n Device.WiFi.AccessPoint.{i}.WPS.
+* \n Device.WiFi.AccessPoint.{i}.WPS.Enable
+*
+* @param apIndex - Access Point index
+* @param output_bool - WPS enable state, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.WPS.
+//Device.WiFi.AccessPoint.{i}.WPS.Enable	
+//Enables or disables WPS functionality for this access point.
+INT wifi_getApWpsEnable(INT apIndex, BOOL *output_bool);              // outputs the WPS enable state of this ap in output_bool 
 
+/* wifi_setApWpsEnable() function */
 /**
- * @brief Enables or disables WPS for the AP.
- *
- * This function enables or disables WPS functionality for the specified Access
- * Point. It sets the WPS enable environment variable for this AP to the value
- * of `enableValue`, where 1 means enabled and 0 means disabled.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WPS.Enable`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enableValue The WPS enable state to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWpsEnable(INT apIndex, BOOL enableValue);
+* @description Enables or disables WPS functionality for this access point.
+* Sets the WPS enable enviornment variable for this ap to the value of enableValue, 1==enabled, 0==disabled.
+* \n Device.WiFi.AccessPoint.{i}.WPS.
+* \n Device.WiFi.AccessPoint.{i}.WPS.Enable
+*
+* @param apIndex - Access Point index
+* @param enableValue - WPS enable state
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWpsEnable(INT apIndex, BOOL enableValue);               // sets the WPS enable enviornment variable for this ap to the value of enableValue, 1==enabled, 0==disabled
 
+/* wifi_getApWpsConfigMethodsSupported() function */
 /**
- * @brief Gets the supported WPS configuration methods for the AP.
- *
- * This function retrieves the supported WPS configuration methods for the
- * specified Access Point. Each list item is an enumeration of: USBFlashDrive,
- * Ethernet, ExternalNFCToken, IntegratedNFCToken, NFCInterface, PushButton,
- * PIN.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsSupported`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output A pointer to a buffer to store the comma-separated list
- *                    of supported WPS configuration methods.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWpsConfigMethodsSupported(INT apIndex, CHAR *output);
+* @description Indicates WPS configuration methods supported by the device. Each list item is an enumeration of: USBFlashDrive,Ethernet,ExternalNFCToken,IntegratedNFCToken,NFCInterface,PushButton,PIN.
+* Sets the WPS enable enviornment variable for this ap to the value of enableValue, 1==enabled, 0==disabled.
+* \n Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsSupported
+*
+* @param apIndex - Access Point index
+* @param output - WPS configuration methods supported (Comma-separated list of strings), to be returned.
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsSupported	
+//Comma-separated list of strings. Indicates WPS configuration methods supported by the device. Each list item is an enumeration of: USBFlashDrive,Ethernet,ExternalNFCToken,IntegratedNFCToken,NFCInterface,PushButton,PIN
+INT wifi_getApWpsConfigMethodsSupported(INT apIndex, CHAR *output); //Tr181				
 
+/* wifi_getApWpsConfigMethodsEnabled() function */
 /**
- * @brief Gets the enabled WPS configuration methods for the AP.
- *
- * This function retrieves the enabled WPS configuration methods for the
- * specified Access Point. Each list item must be a member of the list reported
- * by the `ConfigMethodsSupported` parameter.
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the comma-separated
- *                           list of enabled WPS configuration methods.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWpsConfigMethodsEnabled(INT apIndex, CHAR *output_string);
+* @description Indicates WPS configuration methods enabled on the device. Each list item MUST be a member of the list reported by the ConfigMethodsSupported parameter.
+* \n Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled	string	W
+*
+* @param apIndex - Access Point index
+* @param output_string - WPS configuration methods enabled, to be returned.
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled	string	W	
+//Comma-separated list of strings. Each list item MUST be a member of the list reported by the ConfigMethodsSupported parameter. Indicates WPS configuration methods enabled on the device.
+INT wifi_getApWpsConfigMethodsEnabled(INT apIndex, CHAR *output_string); // Outputs a common separated list of the enabled WPS config methods, 64 bytes max
 
+/* wifi_setApWpsConfigMethodsEnabled() function */
 /**
- * @brief Sets the enabled WPS configuration methods for the AP.
- *
- * This function sets the enabled WPS configuration methods for the specified
- * Access Point. Each list item must be a member of the list reported by the
- * `ConfigMethodsSupported` parameter. This function sets an environment
- * variable that specifies the WPS configuration method(s).
- *
- * @note This function corresponds to the TR-181 parameter
- *       `Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled`.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] methodString A pointer to the comma-separated list of WPS
- *                         configuration methods to enable. The valid methods
- *                         are: USBFlashDrive, Ethernet, ExternalNFCToken,
- *                         IntegratedNFCToken, NFCInterface, PushButton, PIN.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWpsConfigMethodsEnabled(INT apIndex, CHAR *methodString);
+* @description Enable WPS configuration methods on the device. Each list item MUST be a member of the list reported by the ConfigMethodsSupported parameter.
+* \n Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled	string	W
+*
+* @param apIndex - Access Point index
+* @param methodString - WPS configuration methods enabled.
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWpsConfigMethodsEnabled(INT apIndex, CHAR *methodString); // sets an enviornment variable that specifies the WPS configuration method(s).  methodString is a comma separated list of methods USBFlashDrive,Ethernet,ExternalNFCToken,IntegratedNFCToken,NFCInterface,PushButton,PIN
 
+/* wifi_getApWpsDevicePIN() function */
 /**
- * @brief Gets the WPS device PIN for the AP.
- *
- * This function retrieves the WPS PIN value for the specified Access Point.
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_ulong A pointer to a variable to store the WPS device PIN
- *                          value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWpsDevicePIN(INT apIndex, ULONG *output_ulong);
+* @description Outputs the WPS device pin value, ulong_pin must be allocated by the caller.
+*
+* @param apIndex - Access Point index
+* @param output_ulong - WPS Device PIN value, to be returned.
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApWpsDevicePIN(INT apIndex, ULONG *output_ulong);         // outputs the pin value, ulong_pin must be allocated by the caller
 
+/* wifi_setApWpsDevicePIN() function */
 /**
- * @brief Sets the WPS device PIN for the AP.
- *
- * This function sets an environment variable for the WPS PIN for the specified
- * Access Point.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] pin The WPS device PIN value to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWpsDevicePIN(INT apIndex, ULONG pin);
+* @description Set an enviornment variable for the WPS pin for the selected AP.
+*
+* @param apIndex - Access Point index
+* @param pin - WPS Device PIN value
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWpsDevicePIN(INT apIndex, ULONG pin);                   // set an enviornment variable for the WPS pin for the selected AP
 
+/* wifi_getApWpsConfigurationState() function */
 /**
- * @brief Gets the WPS configuration state for the AP.
- *
- * This function retrieves the WPS configuration state for the specified
- * Access Point. The output string is either "Not configured" or "Configured".
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] output_string A pointer to a buffer to store the WPS
- *                           configuration state. The buffer must be at least
- *                           32 bytes in length.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApWpsConfigurationState(INT apIndex, CHAR *output_string);
+* @description Get WPS configuration state. Output string is either Not configured or Configured, max 32 
+characters.
+*
+* @param apIndex - Access Point index
+* @param output_string - WPS configuration state, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getApWpsConfigurationState(INT apIndex, CHAR *output_string); // Output string is either Not configured or Configured, max 32 characters
 
+/* wifi_setApWpsEnrolleePin() function */
 /**
- * @brief Sets the WPS enrollee PIN for the AP.
- *
- * This function sets the WPS enrollee PIN for the specified Access Point.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] pin A pointer to the WPS enrollee PIN string to set.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWpsEnrolleePin(INT apIndex, CHAR *pin);
+* @description Sets the WPS pin for this AP.
+*
+* @param apIndex - Access Point index
+* @param pin - WPS enroll Pin 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWpsEnrolleePin(INT apIndex, CHAR *pin);                 // sets the WPS pin for this AP
 
+/* wifi_setApWpsButtonPush() function */
 /**
- * @brief Simulates a WPS button push for the AP.
- *
- * This function simulates a WPS button push for the specified Access Point.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setApWpsButtonPush(INT apIndex);
+* @description This function is called when the WPS push button has been pressed for this AP.
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApWpsButtonPush(INT apIndex);                             // This function is called when the WPS push button has been pressed for this AP
 
+/* wifi_cancelApWPS() function */
 /**
- * @brief Cancels WPS mode for the AP.
- *
- * This function cancels WPS mode for the specified Access Point.
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_cancelApWPS(INT apIndex);
+* @description Cancels WPS mode for this AP.
+*
+* @param apIndex - Access Point index
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_cancelApWPS(INT apIndex);                                    // cancels WPS mode for this AP
 
 //-----------------------------------------------------------------------------------------------
 
+/* wifi_getApAssociatedDeviceDiagnosticResult() function */
 /**
- * @brief Gets the associated device diagnostic results for the AP.
- *
- * This function retrieves diagnostic results for devices associated with the
- * specified Access Point. The HAL function should allocate a data structure
- * array and return it to the caller with `associated_dev_array`. This function
- * corresponds to the following TR-181 parameters:
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_OperatingStandard`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_OperatingChannelBandwidth`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_SNR`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_InterferenceSources`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_DataFramesSentAck`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_DataFramesSentNoAck`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_BytesSent`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_BytesReceived`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_RSSI`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_MinRSSI`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_MaxRSSI`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_Disassociations`
- *  * `Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_AuthenticationFailures`
- *
- * @param[in] apIndex The Access Point index.
- * @param[out] associated_dev_array A pointer to a pointer to a
- *                                  `wifi_associated_dev_t` array to store the
- *                                  associated device diagnostic results.
- * @param[out] output_array_size A pointer to a variable to store the size of
- *                              the returned array.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_getApAssociatedDeviceDiagnosticResult(
-    INT apIndex, wifi_associated_dev_t **associated_dev_array,
-    UINT *output_array_size);
+* @description HAL funciton should allocate an data structure array, and return to caller with "associated_dev_array".
+* \n Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.	
+*
+* @param apIndex - Access Point index
+* @param associated_dev_array - Associated device array, to be returned
+* @param output_array_size - Array size, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.	  
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_OperatingStandard	
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_OperatingChannelBandwidth	
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_SNR
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_InterferenceSources	//P3
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_DataFramesSentAck		//P3
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_DataFramesSentNoAck	//P3
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_BytesSent
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_BytesReceived
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_RSSI
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_MinRSSI				//P3
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_MaxRSSI				//P3
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_Disassociations		//P3
+//Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_COMCAST-COM_AuthenticationFailures	//P3
+//HAL funciton should allocate an data structure array, and return to caller with "associated_dev_array"
+INT wifi_getApAssociatedDeviceDiagnosticResult(INT apIndex, wifi_associated_dev_t **associated_dev_array, UINT *output_array_size); //Tr181	
 
 //------------------------------------------------------------------------------------------------------
 ////SSID stearing APIs using blacklisting
-//TOOD: Review
 //INT wifi_setSsidSteeringPreferredList(INT radioIndex,INT apIndex, INT *preferredAPs[32]);  // prevent any client device from assocating with this ipIndex that has previously had a valid assocation on any of the listed "preferred" SSIDs unless SsidSteeringTimeout has expired for this device. The array lists all APs that are preferred over this AP.  Valid AP values are 1 to 32. Unused positions in this array must be set to 0. This setting becomes active when committed.  The wifi subsystem must default to no preferred SSID when initalized.  
 ////Using the concept of an preferred list provides a solution to most use cases that requrie SSID Steering.  To implement this approach, the AP places the STA into the Access Control DENY list for a given SSID only if the STA has previously associated to one of the SSIDs in the preferred list that for SSID.
 //INT wifi_setSsidSteeringTimout(INT radioIndex,INT apIndex, ULONG SsidSteeringTimout);  // only prevent the client device from assocatign with this apIndex if the device has connected to a preferred SSID within this timeout period - in units of hours.  This setting becomes active when committed.  
 
-/**
- * @brief Callback function invoked when a new device associates with an AP.
- *
- * This callback function is invoked when a new Wi-Fi client associates with
- * the specified Access Point.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] associated_dev A pointer to a `wifi_associated_dev_t` structure
- *                           containing information about the associated
- *                           device.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-typedef INT (*wifi_newApAssociatedDevice_callback)(INT apIndex,
-                                                   wifi_associated_dev_t *associated_dev);
 
+/* wifi_newApAssociatedDevice_callback() function */
 /**
- * @brief Registers a callback function for new AP associated device events.
- *
- * This function registers a callback function that will be invoked when a new
- * Wi-Fi client associates with an Access Point.
- *
- * @param[in] callback_proc The callback function to register.
- */
-void wifi_newApAssociatedDevice_callback_register(
-    wifi_newApAssociatedDevice_callback callback_proc);
+* @description This call back will be invoked when new wifi client come to associate to AP.	
+*
+* @param apIndex - Access Point Index
+* @param associated_dev - wifi_associated_dev_t *associated_dev, associated 
+device info
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//This call back will be invoked when new wifi client come to associate to AP. 
+typedef INT ( * wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_dev_t *associated_dev);
 
+/* wifi_newApAssociatedDevice_callback_register() function */
 /**
- * @brief Kills and restarts hostapd.
- *
- * This function kills the running hostapd process and restarts it with the
- * current configuration.
- */
+* @description Callback registration function.	
+*
+* @param callback_proc - wifi_newApAssociatedDevice_callback callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Callback registration function.
+void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_callback callback_proc);
+
+/* KillHostapd() function */
+/**
+* @description Killing the running hostapd and restart the hostapd with current configuration.	
+*
+* @param None
+*
+* @return None
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Killing the running hostapd and restart the hostapd with current configuration
 void KillHostapd();
 
+/* checkWifi() function */
 /**
- * @brief Checks if hostapd is running.
- *
- * This function checks if the hostapd process is currently running.
- *
- * @returns True if hostapd is running, false otherwise.
- */
+* @description Check whether hostapd is up or not.	
+*
+* @param None
+*
+* @return True/False
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//check whether hostapd is up or not
 BOOL checkWifi();
 
+/* checkLanInterface() function */
 /**
- * @brief Checks if the wlan0 interface is up.
- *
- * This function checks if the wlan0 interface is currently up.
- *
- * @returns True if the wlan0 interface is up, false otherwise.
- */
+* @description Check whether wlan0 interface is up or not.	
+*
+* @param None
+*
+* @return True/False
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Check whether wlan0 interface is up or not
 BOOL checkLanInterface();
 
+/* CcspHal_change_config_value() function */
 /**
- * @brief Changes a configuration value in the hostapd configuration file.
- *
- * This function changes the value of the specified field in the hostapd
- * configuration file.
- *
- * @param[in] field_name The name of the field to change.
- * @param[in] field_value The new value for the field.
- * @param[out] buf A buffer to store the modified configuration file content.
- * @param[in,out] nbytes A pointer to a variable that specifies the size of the
- *                       buffer on input, and is updated with the actual number
- *                       of bytes written to the buffer on output.
- *
- * @returns The status of the operation.
- * @retval 0 if successful.
- * @retval -1 if an error occurred.
- */
-INT CcspHal_change_config_value(char *field_name, char *field_value, char *buf,
-                                unsigned int *nbytes);
+* @description Passing inputs to hostapd configuration file.	
+*
+* @param field_name - Field Name
+* @param field_value - Field Value
+* @param buf - Buffer
+* @param nbytes - Size of buffer 
+*
+* @return True/False
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+//Passing inputs to hostapd configuration file
+INT CcspHal_change_config_value(char *field_name, char *field_value, char *buf, unsigned int *nbytes);
+
+
+
+
 
 /***********************************************************************************************
 			MAC FILTERING FUNCTION DEFINITION
 ***********************************************************************************************/
+/* do_MacFilter_Addrule() function */
 /**
- * @brief Adds a Wi-Fi MAC filtering rule chain.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description To Add Wifi MacFiltering Rule Chain.    
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// To Add Wifi MacFiltering Rule Chain
 int do_MacFilter_Addrule();
 
+/* do_MacFilter_Delrule() function */
 /**
- * @brief Deletes a Wi-Fi MAC filtering rule chain.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description To Delete Wifi MacFiltering Rule Chain.    
+*
+* @param None
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// To Delete Wifi MacFiltering Rule Chain
 int do_MacFilter_Delrule();
 
+/* do_MacFilter_Update() function */
 /**
- * @brief Updates a Wi-Fi MAC filtering rule chain.
- *
- * @param[in] Operation The operation to perform to update the MAC filtering
- *                       rule chain.
- * @param[in] i_macFiltCnt The MAC filter count.
- * @param[in] i_macFiltTabPtr A pointer to a `COSA_DML_WIFI_AP_MAC_FILTER`
- *                            structure containing the MAC filter table.
- * @param[in] count The count.
- * @param[in] hostPtr A pointer to a `hostDetails` structure containing host
- *                    details.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+* @description To Update Wifi MacFiltering Rule Chain.    
+*
+* @param Operation - Operation, to update mac filtering rule chain
+* @param i_macFiltCnt - MAC filter count
+* @param i_macFiltTabPtr - COSA_DML_WIFI_AP_MAC_FILTER *i_macFiltTabPtr, Mac Filter table pointer 
+* @param count - count
+* @param hostPtr - hostDetails *hostPtr, Host Details
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+// To Update Wifi MacFiltering Rule Chain
 int do_MacFilter_Update(char *Operation, int i_macFiltCnt,COSA_DML_WIFI_AP_MAC_FILTER  *i_macFiltTabPtr,int count,struct hostDetails *hostPtr);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
@@ -4431,27 +5076,29 @@ int do_MacFilter_Update(char *Operation, int i_macFiltCnt,COSA_DML_WIFI_AP_MAC_F
  * @{
  */
 
-/**
- * @brief Wi-Fi band enumeration.
- *
- * This enumeration defines the possible Wi-Fi bands.
- */
-typedef enum {
-  band_invalid = -1, /**< Invalid band. */
-  band_2_4 = 0,     /**< 2.4 GHz band. */
-  band_5 = 1,       /**< 5 GHz band. */
+/* Enum to define WiFi Bands */
+typedef enum
+{
+    band_invalid = -1,
+    band_2_4 = 0,
+    band_5 = 1,
 } wifi_band;
+/** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
- * @brief Gets the AP index for the specified Wi-Fi band.
- *
- * This function retrieves the Access Point index for the specified Wi-Fi
- * band.
- *
- * @param[in] band The Wi-Fi band.
- *
- * @returns The AP index for the requested Wi-Fi band.
+ * @addtogroup WIFI_HAL_APIS
+ * @{
  */
+
+/* INT wifi_getApIndexForWiFiBand(wifi_band band)  */
+/**
+* @description Get the AP index for requested WiFi Band.
+*
+* @param wifi_band - WiFi band for which AP Index is required
+*
+* @return AP Index for requested WiFi Band
+*
+*/
 INT wifi_getApIndexForWiFiBand(wifi_band band);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
@@ -4461,49 +5108,31 @@ INT wifi_getApIndexForWiFiBand(wifi_band band);
  * @{
  */
 
-/**
- * @brief Hostapd configuration file path.
- */
+/*hostapd will read file from nvram /etc/usr/ccsp/wifi/ will contains default
+configuration required for Factory Reset*/
 #define HOSTAPD_FNAME "/nvram/hostapd"
-
-/**
- * @brief Security file path.
- */
 #define SEC_FNAME "/etc/sec_file.txt"
-
-/**
- * @brief Hostapd parameter names.
- */
-enum hostap_names {
-  ssid = 0,       /**< SSID parameter name. */
-  passphrase = 1, /**< Passphrase parameter name. */
+enum hostap_names
+{
+    ssid=0,
+    passphrase=1,
 };
-
-/**
- * @brief Hostapd parameter structure.
- */
-struct params {
-  char name[64];  /**< Parameter name. */
-  char value[64]; /**< Parameter value. */
+struct params
+{
+     char name[64];
+     char value[64];
 };
-
-/**
- * @brief Hostapd parameter list structure.
- */
 typedef struct __param_list {
-  unsigned int count;       /**< Number of parameters in the list. */
-  struct params *parameter_list; /**< Pointer to the array of parameters. */
-} param_list_t;
-
-/**
- * @brief Hostapd configuration structure.
- */
-struct hostap_conf {
-  char ssid[32];       /**< SSID. */
-  char *passphrase;    /**< Passphrase. */
-  char *wpa_pairwise; /**< WPA pairwise ciphers. */
-  char *wpa;          /**< WPA protocols. */
-  char *wpa_keymgmt;  /**< WPA key management. */
+        unsigned int count;
+        struct params *parameter_list;
+}param_list_t;
+struct hostap_conf
+{
+    char ssid[32];
+    char *passphrase;
+    char *wpa_pairwise;
+    char *wpa;
+    char *wpa_keymgmt;
 };
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
@@ -4512,76 +5141,26 @@ struct hostap_conf {
  * @{
  */
 
-/**
- * @brief Converts a WLAN encryption mode to a string representation.
- *
- * This function converts the given WLAN encryption mode to a string
- * representation. Each list item is an enumeration of: TKIP, AES.
- *
- * @param[in] encryption_mode The encryption mode to convert.
- * @param[out] string A pointer to a buffer to store the string
- *                    representation.
- */
-void wlan_encryption_mode_to_string(char *encryption_mode, char *string);
+/* The type of encryption the neighboring WiFi SSID advertises.          */
+/* Each list item is an enumeration of: TKIP, AES                        */
+void wlan_encryption_mode_to_string(char* encryption_mode, char* string);
 
-/**
- * @brief Reads a line from a file.
- *
- * This function opens the specified file and reads the specified line.
- *
- * @param[in] file The path to the file to read.
- * @param[out] Value A pointer to a buffer to store the line read from the
- *                  file.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT File_Reading(CHAR *file, char *Value);
+//open a file and read that line
+INT File_Reading(CHAR *file,char *Value);
 
-/**
- * @brief Converts a wireless mode to a supported standards string.
- *
- * This function converts the given wireless mode to a supported standards
- * string representation.
- *
- * @param[in] wireless_mode The wireless mode to convert.
- * @param[out] string A pointer to a buffer to store the supported standards
- *                    string.
- * @param[in] freq The frequency band.
- */
-void wlan_wireless_mode_to_supported_standards_string(char *wireless_mode, char *string, char *freq);
+// convert wireless mode into supported standards
+void wlan_wireless_mode_to_supported_standards_string(char* wireless_mode,char* string,char* freq);
 
-/**
- * @brief Converts a bitrate to an operated standards string.
- *
- * This function converts the given bitrate to an operated standards string
- * representation.
- *
- * @param[in] bitrate The bitrate to convert.
- * @param[out] string A pointer to a buffer to store the operated standards
- *                    string.
- * @param[in] freq The frequency band.
- */
-void wlan_bitrate_to_operated_standards_string(char *bitrate, char *string, char *freq);
+//convert wireless bitrates into operated standards
+void wlan_bitrate_to_operated_standards_string(char* bitrate,char* string,char* freq);
 
-/**
- * @brief Converts operated standards to an operating channel bandwidth string.
- *
- * This function converts the given operated standards to an operating channel
- * bandwidth string representation.
- *
- * @param[in] wireless_mode The operated standards to convert.
- * @param[out] string A pointer to a buffer to store the operating channel
- *                    bandwidth string.
- */
-void wlan_operated_standards_to_channel_bandwidth_string(char *wireless_mode, char *string);
-
+//convert operated standards into operating channel bandwith
+void wlan_operated_standards_to_channel_bandwidth_string(char* wireless_mode,char* string);
 
 /***************************************************************
         Checking Hostapd status(whether it's running or not)
 ****************************************************************/
-//TODO: Review
+
 /*
 *       Procedure       : Checking Hostapd status(whether it's running or not)
 *       Purpose         : Restart the Hostapd with updated configuration parameter
@@ -4590,532 +5169,127 @@ void wlan_operated_standards_to_channel_bandwidth_string(char *wireless_mode, ch
 *       Return_values   : None
 */
 
-/**
- * @brief Gets the status of the public Wi-Fi.
- *
- * This function retrieves the status of the public Wi-Fi.
- *
- * @param[out] status A buffer to store the public Wi-Fi status. The buffer must
- *                    be at least 50 bytes in length.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+//Get to know the current status of public wifi
 INT Hostapd_PublicWifi_status(char status[50]);
-
-/**
- * @brief Gets the status of the private Wi-Fi.
- *
- * This function retrieves the status of the private Wi-Fi.
- *
- * @param[out] status A buffer to store the private Wi-Fi status. The buffer
- *                    must be at least 50 bytes in length.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+//Get to know the current status of private wifi
 INT Hostapd_PrivateWifi_status(char status[50]);
 
-/**
- * @brief Gets the interface name from the hostapd configuration file.
- *
- * This function retrieves the interface name from the specified hostapd
- * configuration file.
- *
- * @param[out] interface_name A buffer to store the interface name. The buffer
- *                            must be at least 50 bytes in length.
- * @param[in] conf_file The path to the hostapd configuration file.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT GetInterfaceName(char interface_name[50], char conf_file[100]);
+//passing the hostapd configuration file and get the interface name
+INT GetInterfaceName(char interface_name[50],char conf_file[100]);
 
-/**
- * @brief Gets the virtual interface name for the 2.4 GHz Xfinity Wi-Fi.
- *
- * This function retrieves the virtual interface name for the 2.4 GHz Xfinity
- * Wi-Fi.
- *
- * @param[out] interface_name A buffer to store the interface name. The buffer
- *                            must be at least 50 bytes in length.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+//passing the hostapd configuration file and get the virtual interface of xfinity(2g)
 INT GetInterfaceName_virtualInterfaceName_2G(char interface_name[50]);
 
-/**
- * @brief Restarts the hostapd process.
- *
- * This function restarts the hostapd process.
- */
+//Restarting the hostapd process
 void RestartHostapd();
 
-/**
- * @brief Kills the hostapd process.
- *
- * This function kills the existing hostapd process.
- */
+//kill the existing hostapd process
 void KillHostapd();
 
-/**
- * @brief Restarts the 2.4 GHz Xfinity Wi-Fi.
- *
- * This function restarts the 2.4 GHz Xfinity Wi-Fi for the specified SSID
- * index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the xfinity wifi of 2g
 void xfinitywifi_2g(int ssidIndex);
 
-/**
- * @brief Restarts the 2.4 GHz private Wi-Fi.
- *
- * This function restarts the 2.4 GHz private Wi-Fi for the specified SSID
- * index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the private wifi of 2g
 void privatewifi_2g(int ssidIndex);
 
-/**
- * @brief Kills the 2.4 GHz hostapd process.
- *
- * This function kills the 2.4 GHz hostapd process for the specified SSID
- * index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the xfinity and private wifi of 2g
 void KillHostapd_2g(int ssidIndex);
 
-/**
- * @brief Kills the 2.4 GHz Xfinity Wi-Fi hostapd process.
- *
- * This function kills the 2.4 GHz Xfinity Wi-Fi hostapd process for the
- * specified SSID index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the xfinity and private wifi of 2g
 void KillHostapd_xfinity_2g(int ssidIndex);
 
-/**
- * @brief Restarts the 5 GHz Xfinity Wi-Fi.
- *
- * This function restarts the 5 GHz Xfinity Wi-Fi for the specified SSID
- * index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the xfinity wifi of 5g
 void xfinitywifi_5g(int ssidIndex);
 
-/**
- * @brief Restarts the 5 GHz private Wi-Fi.
- *
- * This function restarts the 5 GHz private Wi-Fi for the specified SSID
- * index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the private wifi of 5g
 void privatewifi_5g(int ssidIndex);
 
-/**
- * @brief Kills the 5 GHz hostapd process.
- *
- * This function kills the 5 GHz hostapd process for the specified SSID
- * index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the xfinity and private wifi of 5g
 void KillHostapd_5g(int ssidIndex);
 
-/**
- * @brief Kills the 5 GHz Xfinity Wi-Fi hostapd process.
- *
- * This function kills the 5 GHz Xfinity Wi-Fi hostapd process for the
- * specified SSID index.
- *
- * @param[in] ssidIndex The SSID index.
- */
+//Restart the xfinity and private wifi of 5g
 void KillHostapd_xfinity_5g(int ssidIndex);
 
-/**
- * @brief Kills the Xfinity Wi-Fi setup.
- *
- * This function kills the existing Xfinity Wi-Fi setup.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+//Kill the existing xfinity wifi set up
 INT killXfinityWiFi();
 
-/**
- * @brief Restarts the hostapd process with factory reset settings.
- *
- * This function restarts the hostapd process with the factory reset
- * configuration.
- */
+//Restarting the hostapd process with Factory_Reset set up
 void defaultwifi_restarting_process();
 
-/**
- * @brief Restarts the hostapd process with dongle identification.
- *
- * This function restarts the hostapd process with dongle identification
- * (Tenda/Tp-link).
- *
- * @param[in] apIndex The Access Point index.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+// Restarting the hostapd process with dongle identification(Tenda/Tp-link)
 int hostapd_restarting_process(int apIndex);
 
-/**
- * @brief Gets the MAC address of the WAN interface.
- *
- * This function retrieves the MAC address of the WAN interface.
- *
- * @param[out] mac A buffer to store the MAC address.
- */
+//get the mac address of wan interface
 void get_mac(unsigned char *mac);
 
-/**
- * @brief Checks if the hostapd process is running.
- *
- * This function checks if the hostapd process is currently running.
- *
- * @returns True if hostapd is running, false otherwise.
- */
+//Check the hostapd status
 BOOL checkWifi();
 
-/**
- * @brief Checks if the wireless interface is up.
- *
- * This function checks if the wireless interface is currently up.
- *
- * @returns True if the wireless interface is up, false otherwise.
- */
+//check the wireless interface status
 BOOL checkLanInterface();
 
-/**
- * @brief Gets the SSID name from the hostapd configuration file.
- *
- * This function retrieves the SSID name from the specified hostapd
- * configuration file.
- *
- * @param[in] ssidIndex The SSID index.
- * @param[in] hostapd_conf The path to the hostapd configuration file.
- * @param[out] val A buffer to store the SSID name.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT GettingHostapdSsid(INT ssidIndex, char *hostapd_conf, char *val);
+//Get the ssid name from hostapd configuration file
+INT GettingHostapdSsid(INT ssidIndex,char *hostapd_conf,char *val);
 
-/**
- * @brief Disables the Wi-Fi interface.
- *
- * This function disables the Wi-Fi interface for the specified instance
- * number.
- *
- * @param[in] InstanceNumber The instance number of the Wi-Fi interface.
- */
+//Disable wifi interface 
 void DisableWifi(int InstanceNumber);
 
-/**
- * @brief Reads the hostapd configuration.
- *
- * This function reads the hostapd configuration file with the corresponding
- * parameters.
- *
- * @param[in] ap The Access Point index.
- * @param[in] params A pointer to a `params` structure containing the
- *                   parameters to read.
- * @param[out] output A buffer to store the configuration values.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-int wifi_hostapdRead(int ap, struct params *params, char *output);
+// Read the hostapd configuration file with corresponding parameters
+int wifi_hostapdRead(int ap,struct params *params,char *output);
 
-/**
- * @brief Writes the hostapd configuration.
- *
- * This function writes the hostapd configuration with the corresponding
- * parameters.
- *
- * @param[in] ap The Access Point index.
- * @param[in] list A pointer to a `param_list_t` structure containing the
- *                 parameters to write.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-int wifi_hostapdWrite(int ap, param_list_t *list);
+//Write the hosatpd configuration with corresponding parameters
+int wifi_hostapdWrite(int ap,param_list_t *list);
 
-/**
- * @brief Gets the Wi-Fi maximum bitrate.
- *
- * This function retrieves the maximum bitrate for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[out] output_string A buffer to store the maximum bitrate.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT get_wifiMaxbitrate(int radioIndex, char *output_string);
+//Get the wifi maxbitrate
+INT get_wifiMaxbitrate(int radioIndex,char *output_string);
 
-/**
- * @brief Updates the radio channel number.
- *
- * This function updates the radio channel number for the specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] channel The new channel number.
- */
-void wifi_updateRadiochannel(INT radioIndex, ULONG channel);
+//update the radio channel number
+void wifi_updateRadiochannel(INT radioIndex,ULONG channel);
 
-/**
- * @brief Sets the auto channel enable configuration parameter.
- *
- * This function sets the auto channel enable configuration parameter for the
- * specified radio.
- *
- * @param[in] radioIndex The radio index.
- * @param[in] channel The channel number.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_setAutoChannelEnableVal(INT radioIndex, ULONG channel);
+//set the autochannelenable config parameter
+INT wifi_setAutoChannelEnableVal(INT radioIndex,ULONG channel);
 
-/**
- * @brief Stores the previous channel value for auto channel enable.
- *
- * This function stores the previous channel value for the specified radio.
- * This is used for the auto channel enable feature.
- *
- * @param[in] radioIndex The radio index.
- */
-void wifi_storeprevchanval(INT radioIndex);
+//Store the previous channel number
+void wifi_storeprevchanval(INT radioIndex); //for AutoChannelEnable
 
-/**
- * @brief Gets the radio channel bandwidth.
- *
- * This function retrieves the radio channel bandwidth from the specified file.
- *
- * @param[in] file The path to the file containing the channel bandwidth.
- * @param[out] Value A buffer to store the channel bandwidth value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_halgetRadioChannelBW(CHAR *file, CHAR *Value);
+// Get the Radio Channel BandWidth
+INT wifi_halgetRadioChannelBW(CHAR *file,CHAR *Value);
 
-/**
- * @brief Sets the radio channel bandwidth to 40 MHz.
- *
- * This function sets the radio channel bandwidth to 40 MHz in the specified
- * file.
- *
- * @param[in] file The path to the file containing the channel bandwidth.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+//set the radio channel bandwidth for 40MHz
 INT wifi_halsetRadioChannelBW_40(char *file);
 
-/**
- * @brief Sets the radio channel bandwidth to 20 MHz.
- *
- * This function sets the radio channel bandwidth to 20 MHz in the specified
- * file.
- *
- * @param[in] file The path to the file containing the channel bandwidth.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+// set the radio channel bandwidth for 20MHz
 INT wifi_halsetRadioChannelBW_20(char *file);
 
-/**
- * @brief Gets the radio extension channel.
- *
- * This function retrieves the radio extension channel from the specified file.
- *
- * @param[in] file The path to the file containing the extension channel.
- * @param[out] Value A buffer to store the extension channel value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_halgetRadioExtChannel(CHAR *file, CHAR *Value);
+//Get the radio extension channel
+INT wifi_halgetRadioExtChannel(CHAR *file,CHAR *Value);
 
-/**
- * @brief Gets the wireless interface statistics.
- *
- * This function retrieves the wireless interface statistics for the specified
- * interface name.
- *
- * @param[in] ifname The name of the wireless interface.
- * @param[out] pStats A pointer to a `wifi_radioTrafficStats2_t` structure to
- *                    store the interface statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifi_halGetIfStats(char *ifname, wifi_radioTrafficStats2_t *pStats);
+//Get to know the wireless interface of statistics
+INT wifi_halGetIfStats(char * ifname, wifi_radioTrafficStats2_t *pStats);
 
-/**
- * @brief Gets the interface status.
- *
- * This function retrieves the status of the specified interface.
- *
- * @param[in] interface_name The name of the interface.
- * @param[out] status A buffer to store the interface status.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT GetIfacestatus(CHAR *interface_name, CHAR *status);
+//Get to know the interface status
+INT GetIfacestatus(CHAR *interface_name,CHAR *status);
 
-/**
- * @brief Gets null interface statistics.
- *
- * This function retrieves null interface statistics.
- *
- * @param[out] output_struct A pointer to a `wifi_radioTrafficStats2_t`
- *                           structure to store the null interface statistics.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
 INT wifi_halGetIfStatsNull(wifi_radioTrafficStats2_t *output_struct);
 
-/**
- * @brief Gets the BSSID of the SSID.
- *
- * This function retrieves the BSSID of the SSID for the specified interface.
- *
- * @param[in] interface_name The name of the interface.
- * @param[out] mac A buffer to store the BSSID.
- * @param[in] index The index of the SSID.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifihal_getBaseBSSID(CHAR *interface_name, CHAR *mac, INT index);
+// Get the BSSID of SSID's
+INT wifihal_getBaseBSSID(CHAR *interface_name,CHAR *mac,INT index);
 
-/**
- * @brief Scans for nearby Wi-Fi devices.
- *
- * This function scans for nearby Wi-Fi devices and retrieves the scanning
- * values from the specified file.
- *
- * @param[in] file The path to the file containing the scanning values.
- * @param[out] value A buffer to store the scanning values.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-int GetScanningValues(char *file, char *value);
+//Sacn to get the nearby wifi devices
+int GetScanningValues(char *file,char *value);
 
-/**
- * @brief Converts a string to uppercase.
- *
- * This function converts the given string to uppercase.
- *
- * @param[in,out] Value The string to convert to uppercase.
- */
 void converting_lowercase_to_uppercase(char *Value);
 
-/**
- * @brief Gets neighboring AP scanning details.
- *
- * This function retrieves neighboring AP scanning details for the specified
- * interface.
- *
- * @param[in] interface_name The name of the interface.
- * @param[out] neighbor_ap_array A pointer to a pointer to a
- *                               `wifi_neighbor_ap2_t` array to store the
- *                               neighboring AP scanning details.
- * @param[out] output_array_size A pointer to a variable to store the size of
- *                              the returned array.
- */
-void wifihal_GettingNeighbouringAPScanningDetails(
-    char *interface_name, wifi_neighbor_ap2_t **neighbor_ap_array,
-    UINT *output_array_size);
+// scan to get the nearby wifi device lists
+void wifihal_GettingNeighbouringAPScanningDetails(char *interface_name,wifi_neighbor_ap2_t **neighbor_ap_array, UINT *output_array_size);
 
-/**
- * @brief Presses the virtual WPS button.
- *
- * This function simulates a press of the virtual WPS button for the specified
- * interface.
- *
- * @param[in] interface_name The name of the interface.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
+//press the virtual push button
 INT SetWPSButton(char *interface_name);
 
-/**
- * @brief Gets associated device statistics.
- *
- * This function retrieves associated device statistics for the specified
- * interface.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] interface_name The name of the interface.
- * @param[out] associated_dev_array A pointer to a pointer to a
- *                                  `wifi_associated_dev_t` array to store the
- *                                  associated device statistics.
- * @param[out] output_array_size A pointer to a variable to store the size of
- *                              the returned array.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-INT wifihal_AssociatedDevicesstats(
-    INT apIndex, CHAR *interface_name,
-    wifi_associated_dev_t **associated_dev_array, UINT *output_array_size);
+INT wifihal_AssociatedDevicesstats(INT apIndex,CHAR *interface_name,wifi_associated_dev_t **associated_dev_array, UINT *output_array_size);
 
-/**
- * @brief Gets the interface status.
- *
- * This function retrieves the status of the specified interface.
- *
- * @param[out] wifi_status A buffer to store the interface status.
- * @param[in] interface_name The name of the interface.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-int wifihal_interfacestatus(CHAR *wifi_status, CHAR *interface_name);
+int wifihal_interfacestatus(CHAR *wifi_status,CHAR *interface_name);
+
 
 
 
@@ -5232,7 +5406,6 @@ int wifihal_interfacestatus(CHAR *wifi_status, CHAR *interface_name);
 //Device.IP.Diagnostics.IPPing.MinimumResponseTime		
 //Device.IP.Diagnostics.IPPing.MaximumResponseTime			
 
-//TODO: Review
 //Start the ping test and get the result
 //INT wifi_getIPDiagnosticsIPPingResult(wifi_diag_ipping_setting_t *input, wifi_diag_ipping_result_t *result); //Tr181		
 //--------------------------------------------------------------------------------------------------
@@ -5249,34 +5422,12 @@ int wifihal_interfacestatus(CHAR *wifi_status, CHAR *interface_name);
 
 //<< ------------------------------ wifi_ap_hal -----------------------
 
-/**
- * @brief Callback function invoked when a client authentication fails.
- *
- * This callback function is invoked when the driver detects that a client
- * authentication has failed.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] MAC The MAC address of the client that failed authentication.
- * @param[in] event_type The type of authentication failure event:
- *                       * 0: Unknown reason
- *                       * 1: Wrong password
- *                       * 2: Timeout
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
-typedef INT (*wifi_apAuthEvent_callback)(INT apIndex, char *MAC, INT event_type);
-
-/**
- * @brief Registers a callback function for AP authentication events.
- *
- * This function registers a callback function that will be invoked when a
- * client authentication fails.
- *
- * @param[in] callback_proc The callback function to register.
- */
+//This call back will be invoked when driver detect the client authentication fail.
+//event_type: 0=unknow reason; 1=wrong password; 2=timeout;
+typedef INT ( * wifi_apAuthEvent_callback)(INT apIndex, char *MAC, INT event_type);
+//Callback registration function.
 void wifi_apAuthEvent_callback_register(wifi_apAuthEvent_callback callback_proc);
+
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
 
