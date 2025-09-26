@@ -3112,7 +3112,7 @@ typedef struct
     wifi_vap_security_t security; /**< Security settings. */
     mac_address_t mac;        /**< MAC address. */
     wifi_mld_info_sta_t mld_info; /**< MLD information. */
-    bool ignite_enabled; /* Ignite enable */
+    BOOL ignite_enabled; /* Ignite enable */
 } __attribute__((packed)) wifi_back_haul_sta_t;
 
 /**
