@@ -3408,6 +3408,63 @@ typedef INT(* wifi_analytics_callback)(CHAR *fmt, ...);
  */
 INT wifi_hal_analytics_callback_register(wifi_analytics_callback callback);
 
+/**
+ * @brief Wi-Fi Protected Setup (WPS) event types.
+ */
+typedef enum
+{
+    wifi_wps_ev_m2d,                       /**< M2D (Registrar requires more info / deferred). */
+    wifi_wps_ev_fail,                      /**< Registration failed. */
+    wifi_wps_ev_success,                   /**< Registration succeeded. */
+    wifi_wps_ev_pwd_auth_fail,             /**< Password authentication failed. */
+    wifi_wps_ev_pbc_overlap,               /**< PBC session overlap detected. */
+    wifi_wps_ev_pbc_timeout,               /**< PBC walktime expired before protocol run start. */
+    wifi_wps_ev_pbc_active,                /**< PBC mode was activated. */
+    wifi_wps_ev_pbc_disable,               /**< PBC mode was disabled. */
+    wifi_wps_ev_pin_timeout,               /**< PIN session expired. */
+    wifi_wps_ev_pin_disable,               /**< PIN session was disabled. */
+    wifi_wps_ev_pin_active,                /**< PIN mode was activated. */
+    wifi_wps_ev_er_ap_add,                 /**< External Registrar: AP added. */
+    wifi_wps_ev_er_ap_remove,              /**< External Registrar: AP removed. */
+    wifi_wps_ev_er_enrollee_add,           /**< External Registrar: Enrollee added. */
+    wifi_wps_ev_er_enrollee_remove,        /**< External Registrar: Enrollee removed. */
+    wifi_wps_ev_er_ap_settings,            /**< External Registrar: AP settings learned. */
+    wifi_wps_ev_er_set_selected_registrar, /**< External Registrar: SetSelectedRegistrar event. */
+    wifi_wps_ev_ap_pin_success,            /**< External Registrar used correct AP PIN. */
+} wifi_wps_ev_t;
+
+/**
+ * @brief Callback function invoked when a WPS (Wi-Fi Protected Setup) event occurs.
+ *
+ * This callback is triggered by the Wi-Fi HAL to notify upper layers about
+ * the result of a WPS operation on the specified access point interface.
+ * The callback must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex Index of the access point interface where the WPS event occurred.
+ * @param[in] event   WPS event code indicating the outcome.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+typedef INT(* wifi_wpsEvent_callback)(INT apIndex, wifi_wps_ev_t event);
+
+/**
+ * @brief Registers a callback function to receive WPS result events.
+ *
+ * This function allows upper layers to register a callback that will be
+ * invoked whenever a WPS event occurs on any AP interface. Only one callback
+ * may be registered at a time; registering a new callback replaces the
+ * previous one.
+ *
+ * @param[in] callback Pointer to the callback function to register.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_wpsEvent_callback_register(wifi_wpsEvent_callback callback);
+
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
 #ifdef __cplusplus
