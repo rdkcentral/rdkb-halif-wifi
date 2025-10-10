@@ -104,7 +104,6 @@ typedef struct {
     BOOL enable;                                        /**< The radio enable. */
     wifi_freq_bands_t   band;                           /**< the radio frequency band. */
     BOOL autoChannelEnabled;                            /**< set bAutoChannelEnabled to TRUE to enable Auto Channel. */
-    UINT op_class;                                      /**< The Operating class. */
     UINT channel;                                       /**< The radio primary channel. */
     UINT numSecondaryChannels;                          /**< The number odf secondary channels in the list */
     UINT channelSecondary[MAXNUMSECONDARYCHANNELS];     /**< The List of secondary radio channel. */
