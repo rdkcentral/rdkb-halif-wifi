@@ -2051,6 +2051,7 @@ typedef struct
     INT sig_dbm;                /**< Signal strength in dBm. */
     INT phy_rate;               /**< Physical rate. */
     UCHAR token;                /**< Token. */
+    UINT recv_freq;             /**< Frequency at which the frame was received. */
     UINT len;                   /**< Length of the data. */
     UCHAR *data;                /**< Pointer to the data. */
 } __attribute__((packed)) wifi_frame_t;
@@ -2169,10 +2170,11 @@ typedef INT (* wifi_receivedDataFrame_callback)(INT apIndex, mac_address_t sta_m
  * @param[in] len      Length of the frame data.
  * @param[in] type     Type of the management frame.
  * @param[in] dir      Direction of the management frame.
+ * @param[in] recv_freq Frequency at which the frame was received.
  *
  * @returns The status of the operation.
  */
-typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_mgmtFrameType_t type, wifi_direction_t dir);
+typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_mgmtFrameType_t type, wifi_direction_t dir, unsigned int recv_freq);
 
 
 /**
@@ -3112,6 +3114,7 @@ typedef struct
     wifi_vap_security_t security; /**< Security settings. */
     mac_address_t mac;        /**< MAC address. */
     wifi_mld_info_sta_t mld_info; /**< MLD information. */
+    BOOL ignite_enabled; /* Ignite enable */
 } __attribute__((packed)) wifi_back_haul_sta_t;
 
 /**
