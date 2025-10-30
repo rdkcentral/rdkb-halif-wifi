@@ -27,120 +27,112 @@ extern "C"{
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
-
-typedef struct {
+/**
+ * @brief Station capabilities.
+ */
+typedef struct
+{
 
 } wifi_sta_capability_t;
 
-
-typedef struct {
-    UINT                        vap_index;
-    wifi_connection_status_t    connect_status;
-    UINT                        channel;
-    UINT                        channelWidth;
-    UINT                        op_class;
+/**
+ * @brief Station statistics.
+ */
+typedef struct
+{
+    UINT vap_index; /**< VAP index. */
+    wifi_connection_status_t connect_status; /**< Connection status. */
+    UINT channel; /**< Channel. */
+    UINT channelWidth; /**< Channel width. */
+    UINT op_class; /**< Operating class. */
 } wifi_station_stats_t;
 
-
 /**
- * @addtogroup WIFI_HAL_APIS
- * @{
- */
-
-/* wifi_connect() function */
- /**
- * Description: To connect the client VAP to specified BSS
- * Parameters :
- *      ap_index - VAP index
- *      wifi_bss_info_t - Information about BSS that client will connect to
+ * @brief Connects a client VAP to a specified BSS.
  *
- * @return status of the operation
- *  return RETURN_OK - on success
- *  return RETURN_ERR - on failure
+ * @param[in] ap_index Index of the client VAP.
+ * @param[in] bss      Pointer to a `wifi_bss_info_t` structure containing
+ *                     information about the BSS to connect to.
  *
- * @execution Synchronous.
- * @sideeffect None.
- *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_connect(INT ap_index, wifi_bss_info_t *bss);
 
-/* wifi_disconnect() function */
- /**
- * Description: To disconnect client
- * Parameters : 
- *      ap_index - index of client VAP
+/**
+ * @brief Disconnects a client VAP.
  *
- * @return status of the operation
- *  return RETURN_OK - on success
- *  return RETURN_ERR - on failure
+ * @param[in] ap_index Index of the client VAP.
  *
- * @execution Synchronous.
- * @sideeffect None.
- *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
-
 INT wifi_disconnect(INT ap_index);
 
-/* wifi_getClientCapability() function */
- /**
- * Description: To get client
- * Parameters : 
- *      ap_index - index of client VAP
- *      capability - wifi_client_capabilities_t structure
+/**
+ * @brief Gets the capabilities of a station.
  *
- * @return status of the operation
- *  return RETURN_OK - on success
- *  return RETURN_ERR - on failure
+ * @param[in] ap_index  Index of the client VAP.
+ * @param[out] capability Pointer to a `wifi_sta_capability_t` structure to store
+ *                        the station capabilities.
  *
- * @execution Synchronous.
- * @sideeffect None.
- *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_getStationCapability(INT ap_index, wifi_sta_capability_t *cap);
 
-/* wifi_findNetworks() function */
- /**
- * Description: To get client
- * Parameters :
- *      ap_index - index of client VAP
- *      channel - channel number and band information
- *      bss     - array of wifi_bss_info_t structure allocated by HAL layer and to be freed by caller
- *      num_bss - number in array
+/**
+ * @brief Finds available networks.
  *
- * @return status of the operation
- *  return RETURN_OK - on success
- *  return RETURN_ERR - on failure
+ * @param[in] ap_index  Index of the client VAP.
+ * @param[in] channel   Pointer to a `wifi_channel_t` structure containing the channel
+ *                      number and band information.
+ * @param[out] bss      Pointer to a pointer to an array of `wifi_bss_info_t`
+ *                      structures. The array is allocated by the HAL layer and
+ *                      should be freed by the caller.
+ * @param[out] num_bss  Pointer to a variable to store the number of BSSs found.
  *
- * @execution Synchronous.
- * @sideeffect None.
- *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_findNetworks(INT ap_index, wifi_channel_t *channel, wifi_bss_info_t **bss, UINT *num_bss);
 
-
-/* wifi_getStationStats() function */
- /**
- * Description: Return the station stats
- * Parameters :
- *      ap_index - index of client VAP
- *      sta      - station stats
+/**
+ * @brief Gets station statistics.
  *
- * @return status of the operation
- *  return RETURN_OK - on success
- *  return RETURN_ERR - on failure
+ * @param[in] ap_index Index of the client VAP.
+ * @param[out] sta      Pointer to a `wifi_station_stats_t` structure to store the
+ *                      station statistics.
  *
- * @execution Synchronous.
- * @sideeffect None.
- *
+ * @returns The status of the operation.
+ * @retval RETURN_OK If successful.
+ * @retval RETURN_ERR If any error is detected.
  */
 INT wifi_getStationStats(INT ap_index, wifi_station_stats_t *sta);
 
-
+/**
+ * @brief Callback function invoked when the station connection status changes.
+ *
+ * @param[in] apIndex  Index of the client VAP.
+ * @param[in] bss_dev  Pointer to a `wifi_bss_info_t` structure containing information
+ *                     about the BSS.
+ * @param[in] sta      Pointer to a `wifi_station_stats_t` structure containing the
+ *                     station statistics.
+ *
+ * @returns The status of the operation.
+ */
 typedef INT ( * wifi_staConnectionStatus_callback)(INT apIndex, wifi_bss_info_t *bss_dev, wifi_station_stats_t *sta);
 
+/**
+ * @brief Registers a callback function for station connection status changes.
+ *
+ * @param[in] callback_proc Pointer to the callback function to register.
+ */
 void wifi_staConnectionStatus_callback_register(wifi_staConnectionStatus_callback callback_proc);
-
-
 
 #ifdef __cplusplus
 }
