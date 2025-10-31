@@ -229,7 +229,7 @@ extern "C"{
 
 #define KEY_MSG_4_OF_4(msg) \
     ((((msg)->key_info[1] & KI1_VER_MASK) == KI1_PW_KEY) && ((msg)->key_info[0] == KI0_MSG4_BITS)) /**< Checks if a key message is message 4 of 4. */
-
+#define MAX_IE_ELEMENT_LEN 1024 /* Max length of information elements in the Probe response */
 /**
  * @brief Default length of device information fields.
  */
@@ -361,7 +361,7 @@ typedef struct
     unsigned short caps; /**< Capabilities. */
     unsigned int beacon_int; /**< Beacon interval. */
     unsigned int freq; /**< Frequency. */
-    unsigned char ie[512]; /**< Information elements. */
+    unsigned char ie[MAX_IE_ELEMENT_LEN]; /**< Information elements. */
     size_t ie_len; /**< Length of the information elements. */
     wifi_security_modes_t sec_mode; /**< Security mode. */
     wifi_encryption_method_t enc_method; /**< Encryption method. */
