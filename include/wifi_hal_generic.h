@@ -375,6 +375,7 @@ typedef struct
     unsigned int dtim_period; /**< DTIM period. */
     unsigned int chan_utilization; /**< Channel utilization. */
     int noise; /**< Noise. */
+    int snr;  /**< SNR.  */
 } __attribute__((packed)) wifi_bss_info_t;
 
 /**
