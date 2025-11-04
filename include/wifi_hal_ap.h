@@ -193,6 +193,14 @@ typedef struct
     UCHAR domainName[255]; /**< Domain name (maximum allowed based on the specification). */
 } __attribute__((packed)) wifi_domainNameTuple_t;
 
+/**
+ * @brief Domain name.
+ */
+typedef struct
+{
+    wifi_domainNameTuple_t domainNameTuple[4]; /**< Domain name tuples. */
+} __attribute__((packed)) wifi_domainName_t;
+
 typedef struct {
     UCHAR length;
     UCHAR oui[15];
