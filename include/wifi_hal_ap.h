@@ -822,24 +822,24 @@ INT wifi_getApAclDeviceNum(INT apIndex, UINT *output_uint);
 INT wifi_kickApAclAssociatedDevices(INT apIndex, BOOL enable);
 
 /**
-* @brief Enable kick for devices on acl black list.
-*
-* @param[in] apIndex  Access Point index
-* @param[in] enable   Enable/disable kick for devices on acl black list
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
-INT wifi_kickApAclAssociatedDevices(INT apIndex,BOOL enable);         // enable kick for devices on acl black list
-
+ * @brief Sets the MAC address filter control mode for an Access Point.
+ *
+ * This function sets the MAC address filtering mode for the specified Access Point (AP).
+ * The valid filter modes are:
+ *  - 0: Filter disabled.
+ *  - 1: Filter as whitelist.
+ *  - 2: Filter as blacklist.
+ *
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex     Index of the Access Point.
+ * @param[in] filterMode  MAC address filter control mode.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setApMacAddressControlMode(INT apIndex, INT filterMode);
 
 /**
  * @brief Gets the MAC address filter control mode for an Access Point.
@@ -1571,23 +1571,6 @@ typedef INT(* wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_
  *
  * @param[in] callback_proc Pointer to the callback function to register.
  */
-/* wifi_newApAssociatedDevice_callback_register() function */
-/**
-* @brief Callback registration function.    
-*
-* @param[in] callback_proc  wifi_newApAssociatedDevice_callback callback function
-*
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
-*
-* @execution Synchronous
-* @sideeffect None
-*
-* @note This function must not suspend and must not invoke any blocking system
-* calls. It should probably just send a message to a driver event handler task.
-*
-*/
 void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_callback callback_proc);
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 

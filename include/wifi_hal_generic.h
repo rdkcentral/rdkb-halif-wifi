@@ -193,6 +193,10 @@ extern "C"{
 #define WIFI_HAL_MAJOR_VERSION 3        /**< Wi-Fi HAL major version. */
 #define WIFI_HAL_MINOR_VERSION 0        /**< Wi-Fi HAL minor version. */
 #define WIFI_HAL_MAINTENANCE_VERSION 6  /**< Wi-Fi HAL maintenance version. */
+
+#define WIFI_HAL_VERSION \
+    (WIFI_HAL_MAJOR_VERSION * 1000 + WIFI_HAL_MINOR_VERSION * 10 + WIFI_HAL_MAINTENANCE_VERSION) /**< Wi-Fi HAL version. */
+
 #define MAX_NUM_TWT_SESSION 50    /**< Maximum number of TWT sessions. */
 #define MAX_STA_PER_SESSION 100   /**< Maximum number of stations per TWT session. */
 #define MAX_BSR 32            /**< Maximum BSR. */
@@ -820,7 +824,6 @@ typedef struct
     unsigned int phy_index; /**< Actual index of the PHY device. */
     unsigned int rdk_radio_index; /**< Radio index of the upper layer. */
     wifi_interface_name_t interface_name; /**< Interface name. */
-    wifi_interface_name_t mld_interface_name; /**< MLD interface name. */
     wifi_interface_name_t bridge_name; /**< Bridge name. */
     int vlan_id; /**< VLAN ID. */
     unsigned int index; /**< Index. */
