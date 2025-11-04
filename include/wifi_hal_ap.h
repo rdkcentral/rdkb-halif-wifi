@@ -201,18 +201,30 @@ typedef struct
     wifi_domainNameTuple_t domainNameTuple[4]; /**< Domain name tuples. */
 } __attribute__((packed)) wifi_domainName_t;
 
-typedef struct {
-    UCHAR length;
-    UCHAR oui[15];
-}__attribute__((packed)) wifi_ouiDuple_t;
+/**
+ * @brief OUI (Organizationally Unique Identifier) duple.
+ */
+typedef struct
+{
+    UCHAR length; /**< Length. */
+    UCHAR oui[15]; /**< OUI. */
+} __attribute__((packed)) wifi_ouiDuple_t;
 
-typedef struct {
-    wifi_ouiDuple_t ouiDuple[32];
-}__attribute__((packed)) wifi_roamingConsortium_t;
+/**
+ * @brief Roaming consortium.
+ */
+typedef struct
+{
+    wifi_ouiDuple_t ouiDuple[32]; /**< OUI duples. */
+} __attribute__((packed)) wifi_roamingConsortium_t;
 
-typedef struct {
-    USHORT capabilityList[64];
-}__attribute__((packed)) wifi_capabilityListANQP_t;
+/**
+ * @brief Capability list ANQP.
+ */
+typedef struct
+{
+    USHORT capabilityList[64]; /**< Capability list. */
+} __attribute__((packed)) wifi_capabilityListANQP_t;
 
 /**
  * @brief Roaming consortium element.
@@ -1899,11 +1911,6 @@ INT wifi_setInterworkingAccessNetworkType(INT apIndex, INT accessNetworkType);
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getInterworkingAccessNetworkType(INT apIndex, UINT *output_uint);
-
-//-----------------------------------------------------------------------------------------------
-//Access Network Type value to be included in the Interworking IE in the beaconds. (refer 8.4.2.94 of IEEE Std 802.11-2012). Possible values are: 0 - Private network;1 - Private network with guest access;2 - Chargeable public network;3 - Free public network;4 - Personal device network;5 - Emergency services only network;6-13 - Reserved;14 - Test or experimental;15 - Wildcard
-INT wifi_setInterworkingAccessNetworkType(INT apIndex, INT accessNetworkType);   // P3
-INT wifi_getInterworkingAccessNetworkType(INT apIndex, UINT *output_uint);   // P3
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 

@@ -280,7 +280,7 @@ typedef enum
 } wifi_encryption_method_t;
 
 /**
-z * @brief Wi-Fi frequency band types.
+ * @brief Wi-Fi frequency band types.
  */
 typedef enum
 {
