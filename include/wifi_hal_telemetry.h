@@ -173,7 +173,6 @@ typedef struct _wifi_apRssi
 #endif
 
 // VAP telemetry report structures and function prototypes
-#define MAX_VAP (MAX_NUM_RADIOS*MAX_NUM_VAP_PER_RADIO)
 /**
  * @brief Maximum number of VAPs.
  */
