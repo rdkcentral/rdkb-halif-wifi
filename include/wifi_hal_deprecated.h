@@ -15,6 +15,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Some material is:
+ * Copyright [2014] [Cisco Systems, Inc.]
+ * Licensed under the Apache License, Version 2.0
+ *
 */
 #ifndef __WIFI_HAL_DEPRECATED_H__
 #define __WIFI_HAL_DEPRECATED_H__
