@@ -2558,22 +2558,6 @@ INT wifi_pushRadioRxChainMask(INT radioIndex);
  * @retval WIFI_HAL_SUCCESS The operation was successful.
  * @retval WIFI_HAL_ERROR An error occurred during the operation.
  */
-INT wifi_pushSsidAdvertisementEnable(INT apIndex, BOOL enable);    
-
-/**
- * @brief Pushes the SSID advertisement enable environment variable to the
- *        hardware.
- *
- * This function pushes the SSID advertisement enable environment variable,
- * which is set by `wifi_setApSsidAdvertisementEnable`, to the hardware.
- *
- * @param[in] apIndex The Access Point index.
- * @param[in] enable The SSID advertisement enable value.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS The operation was successful.
- * @retval WIFI_HAL_ERROR An error occurred during the operation.
- */
 INT wifi_pushSsidAdvertisementEnable(INT apIndex, BOOL enable);
 
 /**

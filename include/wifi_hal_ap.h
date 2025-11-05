@@ -486,7 +486,6 @@ typedef enum
     WIFI_RADIO_SCAN_MODE_ONCHAN,    /**< On-channel scan. */
     WIFI_RADIO_SCAN_MODE_OFFCHAN,   /**< Off-channel scan. */
     WIFI_RADIO_SCAN_MODE_SURVEY,     /**< Survey scan. */
-    WIFI_RADIO_SCAN_MODE_SELECT_CHANNELS    /**< Selected channels scan. */
 } wifi_neighborScanMode_t;
 
 /**
@@ -2016,7 +2015,6 @@ typedef enum
     WIFI_MGMT_FRAME_TYPE_DISASSOC = 8, /**< Disassociation frame. */
     WIFI_MGMT_FRAME_TYPE_ACTION = 9,   /**< Action frame. */
     WIFI_MGMT_FRAME_TYPE_AUTH_RSP = 10, /**< Authentication response frame. */
-    WIFI_MGMT_FRAME_TYPE_BEACON = 11,   /**< Beacon frame. */
 } wifi_mgmtFrameType_t;
 
 /**
@@ -2907,8 +2905,8 @@ typedef struct
     UINT eap_req_timeout;        /**< EAP request timeout in seconds. */
     UINT eap_req_retries;        /**< Number of EAP request retries. */
     BOOL disable_pmksa_caching;   /**< Whether PMKSA caching is disabled. */
-    char key_id[32];            /**< OpenFlow tag associated with a PSK. */
     wifi_radius_settings_t repurposed_radius;   /**< To Store RADIUS configs when in Non IEEE802_1x mode */
+    char key_id[32];            /**< OpenFlow tag associated with a PSK. */
     union
     {
         wifi_radius_settings_t radius; /**< RADIUS settings. */
@@ -3117,8 +3115,8 @@ typedef struct {
   wifi_interworking_t interworking; /**< Interworking settings. */
   wifi_preassoc_control_t preassoc;  /**< Pre-association control settings. */
   wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
-  BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
   amenities_network_config_t am_config;  /**< Connected Building Phase Two */
+  BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
   wifi_mac_filter_mode_t mac_filter_mode; /**< MAC filter mode. */
 
   BOOL sec_changed; /**< Whether security settings have changed. This field should not be implemented in the HAL. */
