@@ -763,6 +763,8 @@ typedef enum {
     wifi_countrycode_CW, /**< CURACAO */
     wifi_countrycode_MF, /**< SAINT_MARTIN */
     wifi_countrycode_SX, /**< SINT_MAARTEN */
+    wifi_countrycode_BQ, /**< BONAIRE_SINT_EUSTATIUS_AND_SABA */
+    wifi_countrycode_00, /**< GLOBAL_CC */
     wifi_countrycode_max /**< Max number of country code */
 } wifi_countrycode_type_t;
 
