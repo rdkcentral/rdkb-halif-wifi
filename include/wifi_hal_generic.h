@@ -789,6 +789,33 @@ typedef struct
 } __attribute__((packed)) wifi_radio_csi_capabilities_t;
 
 /**
+ * @brief Wi-Fi Multi-Link supported bands.
+ */
+typedef enum
+{
+    WIFI_BAND_NONE = 0x1, /**< No band. */
+    WIFI_BAND_2_5 = 0x2, /**< 2.4GHz band. */
+    WIFI_BAND_2_6 = 0x4, /**< 2.4GHz and 6GHz bands. */
+    WIFI_BAND_5_6 = 0x8, /**< 5GHz and 6GHz bands. */
+    WIFI_BAND_2_5_6 = 0x10, /**< 2.4GHz, 5GHz, and 6GHz bands. */
+    WIFI_BAND_2_5L = 0x20, /**< 2.4GHz and 5GHz low bands. */
+    WIFI_BAND_2_5H = 0x40, /**< 2.4GHz and 5GHz high bands. */
+    WIFI_BAND_5L_5H = 0x80, /**< 5GHz low and high bands. */
+    WIFI_BAND_2_5L_5H = 0x100 /**< 2.4GHz, 5GHz low, and 5GHz high bands. */
+} wifi_multi_link_bands_t;
+
+/**
+ * @brief Wi-Fi 7 supported modes.
+ */
+typedef enum
+{
+    STR = 0x1, /**< Single-user Transmit and Receive (STR). */
+    NSTR = 0x2, /**< Non-STR. */
+    eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
+    eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
+} wifi_multi_link_modes_t;
+
+/**
  * @brief Maximum size of an interface name.
  */
 #define MAXIFACENAMESIZE 64
@@ -817,6 +844,7 @@ typedef struct
     wifi_countrycode_type_t countrySupported[wifi_countrycode_max]; /**< The supported country list. It should return the current country code on the first entry. */
     UINT maxNumberVAPs; /**< Maximum number of VAPs. */
     BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
+    wifi_multi_link_modes_t mldOperationalCap; /**< Bitmask indicating WiFi 7 supported modes */
 } __attribute__((packed)) wifi_radio_capabilities_t;
 
 /**
@@ -844,33 +872,6 @@ typedef struct
     char radio_name[16]; /**< Radio name. */
     wifi_interface_name_t interface_name; /**< Interface name. */
 } __attribute__((packed)) radio_interface_mapping_t;
-
-/**
- * @brief Wi-Fi Multi-Link supported bands.
- */
-typedef enum
-{
-    WIFI_BAND_NONE = 0x1, /**< No band. */
-    WIFI_BAND_2_5 = 0x2, /**< 2.4GHz band. */
-    WIFI_BAND_2_6 = 0x4, /**< 2.4GHz and 6GHz bands. */
-    WIFI_BAND_5_6 = 0x8, /**< 5GHz and 6GHz bands. */
-    WIFI_BAND_2_5_6 = 0x10, /**< 2.4GHz, 5GHz, and 6GHz bands. */
-    WIFI_BAND_2_5L = 0x20, /**< 2.4GHz and 5GHz low bands. */
-    WIFI_BAND_2_5H = 0x40, /**< 2.4GHz and 5GHz high bands. */
-    WIFI_BAND_5L_5H = 0x80, /**< 5GHz low and high bands. */
-    WIFI_BAND_2_5L_5H = 0x100 /**< 2.4GHz, 5GHz low, and 5GHz high bands. */
-} wifi_multi_link_bands_t;
-
-/**
- * @brief Wi-Fi 7 supported modes.
- */
-typedef enum
-{
-    STR = 0x1, /**< Single-user Transmit and Receive (STR). */
-    NSTR = 0x2, /**< Non-STR. */
-    eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
-    eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
-} wifi_multi_link_modes_t;
 
 /**
  * @brief Wi-Fi Multi-Link information.
