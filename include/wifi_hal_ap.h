@@ -2159,7 +2159,34 @@ typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, wifi_frame_t *frame
  */
 typedef INT (* wifi_receivedDataFrame_callback)(INT apIndex, mac_address_t sta_mac, UCHAR *frame, UINT len, wifi_dataFrameType_t type, wifi_direction_t dir);
 #else
-typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_mgmtFrameType_t type, wifi_direction_t dir);
+/**
+ * @brief Callback function invoked when a management frame is received.
+ *
+ * @param[in] apIndex  Index of the Access Point.
+ * @param[in] sta_mac  Pointer to the MAC address of the station.
+ * @param[in] frame    Pointer to the frame data.
+ * @param[in] len      Length of the frame data.
+ * @param[in] type     Type of the management frame.
+ * @param[in] dir      Direction of the management frame.
+ * @param[in] recv_freq Frequency at which the frame was received.
+ *
+ * @returns The status of the operation.
+ */
+typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_mgmtFrameType_t type, wifi_direction_t dir, unsigned int recv_freq);
+
+
+/**
+ * @brief Callback function invoked when a data frame is received.
+ *
+ * @param[in] apIndex  Index of the Access Point.
+ * @param[in] sta_mac  Pointer to the MAC address of the station.
+ * @param[in] frame    Pointer to the frame data.
+ * @param[in] len      Length of the frame data.
+ * @param[in] type     Type of the data frame.
+ * @param[in] dir      Direction of the data frame.
+ *
+ * @returns The status of the operation.
+ */
 typedef INT (* wifi_receivedDataFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_dataFrameType_t type, wifi_direction_t dir);
 #endif
 
