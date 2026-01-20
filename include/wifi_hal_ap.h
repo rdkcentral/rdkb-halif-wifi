@@ -486,6 +486,7 @@ typedef enum
     WIFI_RADIO_SCAN_MODE_ONCHAN,    /**< On-channel scan. */
     WIFI_RADIO_SCAN_MODE_OFFCHAN,   /**< Off-channel scan. */
     WIFI_RADIO_SCAN_MODE_SURVEY,     /**< Survey scan. */
+    WIFI_RADIO_SCAN_MODE_SELECT_CHANNELS,    /**< Selected channels scan. */
 } wifi_neighborScanMode_t;
 
 /**
@@ -2015,6 +2016,7 @@ typedef enum
     WIFI_MGMT_FRAME_TYPE_DISASSOC = 8, /**< Disassociation frame. */
     WIFI_MGMT_FRAME_TYPE_ACTION = 9,   /**< Action frame. */
     WIFI_MGMT_FRAME_TYPE_AUTH_RSP = 10, /**< Authentication response frame. */
+    WIFI_MGMT_FRAME_TYPE_BEACON = 11,   /**< Beacon frame. */
 } wifi_mgmtFrameType_t;
 
 /**
