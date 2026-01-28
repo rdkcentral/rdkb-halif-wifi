@@ -1491,6 +1491,38 @@ INT wifi_getApManagementFramePowerControl(INT apIndex, INT *output_dBm);
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_setApManagementFramePowerControl(INT apIndex, INT dBm);
+
+/**
+ * @brief Gets the BSS Color value for an Access Point.
+ *
+ * This function retrieves the BSSColorValue value for the
+ * specified Access Point (AP).
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex     Index of the Access Point.
+ * @param[out] output_bssColor Pointer to a variable to store the BSSColor value, 0 means disabled.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getApBSSColorValue(INT apIndex, UINT *output_bssColor);
+
+/**
+ * @brief Sets the BSS Color value for an Access Point
+ *
+ * This function sets the BSSColorValue value for the specified
+ * Access Point (AP).
+ * This function must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex  Index of the Access Point.
+ * @param[in] bssColor      BSSColorValue value to set, 0 means disabled.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_setApBSSColorValue(INT apIndex, UINT bssColor);
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
 /**
