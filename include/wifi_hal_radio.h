@@ -928,6 +928,42 @@ INT wifi_setRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_operat
 INT wifi_getRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_operationParam_t *operationParam);
 
 /**
+ * @brief Radio capability structure
+ * 
+ * This structure contains the raw capability data from HAL's hw_modes.
+ */
+typedef struct {
+    BOOL wifi6_supported;                 /**< Whether WiFi6 (HE) is supported */
+    UCHAR he_phy_cap[11];                /**< HE PHY capabilities */
+    UCHAR he_mac_cap[4];                  /**< HE MAC capabilities */
+    UCHAR he_mcs_nss_set[6];              /**< HE MCS NSS set */
+    UCHAR he_ppet[7];                     /**< HE PPE thresholds */
+    USHORT he_6ghz_capa;                  /**< HE 6GHz capabilities */
+    BOOL wifi7_supported;                 /**< Whether WiFi7 (EHT) is supported */
+    UCHAR eht_mac_cap[4];                 /**< EHT MAC capabilities */
+    UCHAR eht_phy_cap[9];                 /**< EHT PHY capabilities */
+    UCHAR eht_mcs[3];                     /**< EHT MCS set */
+    UCHAR eht_ppet[16];                   /**< EHT PPE thresholds */
+} __attribute__((packed)) wifi_radio_capability_data_t;
+
+/**
+ * @brief Gets radio capability data (WiFi6/WiFi7) for a radio.
+ *
+ * This function retrieves HE/EHT capabilities from the radio's hw_modes
+ * for the specified band and AP operation mode.
+ *
+ * @param[in] index         Index of the Wi-Fi radio.
+ * @param[in] band          Frequency band (WIFI_FREQUENCY_2_4_BAND, 5_BAND, 6_BAND).
+ * @param[out] capability   Pointer to a `wifi_radio_capability_data_t` structure
+ *                         to store the radio capability data.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_getRadioCapabilityData(wifi_radio_index_t index, wifi_freq_bands_t band, wifi_radio_capability_data_t *capability);
+
+/**
  * @brief Gets scan results.
  *
  * @param[in] index    Index of the radio.
