@@ -3233,7 +3233,9 @@ typedef struct
 } __attribute__((packed)) wifi_ap_capabilities_t;
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
-const char *vap_get_ssid(struct wifi_vap_info_t *vap);
+const char *get_vap_ssid(wifi_vap_info_t *vap);
+const char *get_vap_bridge_name(wifi_vap_info_t *vap);
+const char *get_vap_security_mode(wifi_vap_info_t *vap, wifi_vap_security_t *sec);
 
 /**
  * @addtogroup WIFI_HAL_APIS
