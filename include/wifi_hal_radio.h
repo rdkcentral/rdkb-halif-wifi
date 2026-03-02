@@ -29,15 +29,6 @@ extern "C"{
  * @addtogroup WIFI_HAL_TYPES
  * @{
  */
-#define HE_MAX_MAC_CAPAB_SIZE    6
-#define HE_MAX_PHY_CAPAB_SIZE    11
-#define HE_MAX_MCS_CAPAB_SIZE    12
-#define HE_MAX_PPET_CAPAB_SIZE   25
-
-#define EHT_PHY_CAPAB_LEN        9
-#define EHT_MCS_NSS_CAPAB_LEN    9
-#define EHT_PPE_THRESH_CAPAB_LEN 62
-
 
 /**
  * @brief Guard interval types.
@@ -935,42 +926,6 @@ INT wifi_setRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_operat
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_operationParam_t *operationParam);
-
-/**
- * @brief Radio capability structure
- * 
- * This structure contains the raw capability data from HAL's hw_modes.
- */
-typedef struct {
-    BOOL wifi6_supported;                              /**< Whether WiFi6 (HE) is supported */
-    UCHAR he_phy_cap[HE_MAX_PHY_CAPAB_SIZE];           /**< HE PHY capabilities */
-    UCHAR he_mac_cap[HE_MAX_MAC_CAPAB_SIZE];           /**< HE MAC capabilities */
-    UCHAR he_mcs_nss_set[HE_MAX_MCS_CAPAB_SIZE];       /**< HE MCS NSS set */
-    UCHAR he_ppet[HE_MAX_PPET_CAPAB_SIZE];             /**< HE PPE thresholds */
-    USHORT he_6ghz_capa;                               /**< HE 6GHz capabilities */
-    BOOL wifi7_supported;                              /**< Whether WiFi7 (EHT) is supported */
-    UCHAR eht_mac_cap;                                 /**< EHT MAC capabilities */
-    UCHAR eht_phy_cap[EHT_PHY_CAPAB_LEN];              /**< EHT PHY capabilities */
-    UCHAR eht_mcs[EHT_MCS_NSS_CAPAB_LEN];              /**< EHT MCS set */
-    UCHAR eht_ppet[EHT_PPE_THRESH_CAPAB_LEN];          /**< EHT PPE thresholds */
-} __attribute__((packed)) wifi_radio_capability_data_t;
-
-/**
- * @brief Gets radio capability data (WiFi6/WiFi7) for a radio.
- *
- * This function retrieves HE/EHT capabilities from the radio's hw_modes
- * for the specified band and AP operation mode.
- *
- * @param[in] index         Index of the Wi-Fi radio.
- * @param[in] band          Frequency band (WIFI_FREQUENCY_2_4_BAND, 5_BAND, 6_BAND).
- * @param[out] capability   Pointer to a `wifi_radio_capability_data_t` structure
- *                         to store the radio capability data.
- *
- * @returns The status of the operation.
- * @retval WIFI_HAL_SUCCESS If successful.
- * @retval WIFI_HAL_ERROR   If any error is detected.
- */
-INT wifi_getRadioCapabilityData(wifi_radio_index_t index, wifi_freq_bands_t band, wifi_radio_capability_data_t *capability);
 
 /**
  * @brief Gets scan results.
