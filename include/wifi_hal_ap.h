@@ -1693,7 +1693,7 @@ typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT re
  */
 typedef INT ( * wifi_apStatusCode_callback)(int apIndex, char *src_mac,char *dest_mac, int frame_type ,int status);
 
-typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, mac_address_t sta_mac, INT failure_reason, INT vlan_id);
+typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, mac_address_t sta_mac, INT failure_reason);
 
 /**
  * @brief Registers a callback function for RADIUS/EAP failure events.
