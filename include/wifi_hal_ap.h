@@ -1683,6 +1683,7 @@ typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT re
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 typedef INT ( * wifi_apStatusCode_callback)(int apIndex, char *src_mac,char *dest_mac, int frame_type ,int status);
+
 typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason);
 
 /**
