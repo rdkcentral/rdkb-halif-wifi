@@ -811,7 +811,8 @@ typedef enum
     STR = 0x1, /**< Single-user Transmit and Receive (STR). */
     NSTR = 0x2, /**< Non-STR. */
     eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
-    eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
+    eMLMR = 0x8, /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
+    TIDLinkMapNegotiation = 0x10 /**< TID to Link Mapping Negotiation support. */
 } wifi_multi_link_modes_t;
 
 /**
