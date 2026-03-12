@@ -812,13 +812,25 @@ typedef enum
     STR = 0x1, /**< Single-user Transmit and Receive (STR). */
     NSTR = 0x2, /**< Non-STR. */
     eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
-    eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
+    eMLMR = 0x8, /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
+    TIDLinkMapNegotiation = 0x10 /**< TID to Link Mapping Negotiation support. */
 } wifi_multi_link_modes_t;
 
 /**
  * @brief Maximum size of an interface name.
  */
 #define MAXIFACENAMESIZE 64
+
+/**
+ * @brief Wi-Fi 6/7 capability length definitions.
+ */
+#define HE_MAX_MAC_CAPAB_SIZE    6
+#define HE_MAX_PHY_CAPAB_SIZE    11
+#define HE_MAX_MCS_CAPAB_SIZE    12
+#define HE_MAX_PPET_CAPAB_SIZE   25
+#define EHT_PHY_CAPAB_LEN        9
+#define EHT_MCS_NSS_CAPAB_LEN    9
+#define EHT_PPE_THRESH_CAPAB_LEN 62
 
 /**
  * @brief Wi-Fi radio capabilities.
@@ -845,6 +857,17 @@ typedef struct
     UINT maxNumberVAPs; /**< Maximum number of VAPs. */
     BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
     wifi_multi_link_modes_t mldOperationalCap; /**< Bitmask indicating WiFi 7 supported modes */
+    BOOL wifi6_supported; /**< Whether WiFi6 (HE) is supported */
+    UCHAR he_phy_cap[HE_MAX_PHY_CAPAB_SIZE]; /**< HE PHY capabilities */
+    UCHAR he_mac_cap[HE_MAX_MAC_CAPAB_SIZE]; /**< HE MAC capabilities */
+    UCHAR he_mcs_nss_set[HE_MAX_MCS_CAPAB_SIZE]; /**< HE MCS NSS set */
+    UCHAR he_ppet[HE_MAX_PPET_CAPAB_SIZE]; /**< HE PPE thresholds */
+    USHORT he_6ghz_capa; /**< HE 6GHz capabilities */
+    BOOL wifi7_supported; /**< Whether WiFi7 (EHT) is supported */
+    USHORT eht_mac_cap; /**< EHT MAC capabilities */
+    UCHAR eht_phy_cap[EHT_PHY_CAPAB_LEN]; /**< EHT PHY capabilities */
+    UCHAR eht_mcs[EHT_MCS_NSS_CAPAB_LEN]; /**< EHT MCS set */
+    UCHAR eht_ppet[EHT_PPE_THRESH_CAPAB_LEN]; /**< EHT PPE thresholds */
 } __attribute__((packed)) wifi_radio_capabilities_t;
 
 /**
