@@ -812,8 +812,7 @@ typedef enum
     STR = 0x1, /**< Single-user Transmit and Receive (STR). */
     NSTR = 0x2, /**< Non-STR. */
     eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
-    eMLMR = 0x8, /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
-    TIDLinkMapNegotiation = 0x10 /**< TID to Link Mapping Negotiation support. */
+    eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
 } wifi_multi_link_modes_t;
 
 /**
@@ -857,6 +856,7 @@ typedef struct
     UINT maxNumberVAPs; /**< Maximum number of VAPs. */
     BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
     wifi_multi_link_modes_t mldOperationalCap; /**< Bitmask indicating WiFi 7 supported modes */
+    BOOL TIDLinkMapNegotiation; /**< True if 'TID to Link Mapping Negotiation' is supported. */
     BOOL wifi6_supported; /**< Whether WiFi6 (HE) is supported */
     UCHAR he_phy_cap[HE_MAX_PHY_CAPAB_SIZE]; /**< HE PHY capabilities */
     UCHAR he_mac_cap[HE_MAX_MAC_CAPAB_SIZE]; /**< HE MAC capabilities */
