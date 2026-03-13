@@ -1245,6 +1245,8 @@ typedef struct _wifi_associated_dev3
     ULLONG cli_RxRetries; /**< Number of RX retries. */
     ULLONG cli_RxErrors; /**< Number of RX errors. */
     BOOL cli_MLDEnable; /* Indicates whether the connected client uses a single link or multi-link connections, false - single link and true - multi-link. */
+    wifi_multi_link_modes_t cli_MLModeCapa; /* Bitmap of the the MLD operation modes supported by the client */
+    BOOL cli_TIDLinkMapNegotiation; /* Indicates whether TID to Link MAP negotiation is supported by client */
     mac_address_t cli_MLDAddr; /* Indicates the MLD MAC address of the connected client, 00's for non-Wi-Fi 7 clients. */
 } wifi_associated_dev3_t;
 
