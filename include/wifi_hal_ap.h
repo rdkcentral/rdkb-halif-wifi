@@ -1517,6 +1517,8 @@ typedef INT(* wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_
 
 typedef struct mld_sta_info {
 	BOOL cli_mld_sta;
+    wifi_multi_link_modes_t cli_MLModeCapa;
+    BOOL cli_TIDLinkMapNegotiation;
 } mld_sta_info_t;
 
 /**
