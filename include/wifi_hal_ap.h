@@ -3227,6 +3227,7 @@ typedef struct
     CHAR bridge_name[WIFI_BRIDGE_NAME_LEN]; /**< Bridge name. */
     wifi_vap_mode_t vap_mode;      /**< VAP mode. */
     wifi_vap_name_t repurposed_vap_name; /**< Repurposed VAP name. */
+    int vlan_id; /**< VLAN ID for the VAP. */
     CHAR repurposed_bridge_name[WIFI_BRIDGE_NAME_LEN]; /**< Repurposed Bridge Name. */
     union
     {
