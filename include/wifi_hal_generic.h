@@ -821,6 +821,16 @@ typedef enum
 #define MAXIFACENAMESIZE 64
 
 /**
+ * @brief HT (802.11n) capability related sizes
+ */
+#define HT_MCS_SET_LEN          16
+
+/**
+ * @brief VHT (802.11ac) capability related sizes
+ */
+#define VHT_MCS_SET_LEN         8
+
+/**
  * @brief Wi-Fi 6/7 capability length definitions.
  */
 #define HE_MAX_MAC_CAPAB_SIZE    6
@@ -837,6 +847,7 @@ typedef enum
 typedef struct
 {
     UINT index; /**< Radio index. */
+    UINT rdk_radio_index; /**< Rdk radio index. */
     CHAR ifaceName[MAXIFACENAMESIZE]; /**< The interface name. */
     UINT numSupportedFreqBand; /**< The number of supported frequency bands. */
     wifi_freq_bands_t band[MAX_NUM_FREQ_BAND]; /**< The frequency band list. */
@@ -857,6 +868,11 @@ typedef struct
     BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
     wifi_multi_link_modes_t mldOperationalCap; /**< Bitmask indicating WiFi 7 supported modes */
     BOOL TIDLinkMapNegotiation; /**< True if 'TID to Link Mapping Negotiation' is supported. */
+    USHORT ht_capab; /**< HT (IEEE 802.11n) capabilities */
+    UCHAR mcs_set[HT_MCS_SET_LEN]; /**< MCS set for HT (IEEE 802.11n) */
+    UCHAR ampdu_params; /**< A-MPDU parameters for HT (IEEE 802.11n) */
+    UINT vht_capab; /**< VHT (IEEE 802.11ac) capabilities */
+    UCHAR vht_mcs_set[VHT_MCS_SET_LEN]; /**< VHT MCS set for VHT (IEEE 802.11ac) */
     BOOL wifi6_supported; /**< Whether WiFi6 (HE) is supported */
     UCHAR he_phy_cap[HE_MAX_PHY_CAPAB_SIZE]; /**< HE PHY capabilities */
     UCHAR he_mac_cap[HE_MAX_MAC_CAPAB_SIZE]; /**< HE MAC capabilities */
