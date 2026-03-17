@@ -3150,6 +3150,7 @@ typedef struct
     mac_address_t mac;        /**< MAC address. */
     wifi_mld_info_sta_t mld_info; /**< MLD information. */
     BOOL ignite_enabled; /* Ignite enable */
+    BOOL valid_bh_credentials; // Set to 1 if backhaul credentials (SSID and key) are valid
 } __attribute__((packed)) wifi_back_haul_sta_t;
 
 /**
@@ -3218,6 +3219,8 @@ typedef struct {
   UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
   USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
   char interop_info[64];
+  UCHAR multi_ap_backhaul_ssid[WIFI_AP_MAX_SSID_LEN]; /** Multi-AP Backhaul Credentials to be populated with mesh backhaul creds when WPS onboarding method is configured **/
+  UCHAR multi_ap_backhaul_network_key[256];
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
