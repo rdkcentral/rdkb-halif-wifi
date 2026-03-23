@@ -1528,11 +1528,20 @@ INT wifi_setApManagementFramePowerControl(INT apIndex, INT dBm);
 typedef INT(* wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_dev3_t *associated_dev);
 #else
 
-typedef struct mld_sta_info {
-	BOOL cli_mld_sta;
+typedef struct {
+    BOOL cli_Valid;
+    BOOL cli_IsAssocLink;
+    UCHAR cli_LinkID;
+    UINT cli_VapIndex;
+    INT cli_RSSI;
+} wifi_mld_sta_link_info_t;
+
+typedef struct {
+    BOOL cli_MLDSta;
     wifi_multi_link_modes_t cli_MLModeCapa;
     BOOL cli_TIDLinkMapNegotiation;
-} mld_sta_info_t;
+    wifi_mld_sta_link_info_t cli_LinkInfo[MAX_NUM_RADIOS];
+} wifi_mld_sta_info_t;
 
 /**
  * @brief Structure containing information about an associated device.
@@ -1561,7 +1570,7 @@ typedef struct _wifi_associated_dev
     UINT cli_Disassociations;           /**< The total number of client disassociations. Reset the parameter every 24 hours or on reboot. */
     UINT cli_AuthenticationFailures;     /**< The total number of authentication failures. Reset the parameter every 24 hours or on reboot. */
     UINT cli_CapableNumSpatialStreams;  /**< The number of spatial streams supported by the associated client device. */
-    mld_sta_info_t cli_mld_info;          /**< Wi-Fi 7 MLO client information. */
+    wifi_mld_sta_info_t cli_MLDInfo;          /**< Wi-Fi 7 MLO client information. */
 } wifi_associated_dev_t;
 
 /**
