@@ -569,14 +569,28 @@ INT wifi_getApAssociatedDevice(INT ap_index, mac_address_t *output_deviceMacAddr
 #endif
 
 typedef enum {
+    WIFI_ACCESS_ACCEPT_STATUS = 0,
+    WIFI_EAP_SUCCESS_STATUS = 3,
+    WIFI_EAP_FAILURE_STATUS = 23
+} wifi_eap_status_code_t;
+
+typedef enum {
     WIFI_REASON_UNSPECIFIED = 1,
     WIFI_REASON_PREV_AUTH_NOT_VALID = 2,
     WIFI_REASON_DEAUTH_LEAVING = 3,
     WIFI_REASON_STA_REQ_ASSOC_WITHOUT_AUTH = 9,
+    WIFI_REASON_INVALID_IE = 13,
     WIFI_REASON_MICHAEL_MIC_FAILURE = 14,
     WIFI_REASON_4WAY_HANDSHAKE_TIMEOUT = 15,
+    WIFI_REASON_GROUP_KEY_UPDATE_TIMEOUT = 16,
+    WIFI_REASON_IE_IN_4WAY_DIFFERS = 17,
+    WIFI_REASON_GROUP_CIPHER_NOT_VALID = 18,
+    WIFI_REASON_PAIRWISE_CIPHER_NOT_VALID = 19,
     WIFI_REASON_AKMP_NOT_VALID = 20,
+    WIFI_REASON_UNSUPPORTED_RSN_IE_VERSION = 21,
+    WIFI_REASON_INVALID_RSN_IE_CAPAB = 22,
     WIFI_REASON_IEEE_802_1X_AUTH_FAILED = 23,
+    WIFI_REASON_CIPHER_SUITE_REJECTED = 24,
     WIFI_REASON_INVALID_PMKID = 49
 } wifi_reason_code_t;
 
@@ -1648,6 +1662,8 @@ typedef INT ( * wifi_device_disassociated_callback)(INT apIndex, char *src_mac,c
 */
 typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int type, int radio, int mode);
 
+typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
+
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
@@ -1685,7 +1701,7 @@ typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT re
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 typedef INT ( * wifi_apStatusCode_callback)(int apIndex, char *src_mac,char *dest_mac, int frame_type ,int status);
-typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason);
+typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, mac_address_t sta_mac, INT failure_reason);
 
 /**
  * @brief Registers a callback function for RADIUS/EAP failure events.
@@ -1735,7 +1751,7 @@ void wifi_apStatusCode_callback_register(wifi_apStatusCode_callback callback_pro
 *
 */
 void wifi_ap_stamode_callback_register(wifi_stamode_callback callback_proc);
-
+void wifi_handshake_callback_register(wifi_handshake_callback callback_proc);
 /**
  * @brief Callback function invoked when a RADIUS server fallback failure occurs.
  *
@@ -3187,9 +3203,11 @@ typedef struct {
   BOOL hostap_mgt_frame_ctrl;        /**< Whether hostapd management frame control is enabled. */
   BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
   BOOL   interop_ctrl;               /**< Whether interop ctrl is enabled. */
+  BOOL   interop_tel;                
   UINT    inum_sta;                   /**< configuring interop stations */
   UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
   USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
+  char interop_info[64];
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
