@@ -2941,6 +2941,7 @@ typedef struct
 typedef struct
 {
     wifi_security_modes_t mode;     /**< Security mode. */
+    wifi_security_modes_t repurposed_mode;     /**< Security mode. */
     wifi_encryption_method_t encr;   /**< Encryption method. */
 #if defined(WIFI_HAL_VERSION_3)
     wifi_mfp_cfg_t mfp;            /**< MFP configuration. */
@@ -3130,6 +3131,7 @@ typedef struct
 typedef struct
 {
     ssid_t ssid;             /**< SSID. */
+    ssid_t repurposed_ssid;   /**< SSID for ignite */
     bssid_t bssid;            /**< BSSID (if all 0, scan the SSID with probes, otherwise connect to the specified BSSID). */
     BOOL enabled;            /**< Whether the backhaul station is enabled. */
     wifi_connection_status_t conn_status; /**< Connection status. */
@@ -3137,6 +3139,7 @@ typedef struct
     wifi_vap_security_t security; /**< Security settings. */
     mac_address_t mac;        /**< MAC address. */
     wifi_mld_info_sta_t mld_info; /**< MLD information. */
+    BOOL ignite_enabled; /* Ignite enable */
 } __attribute__((packed)) wifi_back_haul_sta_t;
 
 /**
@@ -3254,6 +3257,10 @@ typedef struct
     BOOL BSSTransitionImplemented; /**< Whether BSS transition is implemented. */
 } __attribute__((packed)) wifi_ap_capabilities_t;
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
+
+const char *get_vap_ssid(wifi_vap_info_t *vap);
+const char *get_vap_bridge_name(wifi_vap_info_t *vap);
+unsigned int get_vap_security_mode(wifi_vap_info_t *vap, wifi_vap_security_t *sec);
 
 /**
  * @addtogroup WIFI_HAL_APIS
