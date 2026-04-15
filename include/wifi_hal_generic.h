@@ -373,9 +373,11 @@ typedef struct
     wifi_bitrate_t basic_rates; /**< Basic rates. */
     wifi_bitrate_t supp_rates; /**< Supported rates. */
     unsigned int dtim_period; /**< DTIM period. */
-    unsigned int chan_utilization; /**< Channel utilization. */
+    unsigned int chan_utilization; /**< Channel utilization.  As per R6 spec, this is valid only if BSS load element is present */
     int noise; /**< Noise. */
     int snr;  /**< SNR.  */
+    BOOL bss_load_element_present; /**< BSS Load element. */
+    unsigned int station_cnt; /**< Station count. As per R6 spec, this is valid only if BSS load element is present */
 } __attribute__((packed)) wifi_bss_info_t;
 
 /**
