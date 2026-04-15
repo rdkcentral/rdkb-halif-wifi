@@ -106,8 +106,10 @@ typedef struct _wifi_neighbor_ap2
     CHAR ap_BasicDataTransferRates[256]; /**< Comma-separated list (maximum list length 256) of strings. Basic data transmit rates (in Mbps) for the SSID. For example, if ap_BasicDataTransferRates is "1,2", this indicates that the SSID is operating with basic rates of 1 Mbps and 2 Mbps. */
     CHAR ap_SupportedDataTransferRates[256]; /**< Comma-separated list (maximum list length 256) of strings. Data transmit rates (in Mbps) for unicast frames at which the SSID will permit a station to connect. For example, if ap_SupportedDataTransferRates is "1,2,5.5", this indicates that the SSID will only permit connections at 1 Mbps, 2 Mbps and 5.5 Mbps. */
     UINT ap_DTIMPeriod;               /**< The number of beacon intervals that elapse between transmission of Beacon frames containing a TIM element whose DTIM count field is 0. This value is transmitted in the DTIM Period field of beacon frames. [802.11-2012] */
-    UINT ap_ChannelUtilization;       /**< Indicates the fraction of the time the AP senses that the channel is in use by the neighboring AP for transmissions. */
+    UINT ap_ChannelUtilization;       /**< Indicates the fraction of the time the AP senses that the channel is in use by the neighboring AP for transmissions. Valid only when bss_load_element_present is true. */
     UINT ap_freq;                        /**< Frequency. */
+    BOOL bss_load_element_present;    /**< Flag indicating presence of BSS Load IE; controls validity of related fields. */
+    UINT ap_StaCount;                /**< Number of stations currently associated with the BSS. Valid only when bss_load_element_present is true. */
 } wifi_neighbor_ap2_t;
 
 /*    Explanation:
