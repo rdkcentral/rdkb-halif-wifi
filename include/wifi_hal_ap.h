@@ -3115,6 +3115,8 @@ typedef struct
     UINT mld_link_id;     /**< Link ID */
     mac_address_t mld_addr; /**< MLD group MAC address. */
     BOOL mld_apply;       /**< MLD configuration apply indication */
+    BOOL mld_link_excluded;    /**< true when VAP excluded from MLO group due to
+                                    SSID/password/security mode mismatch with main link */
 } __attribute__((packed)) wifi_mld_common_info_t;
 
 /**
