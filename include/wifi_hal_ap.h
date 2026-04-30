@@ -3150,7 +3150,7 @@ typedef struct
     mac_address_t mac;        /**< MAC address. */
     wifi_mld_info_sta_t mld_info; /**< MLD information. */
     BOOL ignite_enabled; /* Ignite enable */
-    BOOL valid_bh_credentials; // Set to 1 if backhaul credentials (SSID and key) are valid
+    BOOL valid_bh_credentials; /**< TRUE if backhaul credentials (SSID and key) are valid. */
 } __attribute__((packed)) wifi_back_haul_sta_t;
 
 /**
