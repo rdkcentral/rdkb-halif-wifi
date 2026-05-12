@@ -3219,7 +3219,7 @@ typedef struct {
   UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
   USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
   char interop_info[64];
-  UCHAR multi_ap_backhaul_ssid[WIFI_AP_MAX_SSID_LEN]; /**< Multi-AP backhaul SSID, populated with the mesh backhaul SSID when WPS onboarding is configured. */
+  CHAR multi_ap_backhaul_ssid[WIFI_AP_MAX_SSID_LEN]; /**< Multi-AP backhaul SSID. Populated with the mesh backhaul SSID when WPS onboarding is configured. */
   UCHAR multi_ap_backhaul_network_key[256]; /**< Multi-AP backhaul network key, populated with the mesh backhaul key when WPS onboarding is configured. */
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
