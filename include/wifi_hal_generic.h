@@ -822,26 +822,37 @@ typedef enum
  */
 #define MAXIFACENAMESIZE 64
 
-/**
- * @brief HT (802.11n) capability related sizes
- */
-#define HT_MCS_SET_LEN          16
+#define HT_MCS_SET_LEN          16  /**< Length in bytes of the HT (802.11n) MCS set field. */
+#define VHT_MCS_SET_LEN         8   /**< Length in bytes of the VHT (802.11ac) MCS set field. */
+#define HE_MAX_MAC_CAPAB_SIZE    6   /**< Maximum length in bytes of the HE (802.11ax) MAC capabilities field. */
+#define HE_MAX_PHY_CAPAB_SIZE    11  /**< Maximum length in bytes of the HE (802.11ax) PHY capabilities field. */
+#define HE_MAX_MCS_CAPAB_SIZE    12  /**< Maximum length in bytes of the HE (802.11ax) MCS and NSS set field. */
+#define HE_MAX_PPET_CAPAB_SIZE   25  /**< Maximum length in bytes of the HE (802.11ax) PPE thresholds field. */
+#define EHT_PHY_CAPAB_LEN        9   /**< Length in bytes of the EHT (802.11be) PHY capabilities field. */
+#define EHT_MCS_NSS_CAPAB_LEN    9   /**< Length in bytes of the EHT (802.11be) MCS and NSS capabilities field. */
+#define EHT_PPE_THRESH_CAPAB_LEN 62  /**< Maximum length in bytes of the EHT (802.11be) PPE thresholds field. */
+#ifndef MAX_CHANNELS_PER_OP_CLASS
+#define MAX_CHANNELS_PER_OP_CLASS 59  /**< Maximum channels in any IEEE 802.11-2020 Table E-4 operating class (6 GHz 20 MHz classes). */
+#endif
+#define MAX_OP_CLASS_ENTRIES      60
 
 /**
- * @brief VHT (802.11ac) capability related sizes
+ * @brief Channel scan impact level. Expected impact on Fronthaul/Backhaul operations during a channel scan.
+ *
+ * Values are defined by the EasyMesh specification.  The field is 2 bits wide.
  */
-#define VHT_MCS_SET_LEN         8
+typedef enum {
+    WIFI_SCAN_IMPACT_NONE           = 0x00, /**< No impact on Fronthaul/Backhaul operations. */
+    WIFI_SCAN_IMPACT_REDUCED_STREAMS = 0x01, /**< Reduced number of spatial streams during scan. */
+    WIFI_SCAN_IMPACT_TIME_SLICING   = 0x02, /**< Time slicing impairment during scan. */
+    WIFI_SCAN_IMPACT_RADIO_UNAVAIL  = 0x03, /**< Radio unavailable for >= 2 seconds during scan. */
+} wifi_channel_scan_impact_t;
 
-/**
- * @brief Wi-Fi 6/7 capability length definitions.
- */
-#define HE_MAX_MAC_CAPAB_SIZE    6
-#define HE_MAX_PHY_CAPAB_SIZE    11
-#define HE_MAX_MCS_CAPAB_SIZE    12
-#define HE_MAX_PPET_CAPAB_SIZE   25
-#define EHT_PHY_CAPAB_LEN        9
-#define EHT_MCS_NSS_CAPAB_LEN    9
-#define EHT_PPE_THRESH_CAPAB_LEN 62
+typedef struct {
+    UCHAR  op_class;                              /**< Global operating class number as defined in IEEE 802.11-2020 Table E-4. */
+    UCHAR num_channels;                          /**< Number of valid channel entries in the channels array. */
+    UCHAR channels[MAX_CHANNELS_PER_OP_CLASS];   /**< List of channel numbers (or center-frequency indices for 80/160/320 MHz classes) for this operating class. */
+} __attribute__((packed)) op_class_ch_list_t;
 
 /**
  * @brief Wi-Fi radio capabilities.
@@ -886,6 +897,11 @@ typedef struct
     UCHAR eht_phy_cap[EHT_PHY_CAPAB_LEN]; /**< EHT PHY capabilities */
     UCHAR eht_mcs[EHT_MCS_NSS_CAPAB_LEN]; /**< EHT MCS set */
     UCHAR eht_ppet[EHT_PPE_THRESH_CAPAB_LEN]; /**< EHT PPE thresholds */
+    UINT min_scan_interval;    /**< Minimum scan interval in seconds. */
+    UINT num_op_class_entries; /**< Number of valid entries in op_class_ch_list[]. */
+    BOOL boot_only;    /**< True if the radio is capable only of on-boot scans; false if it can perform scans upon request. */
+    UCHAR scan_impact; /**< Expected impact on Fronthaul/Backhaul operations during a channel scan. Use wifi_channel_scan_impact_t values. */
+    op_class_ch_list_t op_class_ch_list[MAX_OP_CLASS_ENTRIES]; /**< Per-radio table of IEEE 802.11-2020 Table E-4 operating classes and their valid channels, pre-populated by the HAL so that upper layers can resolve operating class channel lists directly from capabilities without needing to call HAL functions, which are not accessible at that layer. */
 } __attribute__((packed)) wifi_radio_capabilities_t;
 
 /**
