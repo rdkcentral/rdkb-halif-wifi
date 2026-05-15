@@ -832,7 +832,7 @@ typedef enum
 #define EHT_MCS_NSS_CAPAB_LEN    9   /**< Length in bytes of the EHT (802.11be) MCS and NSS capabilities field. */
 #define EHT_PPE_THRESH_CAPAB_LEN 62  /**< Maximum length in bytes of the EHT (802.11be) PPE thresholds field. */
 #ifndef MAX_CHANNELS_PER_OP_CLASS
-#define MAX_CHANNELS_PER_OP_CLASS 59  /**< Maximum channels in any IEEE 802.11-2020 Table E-4 operating class (6 GHz 20 MHz classes). */
+#define MAX_CHANNELS_PER_OP_CLASS 70  /**< Maximum channels per operating class. */
 #endif
 #define MAX_OP_CLASS_ENTRIES      60
 
