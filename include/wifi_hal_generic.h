@@ -314,7 +314,8 @@ typedef enum
     WIFI_80211_VARIANT_AC = 0x20, /**< 802.11ac. */
     WIFI_80211_VARIANT_AD = 0x40, /**< 802.11ad. */
     WIFI_80211_VARIANT_AX = 0x80, /**< 802.11ax. */
-    WIFI_80211_VARIANT_BE = 0x100 /**< 802.11be. */
+    WIFI_80211_VARIANT_BE = 0x100, /**< 802.11be. */
+    WIFI_80211_VARIANT_BN = 0x200 /**< 802.11bn. */
 } wifi_ieee80211Variant_t;
 
 /**
