@@ -438,6 +438,31 @@ typedef enum
 /**
  * @brief 802.1x frame.
  */
+
+typedef enum {
+    EAPOL_MSG_NONE = 0,
+    EAPOL_MSG_M1,
+    EAPOL_MSG_M2,
+    EAPOL_MSG_M3,
+    EAPOL_MSG_M4
+} eapol_msg_type_t;
+
+typedef enum {
+    EAPOL_FRAME_UNKNOWN = 0,
+    EAPOL_FRAME_ASSOC,
+    EAPOL_FRAME_REASSOC
+} eapol_frame_type_t;
+
+typedef enum {
+    M1_ASSOC = 0,
+    M1_REASSOC,
+    M2_ASSOC,
+    M2_REASSOC,
+    M3_ASSOC,
+    M3_REASSOC,
+    EAPOL_STATUS_TYPE_MAX
+} eapol_status_type_idx_t;
+
 typedef struct
 {
     unsigned char version; /**< Version. */
@@ -1672,6 +1697,8 @@ typedef INT ( * wifi_device_disassociated_callback)(INT apIndex, char *src_mac,c
 typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int type, int radio, int mode);
 
 typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
+
+typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
