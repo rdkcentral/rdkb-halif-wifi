@@ -192,7 +192,7 @@ typedef struct
 } wifi_VAPTelemetry_t;
 
 /**
-* @typedef wifi_na_sta_req_params
+* @typedef wifi_na_sta_req_params_t
 * @brief Parameters to request unassociated station information.
 *
 * This structure specifies the station (STA) and radio context used to query
@@ -203,10 +203,10 @@ typedef struct {
     mac_address_t sta_mac; /**< Station MAC address to query. */
     UINT op_class; /**< Operating class (IEEE 802.11 global operating class). */
     UINT channel; /**< Channel number within the operating class. */
-} wifi_na_sta_req_params;
+} wifi_na_sta_req_params_t;
 
 /**
-* @typedef wifi_na_sta_info
+* @typedef wifi_na_sta_info_t
 * @brief Returned unassociated station link metrics.
 *
 * Contains the measurement result for one unassociated station, expressed
@@ -217,7 +217,7 @@ typedef struct {
     UINT channel; /**< Channel on which the measurement was performed. */
     UINT op_class; /**< Operating class on which the measurement was performed. */
     UINT rcpi; /**< RCPI value: (RSSI_dBm + 110) * 2, clamped to [0, 220]. */
-} wifi_na_sta_info;
+} wifi_na_sta_info_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
@@ -412,7 +412,7 @@ INT wifi_getVAPTelemetry(UINT apIndex, wifi_VAPTelemetry_t *telemetry);
 * @retval WIFI_HAL_SUCCESS Operation completed successfully.
 * @retval WIFI_HAL_ERROR Operation failed (invalid args, unsupported, internal error).
 */
-INT wifi_getNASta(INT apIndex, const wifi_na_sta_req_params *params, wifi_na_sta_info *sta_info);
+INT wifi_getNASta(INT apIndex, const wifi_na_sta_req_params_t *params, wifi_na_sta_info_t *sta_info);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
