@@ -400,7 +400,8 @@ INT wifi_getVAPTelemetry(UINT apIndex, wifi_VAPTelemetry_t *telemetry);
 * performs the measurement, and returns the result as RCPI.
 *
 * Notes:
-* - `params` and `sta_info` must point to valid writable memory.
+* - `params` must point to valid memory.
+* - `sta_info` must point to valid writable memory.
 * - The STA must not be currently associated to the queried AP.
 *
 * @param[in] apIndex AP/VAP index identifying the AP instance to query.
@@ -411,7 +412,7 @@ INT wifi_getVAPTelemetry(UINT apIndex, wifi_VAPTelemetry_t *telemetry);
 * @retval WIFI_HAL_SUCCESS Operation completed successfully.
 * @retval WIFI_HAL_ERROR Operation failed (invalid args, unsupported, internal error).
 */
-INT wifi_getNASta(INT apIndex, wifi_na_sta_req_params *params, wifi_na_sta_info *sta_info);
+INT wifi_getNASta(INT apIndex, const wifi_na_sta_req_params *params, wifi_na_sta_info *sta_info);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
