@@ -201,8 +201,8 @@ typedef struct
 */
 typedef struct {
     mac_address_t sta_mac; /**< Station MAC address to query. */
-    UINT op_class; /**< Operating class (IEEE 802.11 global operating class). */
     UINT channel; /**< Channel number within the operating class. */
+    UINT op_class; /**< Operating class (IEEE 802.11 global operating class). */
 } wifi_na_sta_req_params_t;
 
 /**
