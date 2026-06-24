@@ -191,6 +191,34 @@ typedef struct
     UINT txOverflow; /**< Wi-Fi TX overflow counter. */
 } wifi_VAPTelemetry_t;
 
+/**
+* @typedef wifi_na_sta_req_params_t
+* @brief Parameters to request unassociated station information.
+*
+* This structure specifies the station (STA) and radio context used to query
+* unassociated station link metrics. The HAL implementation converts the
+* operating class and channel to vendor-specific frequency/bandwidth parameters.
+*/
+typedef struct {
+    mac_address_t sta_mac; /**< Station MAC address to query. */
+    UINT channel; /**< Channel number within the operating class. */
+    UINT op_class; /**< Operating class (IEEE 802.11 global operating class). */
+} wifi_na_sta_req_params_t;
+
+/**
+* @typedef wifi_na_sta_info_t
+* @brief Returned unassociated station link metrics.
+*
+* Contains the measurement result for one unassociated station, expressed
+* as RCPI (Received Channel Power Indicator) per IEEE 802.11-2020 §9.4.2.37.
+*/
+typedef struct {
+    mac_address_t sta_mac; /**< Station MAC address (echoed/filled by implementation). */
+    UINT channel; /**< Channel on which the measurement was performed. */
+    UINT op_class; /**< Operating class on which the measurement was performed. */
+    UINT rcpi; /**< RCPI value: (RSSI_dBm + 110) * 2, clamped to [0, 220]. */
+} wifi_na_sta_info_t;
+
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
@@ -362,6 +390,29 @@ INT wifi_setRadioStatsEnable(INT radioIndex, BOOL enable);
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_getVAPTelemetry(UINT apIndex, wifi_VAPTelemetry_t *telemetry);
+
+/**
+* @brief Get unassociated station link metrics.
+*
+* Retrieves link metrics (RCPI) for a given unassociated station.
+* The caller provides the STA MAC, operating class, and channel.
+* The HAL implementation converts these to vendor-specific radio parameters,
+* performs the measurement, and returns the result as RCPI.
+*
+* Notes:
+* - `params` must point to valid memory.
+* - `sta_info` must point to valid writable memory.
+* - The STA must not be currently associated to the queried AP.
+*
+* @param[in] apIndex AP/VAP index identifying the AP instance to query.
+* @param[in] params Request parameters (STA MAC, operating class, channel).
+* @param[out] sta_info Output structure filled with measurement result.
+*
+* @return Status code.
+* @retval WIFI_HAL_SUCCESS Operation completed successfully.
+* @retval WIFI_HAL_ERROR Operation failed (invalid args, unsupported, internal error).
+*/
+INT wifi_getNASta(INT apIndex, const wifi_na_sta_req_params_t *params, wifi_na_sta_info_t *sta_info);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
