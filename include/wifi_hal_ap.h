@@ -1916,9 +1916,9 @@ void wifi_apDeAuthEvent_callback_register(wifi_apDeAuthEvent_callback callback_p
 * @param[in] src_mac    MAC address of the STA that sent the unprotected frame
 * @param[in] ether_type Ethertype of the dropped frame in host byte order
 *
-* @return The status of the operation
-* @retval RETURN_OK if successful
-* @retval RETURN_ERR if any error is detected
+* @returns The status of the operation
+* @retval WIFI_HAL_SUCCESS If successful
+* @retval WIFI_HAL_ERROR   If any error is detected
 *
 * @note This function must not suspend and must not invoke any blocking system
 * calls.  It should send a message to a driver event handler task which is
