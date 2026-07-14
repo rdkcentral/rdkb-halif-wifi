@@ -1900,6 +1900,7 @@ typedef INT ( * wifi_device_deauthenticated_callback)(int ap_index, char *src_ma
  * @param callback_proc Pointer to the callback function to register.
  */
 void wifi_apDeAuthEvent_callback_register(wifi_apDeAuthEvent_callback callback_proc);
+/** @} */  //END OF GROUP WIFI_HAL_APIS
 
 /**
  * @addtogroup WIFI_HAL_TYPES
