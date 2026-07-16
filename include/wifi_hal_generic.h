@@ -279,6 +279,7 @@ typedef enum
     wifi_encryption_tkip = 1, /**< TKIP encryption. */
     wifi_encryption_aes, /**< AES encryption. */
     wifi_encryption_aes_tkip, /**< AES/TKIP encryption. */
+    wifi_encryption_aes_gcmp,
     wifi_encryption_aes_gcmp256, /**< AES-GCMP-256 encryption. */
     wifi_encryption_gcmp256, /**< GCMP-256 encryption. */
 } wifi_encryption_method_t;
@@ -323,6 +324,7 @@ typedef enum
  */
 typedef enum
 {
+    WIFI_CHANNELBANDWIDTH_AUTO = 0x0,
     WIFI_CHANNELBANDWIDTH_20MHZ = 0x1, /**< 20MHz. */
     WIFI_CHANNELBANDWIDTH_40MHZ = 0x2, /**< 40MHz. */
     WIFI_CHANNELBANDWIDTH_80MHZ = 0x4, /**< 80MHz. */
