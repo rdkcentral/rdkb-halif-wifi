@@ -192,6 +192,7 @@ typedef struct
     wifi_channels_list_per_bandwidth_t  channels_per_bandwidth[MAX_NUM_CHANNELBANDWIDTH_SUPPORTED]; /**< All the channel list for a particular channel bandwidth */
     UINT numOperatingClasses; /**< Number of valid operating classes in the array operatingClasses */
     wifi_operating_classes_t operatingClasses[MAXNUMOPERCLASSESPERBAND]; /**< Array of supported Operating classes as per Data elements Schema */
+    UINT mldLinkId; /**< MLD Link ID for this radio (802.11be MLO). 255 indicates unset. */
 } __attribute__((packed)) wifi_radio_operationParam_t;
 
 /**
