@@ -1283,6 +1283,8 @@ typedef struct _wifi_associated_dev3
     wifi_multi_link_modes_t cli_MLModeCapa; /* Bitmap of the the MLD operation modes supported by the client */
     BOOL cli_TIDLinkMapNegotiation; /* Indicates whether TID to Link MAP negotiation is supported by client */
     mac_address_t cli_MLDAddr; /* Indicates the MLD MAC address of the connected client, 00's for non-Wi-Fi 7 clients. */
+    BOOL cli_PowerSaveMode;  /* Indicates the station is in Power save mode or not. */
+    UINT cli_sleepTime;  /* Indicates the station's sleep time. */
 } wifi_associated_dev3_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
