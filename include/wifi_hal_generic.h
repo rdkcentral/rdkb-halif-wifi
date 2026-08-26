@@ -238,6 +238,21 @@ extern "C"{
  * @brief Default length of device information fields.
  */
 #define DEFAULT_DEVICE_FIELD_LEN 64
+
+/**
+ * @brief Constants denoting limits and sentinel values for MLO parameters.
+ */
+
+/* Guarded due to hostapd having same definition */
+#ifndef MAX_NUM_MLD_LINKS
+#define MAX_NUM_MLD_LINKS 15 /**< Maximal allowed number of links */
+#endif
+
+#define MIN_MLO_GROUP_SIZE 2 /**< Minimum number of members that constitute a fully functional MLD. */
+#define MLD_UNIT_COUNT 8 /**< Maximal allowed number of MLDs on the device. */
+#define UNDEFINED_MLD_ID 255 /**< Value to denote unassigned or missing MLD ID */
+#define UNDEFINED_MLD_LINK_ID 255 /**< Value to denote unassigned or missing MLD link ID */
+
 /**********************************************************************
                 STRUCTURE DEFINITIONS
 **********************************************************************/
