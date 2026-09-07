@@ -414,6 +414,17 @@ typedef enum
 } wifi_eap_code_t;
 
 /**
+ * @brief EAPOL key messages.
+ */
+typedef enum {
+    wifi_eapol_key_msg_unknown = 0,
+    wifi_eapol_key_msg_m1 = 1,
+    wifi_eapol_key_msg_m2 = 2,
+    wifi_eapol_key_msg_m3 = 3,
+    wifi_eapol_key_msg_m4 = 4
+} wifi_eapol_key_msg_t;
+
+/**
  * @brief EAP frame.
  */
 typedef struct
@@ -1701,6 +1712,8 @@ typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
 typedef INT ( * wifi_eapol_key_callback)(int apIndex, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
 
 typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
+
+typedef INT (* wifi_eapol_key_callback)(int ap_index, char *mac, wifi_eapol_key_msg_t msg_type, unsigned int replay_counter);
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
