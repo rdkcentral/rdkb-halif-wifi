@@ -1698,7 +1698,7 @@ typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int
 
 typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
 
-typedef INT (* wifi_eapol_key_callback)(int apIndex, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
+typedef INT ( * wifi_eapol_key_callback)(int apIndex, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
 
 typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
