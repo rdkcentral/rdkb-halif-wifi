@@ -3293,6 +3293,7 @@ typedef struct {
   char interop_info[64];
   CHAR multi_ap_backhaul_ssid[WIFI_AP_MAX_SSID_LEN]; /**< Multi-AP backhaul SSID. Populated with the mesh backhaul SSID when WPS onboarding is configured. */
   UCHAR multi_ap_backhaul_network_key[256]; /**< Multi-AP backhaul network key, populated with the mesh backhaul key when WPS onboarding is configured. */
+  UINT  intf_offload_type;         /**< QCOM Acceleration offload type: 0=NONE, 1=PASSIVE(SFE), 2=ACTIVE, 3=Direct Switching(PPE_DS) */
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
