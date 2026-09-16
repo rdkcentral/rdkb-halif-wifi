@@ -438,6 +438,31 @@ typedef enum
 /**
  * @brief 802.1x frame.
  */
+
+typedef enum {
+    EAPOL_MSG_NONE = 0,
+    EAPOL_MSG_M1,
+    EAPOL_MSG_M2,
+    EAPOL_MSG_M3,
+    EAPOL_MSG_M4
+} eapol_msg_type_t;
+
+typedef enum {
+    EAPOL_FRAME_UNKNOWN = 0,
+    EAPOL_FRAME_ASSOC,
+    EAPOL_FRAME_REASSOC
+} eapol_frame_type_t;
+
+typedef enum {
+    M1_ASSOC = 0,
+    M1_REASSOC,
+    M2_ASSOC,
+    M2_REASSOC,
+    M3_ASSOC,
+    M3_REASSOC,
+    EAPOL_STATUS_TYPE_MAX
+} eapol_status_type_idx_t;
+
 typedef struct
 {
     unsigned char version; /**< Version. */
@@ -485,7 +510,8 @@ typedef enum
     WIFI_RADIO_SCAN_MODE_FULL,      /**< Full scan. */
     WIFI_RADIO_SCAN_MODE_ONCHAN,    /**< On-channel scan. */
     WIFI_RADIO_SCAN_MODE_OFFCHAN,   /**< Off-channel scan. */
-    WIFI_RADIO_SCAN_MODE_SURVEY     /**< Survey scan. */
+    WIFI_RADIO_SCAN_MODE_SURVEY,     /**< Survey scan. */
+    WIFI_RADIO_SCAN_MODE_SELECT_CHANNELS    /**< Selected channels scan. */
 } wifi_neighborScanMode_t;
 
 /**
@@ -566,6 +592,40 @@ INT wifi_getWifiTrafficStats(INT apIndex, wifi_trafficStats_t *output_struct);
  */
 INT wifi_getApAssociatedDevice(INT ap_index, mac_address_t *output_deviceMacAddressArray, UINT maxNumDevices, UINT *output_numDevices);
 #endif
+typedef enum {
+    WIFI_ACCESS_ACCEPT_STATUS = 0,
+    WIFI_EAP_SUCCESS_STATUS = 3,
+    WIFI_EAP_FAILURE_STATUS = 23
+} wifi_eap_status_code_t;
+
+typedef enum {
+    WIFI_REASON_UNSPECIFIED = 1,
+    WIFI_REASON_PREV_AUTH_NOT_VALID = 2,
+    WIFI_REASON_DEAUTH_LEAVING = 3,
+    WIFI_REASON_STA_REQ_ASSOC_WITHOUT_AUTH = 9,
+    WIFI_REASON_INVALID_IE = 13,
+    WIFI_REASON_MICHAEL_MIC_FAILURE = 14,
+    WIFI_REASON_4WAY_HANDSHAKE_TIMEOUT = 15,
+    WIFI_REASON_GROUP_KEY_UPDATE_TIMEOUT = 16,
+    WIFI_REASON_IE_IN_4WAY_DIFFERS = 17,
+    WIFI_REASON_GROUP_CIPHER_NOT_VALID = 18,
+    WIFI_REASON_PAIRWISE_CIPHER_NOT_VALID = 19,
+    WIFI_REASON_AKMP_NOT_VALID = 20,
+    WIFI_REASON_UNSUPPORTED_RSN_IE_VERSION = 21,
+    WIFI_REASON_INVALID_RSN_IE_CAPAB = 22,
+    WIFI_REASON_IEEE_802_1X_AUTH_FAILED = 23,
+    WIFI_REASON_CIPHER_SUITE_REJECTED = 24,
+    WIFI_REASON_INVALID_PMKID = 49
+} wifi_reason_code_t;
+
+typedef enum {
+    WIFI_STATUS_UNSPECIFIED_FAILURE = 1,
+    WIFI_STATUS_AUTH_TIMEOUT = 16,
+    WIFI_STATUS_ASSOC_REJECTED_TEMPORARILY = 30,
+    WIFI_STATUS_ROBUST_MGMT_FRAME_POLICY_VIOLATION = 31,
+    WIFI_STATUS_AKMP_NOT_VALID = 43,
+    WIFI_STATUS_INVALID_PMKID = 53
+} wifi_status_code_t;
 
 /**
  * @brief Restores Access Point parameters to factory defaults.
@@ -1493,6 +1553,22 @@ INT wifi_setApManagementFramePowerControl(INT apIndex, INT dBm);
 typedef INT(* wifi_newApAssociatedDevice_callback)(INT apIndex, wifi_associated_dev3_t *associated_dev);
 #else
 
+typedef struct {
+    BOOL cli_Valid;
+    BOOL cli_IsAssocLink;
+    UCHAR cli_LinkID;
+    UINT cli_VapIndex;
+    INT cli_RSSI;
+    UCHAR cli_LinkAddress[6];
+} wifi_mld_sta_link_info_t;
+
+typedef struct {
+    BOOL cli_MLDSta;
+    wifi_multi_link_modes_t cli_MLModeCapa;
+    BOOL cli_TIDLinkMapNegotiation;
+    wifi_mld_sta_link_info_t cli_LinkInfo[MAX_NUM_RADIOS];
+} wifi_mld_sta_info_t;
+
 /**
  * @brief Structure containing information about an associated device.
  */
@@ -1520,6 +1596,7 @@ typedef struct _wifi_associated_dev
     UINT cli_Disassociations;           /**< The total number of client disassociations. Reset the parameter every 24 hours or on reboot. */
     UINT cli_AuthenticationFailures;     /**< The total number of authentication failures. Reset the parameter every 24 hours or on reboot. */
     UINT cli_CapableNumSpatialStreams;  /**< The number of spatial streams supported by the associated client device. */
+    wifi_mld_sta_info_t cli_MLDInfo;          /**< Wi-Fi 7 MLO client information. */
 } wifi_associated_dev_t;
 
 /**
@@ -1573,6 +1650,79 @@ void wifi_newApAssociatedDevice_callback_register(wifi_newApAssociatedDevice_cal
  */
 typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT event_type);
 
+/* wifi_device_disassociated_callback() function */
+/**
+* @brief This call back will be invoked in onewifi when new wifi client disassociates from Access Point.
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] src_mac          MAC address of disassociated device
+* @param[in] dest_mac         MAC address of AccessPoint
+* @param[in] frame_type       type of management frame
+* @param[in] event_type       type of disassociation, explicit or due to client inactivity
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+typedef INT ( * wifi_device_disassociated_callback)(INT apIndex, char *src_mac,char *dest_mac, INT frame_type, INT event_type);
+/* wifi_stamode_callback() function */
+/**
+* @brief This call back will be invoked for all of these assoc request,reassoc request,eapol frames
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] mac              MAC address of associated device
+* @param[in] key_mgmt         authentication key management  of associated device
+* @param[in] type             frame type of associated device
+* @param[in] radio            radio to which associated device connected
+* @param[in] mode             security mode of gateway with respect to akm
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int type, int radio, int mode);
+
+typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
+
+typedef INT ( * wifi_eapol_key_callback)(int apIndex, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
+
+typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
+/* wifi_hal_ap_max_client_rejection_callback_register() function */
+/**
+ * @brief This call back will be called whenever an authentication response with reject reason 17
+ * is received.
+ *
+ * @param[in] apIndex          Access Point Index
+ * @param[in] mac_address      client_mac_address
+ * @param[in] reject_reason    reject reason
+ *
+ * @return The status of the operation
+ * @retval RETURN_OK if successful
+ * @retval RETURN_ERR if any error is detected
+ *
+ * @execution Synchronous
+ * @sideeffect None
+ *
+ * @note This function must not suspend and must not invoke any blocking system
+ * calls. It should probably just send a message to a driver event handler task.
+ *
+ */
+typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT reason);
+
 /**
  * @brief Callback function invoked when a RADIUS or EAP failure occurs.
  *
@@ -1587,7 +1737,9 @@ typedef INT ( * wifi_apDisassociatedDevice_callback)(INT apIndex, char *MAC, INT
  * @retval WIFI_HAL_SUCCESS If successful.
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
-typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason);
+typedef INT ( * wifi_apStatusCode_callback)(int apIndex, char *src_mac,char *dest_mac, int frame_type ,int status);
+
+typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, mac_address_t sta_mac, INT failure_reason);
 
 /**
  * @brief Registers a callback function for RADIUS/EAP failure events.
@@ -1599,6 +1751,46 @@ typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, INT failure_reason)
  * @param callback_proc Pointer to the callback function to register.
  */
 void wifi_radiusEapFailure_callback_register(wifi_radiusEapFailure_callback callback_proc);
+
+/* wifi_apStatusCode_callback_register() function */
+/**
+* @brief Callback registration function.
+*
+* @param[in] callback_proc  wifi_apStatusCode_callback_register callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+void wifi_apStatusCode_callback_register(wifi_apStatusCode_callback callback_proc);
+/* wifi_ap_stamode_callback_register() function */
+/**
+* @brief Callback registration function.
+*
+* @param[in] callback_proc  wifi_stamode_callback callback function
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+void wifi_ap_stamode_callback_register(wifi_stamode_callback callback_proc);
+
+void wifi_handshake_callback_register(wifi_handshake_callback callback_proc);
 
 /**
  * @brief Callback function invoked when a RADIUS server fallback failure occurs.
@@ -1668,6 +1860,36 @@ typedef INT ( * wifi_apDeAuthEvent_callback)(int ap_index, char *mac, int reason
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
 /**
+ * @addtogroup WIFI_HAL_TYPES
+ * @{
+ */
+/* wifi_device_deauthenticated_callback() function */
+/**
+* @brief This call back will be invoked when DeAuth Event comes from client.
+*
+* @param[in] apIndex          Access Point Index
+* @param[in] src_mac          MAC address of client device
+* @param[in] dest_mac         MAC address of AccessPoint
+* @param[in] frame_type       type of management frame
+* @param[in] reason           type of reason, explicit or due to client inactivity
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+
+typedef INT ( * wifi_device_deauthenticated_callback)(int ap_index, char *src_mac,char *dest_mac, int frame_type, int reason);
+
+/** @} */  //END OF GROUP WIFI_HAL_TYPES
+
+/**
  * @addtogroup WIFI_HAL_APIS
  * @{
  */
@@ -1680,6 +1902,49 @@ typedef INT ( * wifi_apDeAuthEvent_callback)(int ap_index, char *mac, int reason
  * @param callback_proc Pointer to the callback function to register.
  */
 void wifi_apDeAuthEvent_callback_register(wifi_apDeAuthEvent_callback callback_proc);
+/** @} */  //END OF GROUP WIFI_HAL_APIS
+
+/**
+ * @addtogroup WIFI_HAL_TYPES
+ * @{
+ */
+/* wifi_apFrameDropUnencrypted_callback() function */
+/**
+* @brief Callback invoked when the AP drops an unencrypted data frame received
+* from an associated STA on a security-enforced BSS (FC_WEP bit not set after
+* EAPOL has completed).  The STA has likely lost its PTK/GTK and the consumer
+* is expected to disassociate it so a fresh 4-way handshake takes place.
+*
+* @param[in] ap_index   Access Point Index
+* @param[in] src_mac    MAC address of the STA that sent the unprotected frame
+* @param[in] ether_type Ethertype of the dropped frame in host byte order
+*
+* @returns The status of the operation
+* @retval WIFI_HAL_SUCCESS If successful
+* @retval WIFI_HAL_ERROR   If any error is detected
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls.  It should send a message to a driver event handler task which is
+* responsible for performing the actual disassociation.
+*/
+typedef INT ( * wifi_apFrameDropUnencrypted_callback)(int ap_index, char *src_mac, unsigned short ether_type);
+
+/** @} */  //END OF GROUP WIFI_HAL_TYPES
+
+/**
+ * @addtogroup WIFI_HAL_APIS
+ * @{
+ */
+/**
+ * @brief Registers a callback function for unprotected-frame drop events.
+ *
+ * The callback is invoked when the driver reports that an unencrypted data
+ * frame was dropped on a secured AP BSS for an associated STA.  The consumer
+ * is expected to react by disassociating the offending STA.
+ *
+ * @param callback_proc Pointer to the callback function to register.
+ */
+void wifi_apFrameDropUnencrypted_callback_register(wifi_apFrameDropUnencrypted_callback callback_proc);
 
 /**
  * @brief Sets the interworking access network type for an Access Point.
@@ -1856,6 +2121,8 @@ typedef enum
     WIFI_MGMT_FRAME_TYPE_REASSOC_RSP = 7, /**< Reassociation response frame. */
     WIFI_MGMT_FRAME_TYPE_DISASSOC = 8, /**< Disassociation frame. */
     WIFI_MGMT_FRAME_TYPE_ACTION = 9,   /**< Action frame. */
+    WIFI_MGMT_FRAME_TYPE_AUTH_RSP = 10, /**< Authentication response frame. */
+    WIFI_MGMT_FRAME_TYPE_BEACON = 11,   /**< Beacon frame. */
 } wifi_mgmtFrameType_t;
 
 /**
@@ -1890,6 +2157,7 @@ typedef struct
     INT sig_dbm;                /**< Signal strength in dBm. */
     INT phy_rate;               /**< Physical rate. */
     UCHAR token;                /**< Token. */
+    UINT recv_freq;             /**< Frequency at which the frame was received. */
     UINT len;                   /**< Length of the data. */
     UCHAR *data;                /**< Pointer to the data. */
 } __attribute__((packed)) wifi_frame_t;
@@ -2008,10 +2276,11 @@ typedef INT (* wifi_receivedDataFrame_callback)(INT apIndex, mac_address_t sta_m
  * @param[in] len      Length of the frame data.
  * @param[in] type     Type of the management frame.
  * @param[in] dir      Direction of the management frame.
+ * @param[in] recv_freq Frequency at which the frame was received.
  *
  * @returns The status of the operation.
  */
-typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_mgmtFrameType_t type, wifi_direction_t dir);
+typedef INT (* wifi_receivedMgmtFrame_callback)(INT apIndex, UCHAR *sta_mac, UCHAR *frame, UINT len, wifi_mgmtFrameType_t type, wifi_direction_t dir, unsigned int recv_freq);
 
 
 /**
@@ -2192,6 +2461,31 @@ INT wifi_sendActionFrame(INT apIndex,
                          UINT frequency,
                          UCHAR *frame,
                          UINT len);
+
+/**
+ * @brief Transmits an action frame to a station from a specific VAP.
+ *
+ * @param[in] apIndex    Index of the VAP to send the frame from.
+ * @param[in] sta        MAC address of the peer device to send the frame to.
+ * @param[in] frequency  Frequency of the channel on which this action frame
+ *                       should be sent (for public action frames that can be
+ *                       sent to a device on an off-channel).
+ * @param[in] wait       The time (in milliseconds) to wait on the channel 
+ *                       (if off-channel) after sending the action frame before
+ *                       returning to the original channel.
+ * @param[in] frame      Pointer to the frame buffer.
+ * @param[in] len        Length of the buffer.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_sendActionFrameExt(INT apIndex,
+                            mac_address_t sta,
+                            UINT frequency,
+                            UINT wait,
+                            UCHAR *frame,
+                            UINT len);
 
 /**
  * @brief GAS configuration type.
@@ -2730,6 +3024,7 @@ typedef struct
 typedef struct
 {
     wifi_security_modes_t mode;     /**< Security mode. */
+    wifi_security_modes_t repurposed_mode;     /**< Security mode. */
     wifi_encryption_method_t encr;   /**< Encryption method. */
 #if defined(WIFI_HAL_VERSION_3)
     wifi_mfp_cfg_t mfp;            /**< MFP configuration. */
@@ -2747,6 +3042,7 @@ typedef struct
     UINT eap_req_retries;        /**< Number of EAP request retries. */
     BOOL disable_pmksa_caching;   /**< Whether PMKSA caching is disabled. */
     char key_id[32];            /**< OpenFlow tag associated with a PSK. */
+    wifi_radius_settings_t repurposed_radius;   /**< To Store RADIUS configs when in Non IEEE802_1x mode */
     union
     {
         wifi_radius_settings_t radius; /**< RADIUS settings. */
@@ -2837,6 +3133,7 @@ typedef struct
     int  min_num_mgmt_frames;            /**< Minimum number of mgmt frames required to compute the TCM threshold. */
     char tcm_exp_weightage[32];          /**< Alpha/Exponential weight used in the Exponential Moving Average formula. */
     char tcm_gradient_threshold[32];     /**< Threshold against which TCM Exponential Moving Average is computed. */
+    char tcm_client_deny_assoc_info[64]; /**< Transient Client Management deny/assoc information. */
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_preassoc_control_t;
 
@@ -2853,6 +3150,14 @@ typedef struct
     char client_force_disassoc_info[45]; /**< Client force disassociation information. */
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_postassoc_control_t;
+
+typedef struct { 
+    int speed_tier;                      /**< Speed Tier for Radius AVP */
+} __attribute__((packed)) network_param_config_t;
+
+typedef struct {
+    network_param_config_t npc;          /**< Amenities Network Param Configurations*/
+} __attribute__((packed)) amenities_network_config_t;
 
 /**
  * @brief VAP modes.
@@ -2880,6 +3185,7 @@ typedef struct
 {
     BOOL mld_enable;      /**< Whether MLD snooping is enabled. */
     UINT mld_id;          /**< MLD group ID. */
+    UINT mld_link_id;     /**< Link ID */
     mac_address_t mld_addr; /**< MLD group MAC address. */
 } __attribute__((packed)) wifi_mld_common_info_t;
 
@@ -2907,6 +3213,7 @@ typedef struct
 typedef struct
 {
     ssid_t ssid;             /**< SSID. */
+    ssid_t repurposed_ssid;   /**< SSID for ignite */
     bssid_t bssid;            /**< BSSID (if all 0, scan the SSID with probes, otherwise connect to the specified BSSID). */
     BOOL enabled;            /**< Whether the backhaul station is enabled. */
     wifi_connection_status_t conn_status; /**< Connection status. */
@@ -2914,12 +3221,23 @@ typedef struct
     wifi_vap_security_t security; /**< Security settings. */
     mac_address_t mac;        /**< MAC address. */
     wifi_mld_info_sta_t mld_info; /**< MLD information. */
+    BOOL ignite_enabled; /* Ignite enable */
+    BOOL valid_bh_credentials; /**< TRUE if backhaul credentials (SSID and key) are valid. */
 } __attribute__((packed)) wifi_back_haul_sta_t;
 
 /**
  * @brief Maximum length of an SSID.
  */
 #define WIFI_AP_MAX_SSID_LEN 33
+
+/**
+ * @brief Maximum length of the vendor information elements buffer
+ *
+ * Not a standard value, but a reasonable maximum for vendor elements 
+ * Computed by taking Max MPDU size - ~ MAX 802.11 header size - 802.11 FCS size - ~Size of required IEs
+ * 2,310 is divisible by the typical Vendor IE size (7 = IE Type[1] + IE Length[1] + OUI[3] + VIE Type[1] + VIE Subtype [1])
+ */
+#define WIFI_AP_MAX_VENDOR_IE_LEN 2310
 
 /**
  * @brief Fronthaul BSS information.
@@ -2945,6 +3263,7 @@ typedef struct {
   wifi_preassoc_control_t preassoc;  /**< Pre-association control settings. */
   wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
   BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
+  amenities_network_config_t am_config;  /**< Connected Building Phase Two */
   wifi_mac_filter_mode_t mac_filter_mode; /**< MAC filter mode. */
 
   BOOL sec_changed; /**< Whether security settings have changed. This field should not be implemented in the HAL. */
@@ -2962,9 +3281,18 @@ typedef struct {
   BOOL network_initiated_greylist; /**< Whether network-initiated greylisting is enabled. */
   BOOL mcast2ucast;              /**< Whether multicast-to-unicast conversion is enabled. */
   BOOL connected_building_enabled; /**< Whether connected building is enabled. */
+  BOOL mdu_enabled;   /**< Whether Managed Wifi Phase 2 is enabled. */
   wifi_mld_info_ap_t mld_info;        /**< MLD information. */
   BOOL hostap_mgt_frame_ctrl;        /**< Whether hostapd management frame control is enabled. */
   BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
+  BOOL   interop_ctrl;               /**< Whether interop ctrl is enabled. */
+  BOOL   interop_tel;
+  UINT    inum_sta;                   /**< configuring interop stations */
+  UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
+  USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */
+  char interop_info[64];
+  CHAR multi_ap_backhaul_ssid[WIFI_AP_MAX_SSID_LEN]; /**< Multi-AP backhaul SSID. Populated with the mesh backhaul SSID when WPS onboarding is configured. */
+  UCHAR multi_ap_backhaul_network_key[256]; /**< Multi-AP backhaul network key, populated with the mesh backhaul key when WPS onboarding is configured. */
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
@@ -2983,6 +3311,7 @@ typedef struct
     CHAR bridge_name[WIFI_BRIDGE_NAME_LEN]; /**< Bridge name. */
     wifi_vap_mode_t vap_mode;      /**< VAP mode. */
     wifi_vap_name_t repurposed_vap_name; /**< Repurposed VAP name. */
+    CHAR repurposed_bridge_name[WIFI_BRIDGE_NAME_LEN]; /**< Repurposed Bridge Name. */
     union
     {
         wifi_front_haul_bss_t bss_info; /**< Fronthaul BSS information. */
@@ -3013,6 +3342,10 @@ typedef struct
     BOOL BSSTransitionImplemented; /**< Whether BSS transition is implemented. */
 } __attribute__((packed)) wifi_ap_capabilities_t;
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
+
+const char *get_vap_ssid(wifi_vap_info_t *vap);
+const char *get_vap_bridge_name(wifi_vap_info_t *vap);
+unsigned int get_vap_security_mode(wifi_vap_info_t *vap, wifi_vap_security_t *sec);
 
 /**
  * @addtogroup WIFI_HAL_APIS
@@ -3193,6 +3526,63 @@ typedef INT(* wifi_analytics_callback)(CHAR *fmt, ...);
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 INT wifi_hal_analytics_callback_register(wifi_analytics_callback callback);
+
+/**
+ * @brief Wi-Fi Protected Setup (WPS) event types.
+ */
+typedef enum
+{
+    wifi_wps_ev_m2d,                       /**< M2D (Registrar requires more info / deferred). */
+    wifi_wps_ev_fail,                      /**< Registration failed. */
+    wifi_wps_ev_success,                   /**< Registration succeeded. */
+    wifi_wps_ev_pwd_auth_fail,             /**< Password authentication failed. */
+    wifi_wps_ev_pbc_overlap,               /**< PBC session overlap detected. */
+    wifi_wps_ev_pbc_timeout,               /**< PBC walktime expired before protocol run start. */
+    wifi_wps_ev_pbc_active,                /**< PBC mode was activated. */
+    wifi_wps_ev_pbc_disable,               /**< PBC mode was disabled. */
+    wifi_wps_ev_pin_timeout,               /**< PIN session expired. */
+    wifi_wps_ev_pin_disable,               /**< PIN session was disabled. */
+    wifi_wps_ev_pin_active,                /**< PIN mode was activated. */
+    wifi_wps_ev_er_ap_add,                 /**< External Registrar: AP added. */
+    wifi_wps_ev_er_ap_remove,              /**< External Registrar: AP removed. */
+    wifi_wps_ev_er_enrollee_add,           /**< External Registrar: Enrollee added. */
+    wifi_wps_ev_er_enrollee_remove,        /**< External Registrar: Enrollee removed. */
+    wifi_wps_ev_er_ap_settings,            /**< External Registrar: AP settings learned. */
+    wifi_wps_ev_er_set_selected_registrar, /**< External Registrar: SetSelectedRegistrar event. */
+    wifi_wps_ev_ap_pin_success,            /**< External Registrar used correct AP PIN. */
+} wifi_wps_ev_t;
+
+/**
+ * @brief Callback function invoked when a WPS (Wi-Fi Protected Setup) event occurs.
+ *
+ * This callback is triggered by the Wi-Fi HAL to notify upper layers about
+ * the result of a WPS operation on the specified access point interface.
+ * The callback must not suspend and must not invoke any blocking system calls.
+ *
+ * @param[in] apIndex Index of the access point interface where the WPS event occurred.
+ * @param[in] event   WPS event code indicating the outcome.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+typedef INT(* wifi_wpsEvent_callback)(INT apIndex, wifi_wps_ev_t event);
+
+/**
+ * @brief Registers a callback function to receive WPS result events.
+ *
+ * This function allows upper layers to register a callback that will be
+ * invoked whenever a WPS event occurs on any AP interface. Only one callback
+ * may be registered at a time; registering a new callback replaces the
+ * previous one.
+ *
+ * @param[in] callback Pointer to the callback function to register.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS If successful.
+ * @retval WIFI_HAL_ERROR   If any error is detected.
+ */
+INT wifi_wpsEvent_callback_register(wifi_wpsEvent_callback callback);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 

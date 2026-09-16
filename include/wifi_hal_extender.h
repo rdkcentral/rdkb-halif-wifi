@@ -786,7 +786,7 @@ typedef struct
 /**
  * @brief Maximum number of channels in a channel report.
  */
-#define MAX_CHANNELS_REPORT 16
+#define MAX_CHANNELS_REPORT 64
 
 /**
  * @brief Beacon reporting configuration.

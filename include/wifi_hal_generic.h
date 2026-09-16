@@ -20,6 +20,10 @@
 /**********************************************************************
     Notes:
 
+    What is new for 3.0.7
+
+      1. Added cli_capableNumSpatialStreams field to wifi_associated_dev3_t structure in wifi_hal_generic.h file.
+
     What is new for 3.0.6
 
       1. Added new security types wifi_security_key_type_saeext, wifi_security_key_type_sae_saeext
@@ -192,7 +196,7 @@ extern "C"{
 // Defines for HAL version 3.0.6
 #define WIFI_HAL_MAJOR_VERSION 3        /**< Wi-Fi HAL major version. */
 #define WIFI_HAL_MINOR_VERSION 0        /**< Wi-Fi HAL minor version. */
-#define WIFI_HAL_MAINTENANCE_VERSION 6  /**< Wi-Fi HAL maintenance version. */
+#define WIFI_HAL_MAINTENANCE_VERSION 7  /**< Wi-Fi HAL maintenance version. */
 
 #define WIFI_HAL_VERSION \
     (WIFI_HAL_MAJOR_VERSION * 1000 + WIFI_HAL_MINOR_VERSION * 10 + WIFI_HAL_MAINTENANCE_VERSION) /**< Wi-Fi HAL version. */
@@ -229,11 +233,26 @@ extern "C"{
 
 #define KEY_MSG_4_OF_4(msg) \
     ((((msg)->key_info[1] & KI1_VER_MASK) == KI1_PW_KEY) && ((msg)->key_info[0] == KI0_MSG4_BITS)) /**< Checks if a key message is message 4 of 4. */
-
+#define MAX_IE_ELEMENT_LEN 1024 /* Max length of information elements in the Probe response */
 /**
  * @brief Default length of device information fields.
  */
 #define DEFAULT_DEVICE_FIELD_LEN 64
+
+/**
+ * @brief Constants denoting limits and sentinel values for MLO parameters.
+ */
+
+/* Guarded due to hostapd having same definition */
+#ifndef MAX_NUM_MLD_LINKS
+#define MAX_NUM_MLD_LINKS 15 /**< Maximal allowed number of links */
+#endif
+
+#define MIN_MLO_GROUP_SIZE 2 /**< Minimum number of members that constitute a fully functional MLD. */
+#define MLD_UNIT_COUNT 8 /**< Maximal allowed number of MLDs on the device. */
+#define UNDEFINED_MLD_ID 255 /**< Value to denote unassigned or missing MLD ID */
+#define UNDEFINED_MLD_LINK_ID 255 /**< Value to denote unassigned or missing MLD link ID */
+
 /**********************************************************************
                 STRUCTURE DEFINITIONS
 **********************************************************************/
@@ -266,7 +285,8 @@ typedef enum
     wifi_security_mode_wpa3_personal = 0x00000200, /**< WPA3 Personal. */
     wifi_security_mode_wpa3_transition = 0x00000400, /**< WPA3 Transition. */
     wifi_security_mode_wpa3_enterprise = 0x00000800, /**< WPA3 Enterprise. */
-    wifi_security_mode_enhanced_open = 0x00001000 /**< Enhanced Open. */
+    wifi_security_mode_enhanced_open = 0x00001000, /**< Enhanced Open. */
+    wifi_security_mode_wpa3_compatibility = 0x00002000 /**< WPA3 Personal Compatibility */
 } wifi_security_modes_t;
 
 /**
@@ -313,7 +333,8 @@ typedef enum
     WIFI_80211_VARIANT_AC = 0x20, /**< 802.11ac. */
     WIFI_80211_VARIANT_AD = 0x40, /**< 802.11ad. */
     WIFI_80211_VARIANT_AX = 0x80, /**< 802.11ax. */
-    WIFI_80211_VARIANT_BE = 0x100 /**< 802.11be. */
+    WIFI_80211_VARIANT_BE = 0x100, /**< 802.11be. */
+    WIFI_80211_VARIANT_BN = 0x200 /**< 802.11bn. */
 } wifi_ieee80211Variant_t;
 
 /**
@@ -360,7 +381,7 @@ typedef struct
     unsigned short caps; /**< Capabilities. */
     unsigned int beacon_int; /**< Beacon interval. */
     unsigned int freq; /**< Frequency. */
-    unsigned char ie[256]; /**< Information elements. */
+    unsigned char ie[MAX_IE_ELEMENT_LEN]; /**< Information elements. */
     size_t ie_len; /**< Length of the information elements. */
     wifi_security_modes_t sec_mode; /**< Security mode. */
     wifi_encryption_method_t enc_method; /**< Encryption method. */
@@ -372,8 +393,11 @@ typedef struct
     wifi_bitrate_t basic_rates; /**< Basic rates. */
     wifi_bitrate_t supp_rates; /**< Supported rates. */
     unsigned int dtim_period; /**< DTIM period. */
-    unsigned int chan_utilization; /**< Channel utilization. */
+    unsigned int chan_utilization; /**< Channel utilization.  As per R6 spec, this is valid only if BSS load element is present */
     int noise; /**< Noise. */
+    int snr;  /**< SNR.  */
+    BOOL bss_load_element_present; /**< BSS Load element. */
+    unsigned int station_cnt; /**< Station count. As per R6 spec, this is valid only if BSS load element is present */
 } __attribute__((packed)) wifi_bss_info_t;
 
 /**
@@ -438,6 +462,15 @@ typedef struct
     INT num_channels; /**< The number of available channels in `channels_list`. */
     INT channels_list[MAX_CHANNELS]; /**< List of channels. */
 } __attribute__((packed)) wifi_channels_list_t;
+
+/**
+ * @brief Wi-Fi channel lists per bandwidth.
+ */
+typedef struct {
+    wifi_channelBandwidth_t chanwidth; /**< Bandwidth to which the channel blocks are mapped to */
+    INT num_channels_list; /**< The number of list of channels contained within a given bandwidth */
+    wifi_channels_list_t channels_list[MAX_CHANNELS]; /**< List of channel lists */
+}__attribute__((packed)) wifi_channels_list_per_bandwidth_t;
 
 /**
  * @brief Maximum number of transmit power levels supported.
@@ -752,6 +785,8 @@ typedef enum {
     wifi_countrycode_CW, /**< CURACAO */
     wifi_countrycode_MF, /**< SAINT_MARTIN */
     wifi_countrycode_SX, /**< SINT_MAARTEN */
+    wifi_countrycode_BQ, /**< BONAIRE_SINT_EUSTATIUS_AND_SABA */
+    wifi_countrycode_00, /**< GLOBAL_CC */
     wifi_countrycode_max /**< Max number of country code */
 } wifi_countrycode_type_t;
 
@@ -774,62 +809,6 @@ typedef struct
     UINT maxDevices; /**< The maximum number of stations that can be configured to collect the CSI data. Return 0 if CSI is not supported. */
     BOOL soudingFrameSupported; /**< True if the radio supports sending sounding frames in the MAC layer. */
 } __attribute__((packed)) wifi_radio_csi_capabilities_t;
-
-/**
- * @brief Maximum size of an interface name.
- */
-#define MAXIFACENAMESIZE 64
-
-/**
- * @brief Wi-Fi radio capabilities.
- */
-typedef struct
-{
-    UINT index; /**< Radio index. */
-    CHAR ifaceName[MAXIFACENAMESIZE]; /**< The interface name. */
-    UINT numSupportedFreqBand; /**< The number of supported frequency bands. */
-    wifi_freq_bands_t band[MAX_NUM_FREQ_BAND]; /**< The frequency band list. */
-    wifi_channels_list_t channel_list[MAX_NUM_FREQ_BAND]; /**< The list of supported channels for each frequency band supported. */
-    wifi_channelBandwidth_t channelWidth[MAX_NUM_FREQ_BAND]; /**< The channel bandwidth supported (uses bitmask to return multiple bandwidths) for each frequency band supported. */
-    wifi_ieee80211Variant_t mode[MAX_NUM_FREQ_BAND]; /**< The supported modes (uses bitmask to return multiple modes) for each frequency band supported. */
-    UINT maxBitRate[MAX_NUM_FREQ_BAND]; /**< The maximum PHY bit rate supported for each frequency band supported. */
-    UINT supportedBitRate[MAX_NUM_FREQ_BAND]; /**< The supported data transmit rates in Mbps for each frequency band supported. It uses bitmask to return multiple bitrates and wifi_bitrate_t has the definition of valid values. */
-    wifi_radio_trasmitPowerSupported_list_t transmitPowerSupported_list[MAX_NUM_FREQ_BAND]; /**< List of transmit power supported for each frequency band supported. */
-    BOOL autoChannelSupported; /**< True if auto channel is supported. */
-    BOOL DCSSupported; /**< True if DCS is supported. */
-    BOOL zeroDFSSupported; /**< True if Zero DFS is supported. Zero DFS (also known as Background CAC) allows the Wi-Fi stack to continue operation on the main channel and at the same time run background CAC. */
-    wifi_radio_csi_capabilities_t csi; /**< CSI capabilities. */
-    UINT cipherSupported; /**< The list of supported ciphers (uses bitmask to return multiple values). */
-    UINT numcountrySupported; /**< Number of supported countries. */
-    wifi_countrycode_type_t countrySupported[wifi_countrycode_max]; /**< The supported country list. It should return the current country code on the first entry. */
-    UINT maxNumberVAPs; /**< Maximum number of VAPs. */
-    BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
-} __attribute__((packed)) wifi_radio_capabilities_t;
-
-/**
- * @brief Wi-Fi interface property information.
- */
-typedef struct
-{
-    unsigned int phy_index; /**< Actual index of the PHY device. */
-    unsigned int rdk_radio_index; /**< Radio index of the upper layer. */
-    wifi_interface_name_t interface_name; /**< Interface name. */
-    wifi_interface_name_t bridge_name; /**< Bridge name. */
-    int vlan_id; /**< VLAN ID. */
-    unsigned int index; /**< Index. */
-    wifi_vap_name_t vap_name; /**< VAP name. */
-} __attribute__((packed)) wifi_interface_name_idex_map_t;
-
-/**
- * @brief Radio interface mapping.
- */
-typedef struct
-{
-    unsigned int phy_index; /**< PHY index. */
-    unsigned int radio_index; /**< Radio index. */
-    char radio_name[16]; /**< Radio name. */
-    wifi_interface_name_t interface_name; /**< Interface name. */
-} __attribute__((packed)) radio_interface_mapping_t;
 
 /**
  * @brief Wi-Fi Multi-Link supported bands.
@@ -857,6 +836,119 @@ typedef enum
     eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
     eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
 } wifi_multi_link_modes_t;
+
+/**
+ * @brief Maximum size of an interface name.
+ */
+#define MAXIFACENAMESIZE 64
+
+#define HT_MCS_SET_LEN          16  /**< Length in bytes of the HT (802.11n) MCS set field. */
+#define VHT_MCS_SET_LEN         8   /**< Length in bytes of the VHT (802.11ac) MCS set field. */
+#define HE_MAX_MAC_CAPAB_SIZE    6   /**< Maximum length in bytes of the HE (802.11ax) MAC capabilities field. */
+#define HE_MAX_PHY_CAPAB_SIZE    11  /**< Maximum length in bytes of the HE (802.11ax) PHY capabilities field. */
+#define HE_MAX_MCS_CAPAB_SIZE    12  /**< Maximum length in bytes of the HE (802.11ax) MCS and NSS set field. */
+#define HE_MAX_PPET_CAPAB_SIZE   25  /**< Maximum length in bytes of the HE (802.11ax) PPE thresholds field. */
+#define EHT_PHY_CAPAB_LEN        9   /**< Length in bytes of the EHT (802.11be) PHY capabilities field. */
+#define EHT_MCS_NSS_CAPAB_LEN    9   /**< Length in bytes of the EHT (802.11be) MCS and NSS capabilities field. */
+#define EHT_PPE_THRESH_CAPAB_LEN 62  /**< Maximum length in bytes of the EHT (802.11be) PPE thresholds field. */
+#ifndef MAX_CHANNELS_PER_OP_CLASS
+#define MAX_CHANNELS_PER_OP_CLASS 70  /**< Maximum channels per operating class. */
+#endif
+#define MAX_OP_CLASS_ENTRIES      60
+
+/**
+ * @brief Channel scan impact level. Expected impact on Fronthaul/Backhaul operations during a channel scan.
+ *
+ * Values are defined by the EasyMesh specification.  The field is 2 bits wide.
+ */
+typedef enum {
+    WIFI_SCAN_IMPACT_NONE           = 0x00, /**< No impact on Fronthaul/Backhaul operations. */
+    WIFI_SCAN_IMPACT_REDUCED_STREAMS = 0x01, /**< Reduced number of spatial streams during scan. */
+    WIFI_SCAN_IMPACT_TIME_SLICING   = 0x02, /**< Time slicing impairment during scan. */
+    WIFI_SCAN_IMPACT_RADIO_UNAVAIL  = 0x03, /**< Radio unavailable for >= 2 seconds during scan. */
+} wifi_channel_scan_impact_t;
+
+typedef struct {
+    UCHAR  op_class;                              /**< Global operating class number as defined in IEEE 802.11-2020 Table E-4. */
+    UCHAR num_channels;                          /**< Number of valid channel entries in the channels array. */
+    UCHAR channels[MAX_CHANNELS_PER_OP_CLASS];   /**< List of channel numbers (or center-frequency indices for 80/160/320 MHz classes) for this operating class. */
+} __attribute__((packed)) op_class_ch_list_t;
+
+/**
+ * @brief Wi-Fi radio capabilities.
+ */
+typedef struct
+{
+    UINT index; /**< Radio index. */
+    UINT rdk_radio_index; /**< Rdk radio index. */
+    CHAR ifaceName[MAXIFACENAMESIZE]; /**< The interface name. */
+    UINT numSupportedFreqBand; /**< The number of supported frequency bands. */
+    wifi_freq_bands_t band[MAX_NUM_FREQ_BAND]; /**< The frequency band list. */
+    wifi_channels_list_t channel_list[MAX_NUM_FREQ_BAND]; /**< The list of supported channels for each frequency band supported. */
+    wifi_channelBandwidth_t channelWidth[MAX_NUM_FREQ_BAND]; /**< The channel bandwidth supported (uses bitmask to return multiple bandwidths) for each frequency band supported. */
+    wifi_ieee80211Variant_t mode[MAX_NUM_FREQ_BAND]; /**< The supported modes (uses bitmask to return multiple modes) for each frequency band supported. */
+    UINT maxBitRate[MAX_NUM_FREQ_BAND]; /**< The maximum PHY bit rate supported for each frequency band supported. */
+    UINT supportedBitRate[MAX_NUM_FREQ_BAND]; /**< The supported data transmit rates in Mbps for each frequency band supported. It uses bitmask to return multiple bitrates and wifi_bitrate_t has the definition of valid values. */
+    wifi_radio_trasmitPowerSupported_list_t transmitPowerSupported_list[MAX_NUM_FREQ_BAND]; /**< List of transmit power supported for each frequency band supported. */
+    BOOL autoChannelSupported; /**< True if auto channel is supported. */
+    BOOL DCSSupported; /**< True if DCS is supported. */
+    BOOL zeroDFSSupported; /**< True if Zero DFS is supported. Zero DFS (also known as Background CAC) allows the Wi-Fi stack to continue operation on the main channel and at the same time run background CAC. */
+    wifi_radio_csi_capabilities_t csi; /**< CSI capabilities. */
+    UINT cipherSupported; /**< The list of supported ciphers (uses bitmask to return multiple values). */
+    UINT numcountrySupported; /**< Number of supported countries. */
+    wifi_countrycode_type_t countrySupported[wifi_countrycode_max]; /**< The supported country list. It should return the current country code on the first entry. */
+    UINT maxNumberVAPs; /**< Maximum number of VAPs. */
+    BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
+    wifi_multi_link_modes_t mldOperationalCap; /**< Bitmask indicating WiFi 7 supported modes */
+    BOOL TIDLinkMapNegotiation; /**< True if 'TID to Link Mapping Negotiation' is supported. */
+    USHORT ht_capab; /**< HT (IEEE 802.11n) capabilities */
+    UCHAR mcs_set[HT_MCS_SET_LEN]; /**< MCS set for HT (IEEE 802.11n) */
+    UCHAR ampdu_params; /**< A-MPDU parameters for HT (IEEE 802.11n) */
+    UINT vht_capab; /**< VHT (IEEE 802.11ac) capabilities */
+    UCHAR vht_mcs_set[VHT_MCS_SET_LEN]; /**< VHT MCS set for VHT (IEEE 802.11ac) */
+    BOOL wifi6_supported; /**< Whether WiFi6 (HE) is supported */
+    UCHAR he_phy_cap[HE_MAX_PHY_CAPAB_SIZE]; /**< HE PHY capabilities */
+    UCHAR he_mac_cap[HE_MAX_MAC_CAPAB_SIZE]; /**< HE MAC capabilities */
+    UCHAR he_mcs_nss_set[HE_MAX_MCS_CAPAB_SIZE]; /**< HE MCS NSS set */
+    UCHAR he_ppet[HE_MAX_PPET_CAPAB_SIZE]; /**< HE PPE thresholds */
+    USHORT he_6ghz_capa; /**< HE 6GHz capabilities */
+    BOOL wifi7_supported; /**< Whether WiFi7 (EHT) is supported */
+    USHORT eht_mac_cap; /**< EHT MAC capabilities */
+    UCHAR eht_phy_cap[EHT_PHY_CAPAB_LEN]; /**< EHT PHY capabilities */
+    UCHAR eht_mcs[EHT_MCS_NSS_CAPAB_LEN]; /**< EHT MCS set */
+    UCHAR eht_ppet[EHT_PPE_THRESH_CAPAB_LEN]; /**< EHT PPE thresholds */
+    UINT min_scan_interval;    /**< Minimum scan interval in seconds. */
+    UINT num_op_class_entries; /**< Number of valid entries in op_class_ch_list[]. */
+    BOOL boot_only;    /**< True if the radio is capable only of on-boot scans; false if it can perform scans upon request. */
+    UCHAR scan_impact; /**< Expected impact on Fronthaul/Backhaul operations during a channel scan. Use wifi_channel_scan_impact_t values. */
+    op_class_ch_list_t op_class_ch_list[MAX_OP_CLASS_ENTRIES]; /**< Per-radio table of IEEE 802.11-2020 Table E-4 operating classes and their valid channels, pre-populated by the HAL so that upper layers can resolve operating class channel lists directly from capabilities without needing to call HAL functions, which are not accessible at that layer. */
+} __attribute__((packed)) wifi_radio_capabilities_t;
+
+/**
+ * @brief Wi-Fi interface property information.
+ */
+typedef struct
+{
+    unsigned int phy_index; /**< Actual index of the PHY device. */
+    unsigned int rdk_radio_index; /**< Radio index of the upper layer. */
+    wifi_interface_name_t interface_name; /**< Interface name. */
+    wifi_interface_name_t mld_interface_name; /**< MLD interface name. */
+    wifi_interface_name_t bridge_name; /**< Bridge name. */
+    int vlan_id; /**< VLAN ID. */
+    unsigned int index; /**< Index. */
+    wifi_vap_name_t vap_name; /**< VAP name. */
+} __attribute__((packed)) wifi_interface_name_idex_map_t;
+
+/**
+ * @brief Radio interface mapping.
+ */
+typedef struct
+{
+    unsigned int phy_index; /**< PHY index. */
+    unsigned int radio_index; /**< Radio index. */
+    char radio_name[16]; /**< Radio name. */
+    wifi_interface_name_t interface_name; /**< Interface name. */
+} __attribute__((packed)) radio_interface_mapping_t;
 
 /**
  * @brief Wi-Fi Multi-Link information.
@@ -889,6 +981,7 @@ typedef struct
     CHAR software_version[DEFAULT_DEVICE_FIELD_LEN]; /**< Device software version. */
     mac_address_t cm_mac; /**< Cable modem MAC address. */
     mac_address_t al_1905_mac; /**< 802.11v AL MAC address. */
+    int colocated_mode; /**< Easymesh agent mode based on controller configuration */
 } __attribute__((packed)) wifi_platform_property_t;
 
 /**
@@ -1179,8 +1272,8 @@ typedef struct _wifi_associated_dev3
     ULONG cli_MultipleRetryCount; /**< The number of packets that were successfully transmitted after more than one retransmission. */
     UINT cli_MaxDownlinkRate; /**< The maximum data transmit rate in Mbps for the access point to the associated device. */
     UINT cli_MaxUplinkRate; /**< The maximum data transmit rate in Mbps for the associated device to the access point. */
-    wifi_ul_mu_stats_t cli_DownlinkMuStats; /**< Uplink MU statistics. */
-    wifi_dl_mu_stats_t cli_UplinkMuStats; /**< Downlink MU statistics. */
+    wifi_dl_mu_stats_t cli_DownlinkMuStats; /**< Downlink MU statistics. */
+    wifi_ul_mu_stats_t cli_UplinkMuStats; /**< Uplink MU statistics. */
     wifi_twt_dev_info_t cli_TwtParams; /**< TWT sessions that the device has joined. */
 
     /* To facilitate retrieval of CSI data for a specific associated client, an existing RDK-B Wi-Fi HAL
@@ -1206,7 +1299,12 @@ typedef struct _wifi_associated_dev3
     ULLONG cli_RxRetries; /**< Number of RX retries. */
     ULLONG cli_RxErrors; /**< Number of RX errors. */
     BOOL cli_MLDEnable; /* Indicates whether the connected client uses a single link or multi-link connections, false - single link and true - multi-link. */
+    wifi_multi_link_modes_t cli_MLModeCapa; /* Bitmap of the the MLD operation modes supported by the client */
+    BOOL cli_TIDLinkMapNegotiation; /* Indicates whether TID to Link MAP negotiation is supported by client */
     mac_address_t cli_MLDAddr; /* Indicates the MLD MAC address of the connected client, 00's for non-Wi-Fi 7 clients. */
+    BOOL cli_PowerSaveMode;  /* Indicates the station is in Power save mode or not. */
+    ULONG cli_sleepTime;  /* Indicates the station's sleep time. */
+    UINT cli_capableNumSpatialStreams; /**< The maximum number of spatial streams supported/capable by the client device in the session. */
 } wifi_associated_dev3_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
