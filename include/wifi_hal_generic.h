@@ -300,6 +300,7 @@ typedef enum
     wifi_encryption_aes_tkip, /**< AES/TKIP encryption. */
     wifi_encryption_aes_gcmp256, /**< AES-GCMP-256 encryption. */
     wifi_encryption_gcmp256, /**< GCMP-256 encryption. */
+    wifi_encryption_aes_gcmp, /**< AES-GCMP encryption. */
 } wifi_encryption_method_t;
 
 /**
