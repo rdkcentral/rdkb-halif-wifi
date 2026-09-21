@@ -193,7 +193,7 @@ extern "C"{
 #define RESTORE_CNFG_FILE_NAME "/data/.nvram_restore_cfg.txt"  /**< Restore configuration file name. */
 #define NVRAM_LINE_MAX (1024)  /**< Maximum length of an NVRAM line. */
 
-// Defines for HAL version 3.0.6
+// Defines for HAL version 3.0.7
 #define WIFI_HAL_MAJOR_VERSION 3        /**< Wi-Fi HAL major version. */
 #define WIFI_HAL_MINOR_VERSION 0        /**< Wi-Fi HAL minor version. */
 #define WIFI_HAL_MAINTENANCE_VERSION 7  /**< Wi-Fi HAL maintenance version. */
