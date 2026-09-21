@@ -1700,6 +1700,7 @@ typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int
 typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
 
 typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
+typedef INT (* wifi_eapol_key_callback)(int ap_index, char *mac, wifi_eapol_key_frame_t, unsigned int replay_counter);
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
