@@ -2868,11 +2868,17 @@ INT wifi_pushMultiPskKeys(INT apIndex, wifi_key_multi_psk_t *keys, INT keysNumbe
  */
 INT wifi_getMultiPskKeys(INT apIndex, wifi_key_multi_psk_t *keys, INT keysNumber);
 
-static inline int test_coverity(int *p)
+#ifdef __cplusplus
+static __attribute__((noinline, used)) int test_coverity(int *p)
 {
     return *p;
 }
-static int test_coverity_trigger = test_coverity(nullptr);
+
+static __attribute__((constructor, noinline, used)) void test_coverity_constructor(void)
+{
+    test_coverity(nullptr);
+}
+#endif
 /**
  * @brief Gets the multi-PSK key for a specific client MAC address.
  *
