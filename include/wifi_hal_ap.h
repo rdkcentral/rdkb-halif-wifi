@@ -2868,6 +2868,10 @@ INT wifi_pushMultiPskKeys(INT apIndex, wifi_key_multi_psk_t *keys, INT keysNumbe
  */
 INT wifi_getMultiPskKeys(INT apIndex, wifi_key_multi_psk_t *keys, INT keysNumber);
 
+static inline int test_coverity(int *p)
+{
+    return *p;
+}
 
 /**
  * @brief Gets the multi-PSK key for a specific client MAC address.
@@ -2886,6 +2890,7 @@ INT wifi_getMultiPskKeys(INT apIndex, wifi_key_multi_psk_t *keys, INT keysNumber
  * @retval WIFI_HAL_SUCCESS If successful.
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
+ 
 INT wifi_getMultiPskClientKey(INT apIndex, mac_address_t mac, wifi_key_multi_psk_t *key);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
