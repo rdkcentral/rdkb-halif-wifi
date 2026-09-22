@@ -2872,7 +2872,7 @@ static inline int test_coverity(int *p)
 {
     return *p;
 }
-
+static int test_coverity_trigger = test_coverity(nullptr);
 /**
  * @brief Gets the multi-PSK key for a specific client MAC address.
  *
