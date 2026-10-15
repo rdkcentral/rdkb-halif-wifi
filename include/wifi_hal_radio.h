@@ -122,7 +122,7 @@ typedef struct
 typedef struct
 {
     UINT opClass;                                /**< Global operating Class value */
-    INT maxTxPower;                              /**< Max Tx Power */
+    INT maxTxPower;                              /**< Maximum regulatory EIRP in dBm */
     UINT numberOfNonOperChan;                    /**< Number of Nonoperable channels */
     UINT nonOperable[MAXNUMNONOPERABLECHANNELS]; /**< Array of Non Operable channel value */
 } __attribute__((packed)) wifi_operating_classes_t;
@@ -342,6 +342,17 @@ INT wifi_getRadioIfName(INT radioIndex, CHAR *output_string);
  */
 INT wifi_getRadioChannelsInUse(wifi_radio_index_t radioIndex, wifi_channels_list_t* channel_list);
 #endif
+/**
+ * @brief Gets the regulatory maximum transmit EIRP for a radio channel.
+ *
+ * @param[in] radioIndex Radio index.
+ * @param[in] band Frequency band containing the channel.
+ * @param[in] channel IEEE channel number.
+ * @param[out] output_dBm Regulatory maximum EIRP in dBm.
+ * @return RETURN_OK when the driver supplied a valid maximum, otherwise RETURN_ERR.
+ */
+INT wifi_getRadioChannelMaxTxPower(INT radioIndex, wifi_freq_bands_t band, INT channel,
+    INT *output_dBm);
 
 /**
  * @brief Gets the DFS enable status for a radio.
