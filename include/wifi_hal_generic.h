@@ -193,7 +193,7 @@ extern "C"{
 #define RESTORE_CNFG_FILE_NAME "/data/.nvram_restore_cfg.txt"  /**< Restore configuration file name. */
 #define NVRAM_LINE_MAX (1024)  /**< Maximum length of an NVRAM line. */
 
-// Defines for HAL version 3.0.6
+// Defines for HAL version 3.0.7
 #define WIFI_HAL_MAJOR_VERSION 3        /**< Wi-Fi HAL major version. */
 #define WIFI_HAL_MINOR_VERSION 0        /**< Wi-Fi HAL minor version. */
 #define WIFI_HAL_MAINTENANCE_VERSION 7  /**< Wi-Fi HAL maintenance version. */
@@ -1303,9 +1303,9 @@ typedef struct _wifi_associated_dev3
     wifi_multi_link_modes_t cli_MLModeCapa; /* Bitmap of the the MLD operation modes supported by the client */
     BOOL cli_TIDLinkMapNegotiation; /* Indicates whether TID to Link MAP negotiation is supported by client */
     mac_address_t cli_MLDAddr; /* Indicates the MLD MAC address of the connected client, 00's for non-Wi-Fi 7 clients. */
+    UINT cli_capableNumSpatialStreams; /**< The maximum number of spatial streams supported/capable by the client device in the session. */
     BOOL cli_PowerSaveMode;  /* Indicates the station is in Power save mode or not. */
     ULONG cli_sleepTime;  /* Indicates the station's sleep time. */
-    UINT cli_capableNumSpatialStreams; /**< The maximum number of spatial streams supported/capable by the client device in the session. */
 } wifi_associated_dev3_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
