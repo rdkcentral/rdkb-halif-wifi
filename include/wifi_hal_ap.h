@@ -511,7 +511,7 @@ typedef enum
     WIFI_RADIO_SCAN_MODE_ONCHAN,    /**< On-channel scan. */
     WIFI_RADIO_SCAN_MODE_OFFCHAN,   /**< Off-channel scan. */
     WIFI_RADIO_SCAN_MODE_SURVEY,     /**< Survey scan. */
-    WIFI_RADIO_SCAN_MODE_SELECT_CHANNELS,    /**< Selected channels scan. */
+    WIFI_RADIO_SCAN_MODE_SELECT_CHANNELS    /**< Selected channels scan. */
 } wifi_neighborScanMode_t;
 
 /**
@@ -1700,7 +1700,7 @@ typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int
 typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
 
 typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
-typedef INT (* wifi_eapol_key_callback)(int ap_index, char *mac, eapol_msg_type_t, unsigned long long replay_counter);
+typedef INT (* wifi_eapol_key_callback)(int ap_index, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
@@ -3290,6 +3290,7 @@ typedef struct {
   char interop_info[64];
   CHAR multi_ap_backhaul_ssid[WIFI_AP_MAX_SSID_LEN]; /**< Multi-AP backhaul SSID. Populated with the mesh backhaul SSID when WPS onboarding is configured. */
   UCHAR multi_ap_backhaul_network_key[256]; /**< Multi-AP backhaul network key, populated with the mesh backhaul key when WPS onboarding is configured. */
+  UINT  intf_offload_type;         /**< QCOM Acceleration offload type: 0=NONE, 1=PASSIVE(SFE), 2=ACTIVE, 3=Direct Switching(PPE_DS) */
 } __attribute__((packed)) wifi_front_haul_bss_t;
 
 /**
