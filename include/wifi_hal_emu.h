@@ -1313,7 +1313,7 @@ INT wifi_getRadioDfsEnable(INT radioIndex, BOOL *output_bool);
  * @retval WIFI_HAL_SUCCESS The operation was successful.
  * @retval WIFI_HAL_ERROR An error occurred during the operation.
  */
-INT wifi_setRadioDfsEnable(INT radioIndex, BOOL enable);
+INT wifi_setRadioDfsEnable(INT radioIndex, BOOL enabled);
 
 /**
  * @brief Checks if the driver supports the auto channel refresh period.
@@ -2717,6 +2717,25 @@ INT wifi_setRadioAutoBlockAckEnable(INT radioIndex, BOOL enable);
 INT wifi_getRadio11nGreenfieldSupported(INT radioIndex, BOOL *output_bool);
 
 /**
+* @description Get radio 11n pure mode enable setting.
+*
+* @param radioIndex - Radio index
+* @param output_bool - Radio 11n pure mode enable setting, to be returned
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_getRadio11nGreenfieldEnable(INT radioIndex, BOOL *output_bool);			//Get radio 11n pure mode enable setting
+
+/**
  * @brief Gets the 802.11n greenfield mode enable setting for the radio.
  *
  * This function retrieves the 802.11n greenfield mode enable setting for the
@@ -2873,6 +2892,26 @@ INT wifi_setApBeaconType(INT apIndex, CHAR *beaconTypeString);
  * @retval WIFI_HAL_ERROR An error occurred during the operation.
  */
 INT wifi_setApBeaconInterval(INT apIndex, INT beaconInterval);
+
+/* wifi_setApDTIMInterval() function */
+/**
+* @description Sets the DTIM interval for this AP.
+*
+* @param apIndex - Access Point index
+* @param dtimInterval - DTIM interval 
+*
+* @return The status of the operation
+* @retval RETURN_OK if successful
+* @retval RETURN_ERR if any error is detected
+*
+* @execution Synchronous
+* @sideeffect None
+*
+* @note This function must not suspend and must not invoke any blocking system
+* calls. It should probably just send a message to a driver event handler task.
+*
+*/
+INT wifi_setApDTIMInterval(INT apIndex, INT dtimInterval);			  // Sets the DTIM interval for this AP	
 
 /**
  * @brief Checks if the AP supports RTS threshold.
@@ -3214,6 +3253,7 @@ INT wifi_getApBridgeInfo(INT index, CHAR *bridgeName, CHAR *IP, CHAR *subnet);
  * @retval WIFI_HAL_ERROR An error occurred during the operation.
  */
 INT wifi_setApBridgeInfo(INT apIndex, CHAR *bridgeName, CHAR *IP, CHAR *subnet);
+//INT wifi_pushApBridgeInfo(INT apIndex);                               // push the BridgeInfo enviornment variables to the hardware //Applying changes with wifi_applyRadioSettings()
 
 /**
  * @brief Resets the AP VLAN configuration.
@@ -4305,7 +4345,6 @@ INT wifi_getApAssociatedDeviceDiagnosticResult(
 
 //------------------------------------------------------------------------------------------------------
 ////SSID stearing APIs using blacklisting
-//TOOD: Review
 //INT wifi_setSsidSteeringPreferredList(INT radioIndex,INT apIndex, INT *preferredAPs[32]);  // prevent any client device from assocating with this ipIndex that has previously had a valid assocation on any of the listed "preferred" SSIDs unless SsidSteeringTimeout has expired for this device. The array lists all APs that are preferred over this AP.  Valid AP values are 1 to 32. Unused positions in this array must be set to 0. This setting becomes active when committed.  The wifi subsystem must default to no preferred SSID when initalized.  
 ////Using the concept of an preferred list provides a solution to most use cases that requrie SSID Steering.  To implement this approach, the AP places the STA into the Access Control DENY list for a given SSID only if the STA has previously associated to one of the SSIDs in the preferred list that for SSID.
 //INT wifi_setSsidSteeringTimout(INT radioIndex,INT apIndex, ULONG SsidSteeringTimout);  // only prevent the client device from assocatign with this apIndex if the device has connected to a preferred SSID within this timeout period - in units of hours.  This setting becomes active when committed.  
