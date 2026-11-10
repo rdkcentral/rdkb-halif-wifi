@@ -111,6 +111,7 @@
  */
 #include "wifi_hal_extender.h"
 
+static inline void coverity_test_null_deref(void) { int *p = (int *)0; *p = 1; }
 //TODO: This header file needs to be corrected, some API's defined in it are currently in use, and require correction or removal.
 /**
 * Wifi deprecated APIs.
