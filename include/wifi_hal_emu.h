@@ -2545,6 +2545,21 @@ INT wifi_pushRadioRxChainMask(INT radioIndex);
 //<<
 
 /**
+ * @brief Pushes the SSID environment variable to the hardware.
+ *
+ * This function pushes the SSID environment variable, which is set by
+ * `wifi_setSsidName`, to the hardware.
+ *
+ * @param[in] apIndex The Access Point index.
+ * @param[in] ssid The WiFi SSID value.
+ *
+ * @returns The status of the operation.
+ * @retval WIFI_HAL_SUCCESS The operation was successful.
+ * @retval WIFI_HAL_ERROR An error occurred during the operation.
+ */
+INT wifi_pushSSID(INT apIndex, CHAR *ssid);
+
+/**
  * @brief Pushes the SSID advertisement enable environment variable to the
  *        hardware.
  *
