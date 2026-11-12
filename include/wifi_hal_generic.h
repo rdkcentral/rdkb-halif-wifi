@@ -981,7 +981,6 @@ typedef struct
     CHAR manufacturerModel[DEFAULT_DEVICE_FIELD_LEN]; /**< Device manufacturer model. */
     CHAR software_version[DEFAULT_DEVICE_FIELD_LEN]; /**< Device software version. */
     mac_address_t cm_mac; /**< Cable modem MAC address. */
-    mac_address_t al_1905_mac; /**< 802.11v AL MAC address. */
     int colocated_mode; /**< Easymesh agent mode based on controller configuration */
 } __attribute__((packed)) wifi_platform_property_t;
 
