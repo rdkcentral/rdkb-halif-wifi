@@ -1014,7 +1014,7 @@ INT wifi_hal_getRadioTemperature(wifi_radio_index_t radioIndex, wifi_radioTemper
  *                                        match any entry in the exclusion list,
  *                                        0 otherwise. Must not be NULL.
  *
-  * @returns The status of the operation.
+ * @returns The status of the operation.
  * @retval WIFI_HAL_SUCCESS If successful.
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
