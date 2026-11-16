@@ -224,8 +224,8 @@ typedef enum
  * Operating class values follow IEEE Std 802.11-2020, Annex E.
  */
 typedef struct {
-    INT op_class;   /**< Global operating class (IEEE 802.11 Annex E). */
-    INT channel;    /**< Channel number to exclude within the operating class. */
+    UINT op_class;   /**< Global operating class (IEEE 802.11 Annex E). */
+    UINT channel;    /**< Channel number to exclude within the operating class. */
 } wifi_hal_acs_exclude_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
@@ -992,12 +992,11 @@ INT wifi_hal_getRadioTemperature(wifi_radio_index_t radioIndex, wifi_radioTemper
  * @brief Sets the ACS channel exclusion list for a radio.
  *
  * This function passes an array of {operating class, channel} pairs to the
- * HAL to be excluded from Automatic Channel Selection (ACS). The HAL converts
- * the entries into the hostapd-internal format and stores them under mutex
- * protection for use by the ACS engine.
+ * HAL to be excluded from Automatic Channel Selection (ACS). The HAL stores
+ * the exclusion list for use by its ACS logic.
  *
  * Additionally, the function checks whether the radio's current operating
- * channel and bandwidth match any entry in the exclusion list, and reports
+ * class and channel match any entry in the exclusion list, and reports
  * the result via @p operating_channel_excluded.
  *
  * Pass list=NULL or count=0 to clear the exclusion list.
@@ -1009,16 +1008,16 @@ INT wifi_hal_getRadioTemperature(wifi_radio_index_t radioIndex, wifi_radioTemper
  *                                        entries. NULL to clear.
  * @param[in]  count                      Number of entries in @p list.
  *                                        0 to clear.
- * @param[out] operating_channel_excluded Pointer to a variable set to 1 if the
- *                                        current operating channel and bandwidth
+ * @param[out] operating_channel_excluded Pointer to a variable set to TRUE if the
+ *                                        current operating class and channel
  *                                        match any entry in the exclusion list,
- *                                        0 otherwise. Must not be NULL.
+ *                                        FALSE otherwise. Must not be NULL.
  *
  * @returns The status of the operation.
  * @retval WIFI_HAL_SUCCESS If successful.
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
-INT wifi_hal_set_acs_exclusion_list(wifi_radio_index_t radioIndex, wifi_hal_acs_exclude_t *list, INT count, INT *operating_channel_excluded);
+INT wifi_hal_set_acs_exclusion_list(wifi_radio_index_t radioIndex, wifi_hal_acs_exclude_t *list, UINT count, BOOL *operating_channel_excluded);
 
 /** @} */  //END OF GROUP WIFI_HAL_APIS
 
