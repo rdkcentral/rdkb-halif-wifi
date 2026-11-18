@@ -1,4 +1,0 @@
-[submodule "build_tools_workflows"]
-	path = build_tools_workflows
-	url = https://github.com/rdkcentral/build_tools_workflows.git
-	branch = develop
