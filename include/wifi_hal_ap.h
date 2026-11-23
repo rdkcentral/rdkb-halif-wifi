@@ -592,6 +592,7 @@ INT wifi_getWifiTrafficStats(INT apIndex, wifi_trafficStats_t *output_struct);
  */
 INT wifi_getApAssociatedDevice(INT ap_index, mac_address_t *output_deviceMacAddressArray, UINT maxNumDevices, UINT *output_numDevices);
 #endif
+
 typedef enum {
     WIFI_ACCESS_ACCEPT_STATUS = 0,
     WIFI_EAP_SUCCESS_STATUS = 3,
@@ -1698,9 +1699,8 @@ typedef INT ( * wifi_stamode_callback)(int apIndex, char *mac, int key_mgmt, int
 
 typedef INT ( * wifi_handshake_callback)(int apIndex, char *mac, int status);
 
-typedef INT ( * wifi_eapol_key_callback)(int apIndex, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
-
 typedef INT ( * wifi_eapol_timeouts_callback)(int apIndex, char *mac, int type);
+typedef INT (* wifi_eapol_key_callback)(int ap_index, char *mac, eapol_msg_type_t msg_type, unsigned long long replay_counter);
 /* wifi_hal_ap_max_client_rejection_callback_register() function */
 /**
  * @brief This call back will be called whenever an authentication response with reject reason 17
@@ -1738,7 +1738,6 @@ typedef INT (*wifi_apMaxClientRejection_callback)(INT apIndex, char *MAC, INT re
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
 typedef INT ( * wifi_apStatusCode_callback)(int apIndex, char *src_mac,char *dest_mac, int frame_type ,int status);
-
 typedef INT ( * wifi_radiusEapFailure_callback)(INT apIndex, mac_address_t sta_mac, INT failure_reason);
 
 /**
@@ -1789,9 +1788,7 @@ void wifi_apStatusCode_callback_register(wifi_apStatusCode_callback callback_pro
 *
 */
 void wifi_ap_stamode_callback_register(wifi_stamode_callback callback_proc);
-
 void wifi_handshake_callback_register(wifi_handshake_callback callback_proc);
-
 /**
  * @brief Callback function invoked when a RADIUS server fallback failure occurs.
  *
@@ -2651,14 +2648,14 @@ INT wifi_setProxyArp(INT apIndex, BOOL enabled);
  * @brief Gets the status of proxy ARP from the driver.
  *
  * @param[in] apIndex  Index of the Access Point.
- * @param[out] enabled Pointer to a variable to store the enabled status of
+ * @param[out] enable Pointer to a variable to store the enabled status of
  *                    proxy ARP (true if enabled, false if disabled).
  *
  * @returns The status of the operation.
  * @retval WIFI_HAL_SUCCESS If successful.
  * @retval WIFI_HAL_ERROR   If any error is detected.
  */
-INT wifi_getProxyArp(INT apIndex, BOOL *enabled);
+INT wifi_getProxyArp(INT apIndex, BOOL *enable);
 
 /**
  * @brief Sets the Hotspot 2.0 status for an Access Point.
@@ -3041,8 +3038,8 @@ typedef struct
     UINT eap_req_timeout;        /**< EAP request timeout in seconds. */
     UINT eap_req_retries;        /**< Number of EAP request retries. */
     BOOL disable_pmksa_caching;   /**< Whether PMKSA caching is disabled. */
-    char key_id[32];            /**< OpenFlow tag associated with a PSK. */
     wifi_radius_settings_t repurposed_radius;   /**< To Store RADIUS configs when in Non IEEE802_1x mode */
+    char key_id[32];            /**< OpenFlow tag associated with a PSK. */
     union
     {
         wifi_radius_settings_t radius; /**< RADIUS settings. */
@@ -3262,8 +3259,8 @@ typedef struct {
   wifi_interworking_t interworking; /**< Interworking settings. */
   wifi_preassoc_control_t preassoc;  /**< Pre-association control settings. */
   wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
-  BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
   amenities_network_config_t am_config;  /**< Connected Building Phase Two */
+  BOOL mac_filter_enable;           /**< Whether MAC filtering is enabled. */
   wifi_mac_filter_mode_t mac_filter_mode; /**< MAC filter mode. */
 
   BOOL sec_changed; /**< Whether security settings have changed. This field should not be implemented in the HAL. */
@@ -3286,7 +3283,7 @@ typedef struct {
   BOOL hostap_mgt_frame_ctrl;        /**< Whether hostapd management frame control is enabled. */
   BOOL mbo_enabled;                  /**< Whether MBO is enabled. */
   BOOL   interop_ctrl;               /**< Whether interop ctrl is enabled. */
-  BOOL   interop_tel;
+  BOOL   interop_tel;                
   UINT    inum_sta;                   /**< configuring interop stations */
   UCHAR vendor_elements[WIFI_AP_MAX_VENDOR_IE_LEN]; /**< The vendor elements to be added to beacon/probe response frames. Includes IE ID (0xDD), Length, and Payload */
   USHORT vendor_elements_len;        /**< Length of vendor_elements currently stored since it is not null terminated */

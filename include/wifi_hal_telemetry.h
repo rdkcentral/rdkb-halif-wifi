@@ -23,7 +23,6 @@
 extern "C"{
 #endif
 
-#include "wifi_hal_generic.h"
 /**
  * @addtogroup WIFI_HAL_TYPES
  * @{
