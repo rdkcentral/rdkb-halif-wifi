@@ -45,6 +45,7 @@ typedef struct
     UINT channel; /**< Channel. */
     UINT channelWidth; /**< Channel width. */
     UINT op_class; /**< Operating class. */
+    wifi_mld_info_sta_t mld_info; /**< MLD info for this station (Wi-Fi 7 MLO), including per-link details. */
 } wifi_station_stats_t;
 
 /**
