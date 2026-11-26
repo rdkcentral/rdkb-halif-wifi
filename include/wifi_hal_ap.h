@@ -2023,7 +2023,7 @@ typedef struct
     UCHAR venueType;             /**< Venue type. */
     BOOL hessOptionPresent;      /**< Indicates whether Hotspot 2.0 Enhanced Security (HESS) information is present. */
     mac_addr_str_t hessid;       /**< HESSID. Optional; use empty string to indicate no value provided. */
-} wifi_InterworkingElement_t;
+} __attribute__((packed)) wifi_InterworkingElement_t;
 
 /** @} */  //END OF GROUP WIFI_HAL_TYPES
 
@@ -3102,15 +3102,19 @@ typedef struct
 } __attribute__((packed)) wifi_passpoint_settings_t;
 
 /**
- * @brief Interworking settings.
+ * @brief Per-radio interworking payload (shared heavy members).
+ *
+ * The large ANQP/Passpoint/RoamingConsortium data is identical for every
+ * interworking-enabled VAP on a radio, so it is stored once per radio
+ * instead of once per VAP. The small per-VAP 802.11u element
+ * (wifi_InterworkingElement_t) remains in wifi_front_haul_bss_t.
  */
 typedef struct
 {
-    wifi_InterworkingElement_t interworking; /**< Interworking element. */
     wifi_roamingConsortiumElement_t roamingConsortium; /**< Roaming consortium element. */
-    wifi_anqp_settings_t anqp;        /**< ANQP settings. >>*should not to be implemented in the HAL**<< */
+    wifi_anqp_settings_t anqp;        /**< ANQP settings. */
     wifi_passpoint_settings_t passpoint; /**< Passpoint settings. */
-} __attribute__((packed)) wifi_interworking_t;
+} __attribute__((packed)) wifi_radio_interworking_t;
 
 /**
  * @brief Pre-association control settings.
@@ -3256,7 +3260,7 @@ typedef struct {
   BOOL vapStatsEnable;      /**< Whether VAP statistics are enabled. This field should not be implemented in the HAL. */
 
   wifi_vap_security_t security;    /**< Security settings. */
-  wifi_interworking_t interworking; /**< Interworking settings. */
+  wifi_InterworkingElement_t interworking; /**< Interworking 802.11u element. Heavy ANQP/Passpoint payload moved per-radio (wifi_radio_interworking_t). */
   wifi_preassoc_control_t preassoc;  /**< Pre-association control settings. */
   wifi_postassoc_control_t postassoc; /**< Post-association control settings. */
   amenities_network_config_t am_config;  /**< Connected Building Phase Two */
