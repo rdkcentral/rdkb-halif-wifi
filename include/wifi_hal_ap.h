@@ -3187,6 +3187,17 @@ typedef struct
 } __attribute__((packed)) wifi_mld_common_info_t;
 
 /**
+ * @brief MLD link information.
+ */
+typedef struct
+{
+    BOOL valid;
+    UINT radio_index;
+    UINT link_id;
+    mac_address_t link_addr;
+} __attribute__((packed)) wifi_mld_link_info_t;
+
+/**
  * @brief MLD information for a station.
  */
 typedef struct
@@ -3194,6 +3205,8 @@ typedef struct
     mac_address_t local_addr; /**< Local MAC address. */
     mac_address_t peer_addr;  /**< Peer MAC address. */
     wifi_mld_common_info_t common_info; /**< Common MLD information. */
+    UINT num_links;
+    wifi_mld_link_info_t links[MAX_NUM_RADIOS];
 } __attribute__((packed)) wifi_mld_info_sta_t;
 
 /**
